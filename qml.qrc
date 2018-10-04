@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>HomeForm.qml</file>
+        <file>Page1Form.ui.qml</file>
+        <file>modeling.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>corpus.PNG</file>
+        <file>calculating.qml</file>
+        <file>settings.qml</file>
+        <file>en.svg</file>
+        <file>ru.svg</file>
+        <file>results.qml</file>
+    </qresource>
+</RCC>
