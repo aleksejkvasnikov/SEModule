@@ -76,9 +76,9 @@ void CalculationThread::CalcThread(double tempValue, int K)
     tempValue = GetCalculation(K, 0, 0);
     dfreq=(m_fMaxVal-m_fMinVal)/m_nPointsVal;
 
-    Y = omp_get_max_threads();
-    omp_set_dynamic(0);
-    omp_set_num_threads(3);
+    //Y = omp_get_max_threads();
+    //omp_set_dynamic(0);
+    //omp_set_num_threads(3);
 
 //#pragma omp parallel shared(K, tempValue, tempFreq, ival) private(Y)
     //{

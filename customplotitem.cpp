@@ -1,7 +1,8 @@
-#include "CustomPlotItem.h"
+#include "customplotItem.h"
 #include <QDebug>
 #include <algorithm>
 #include "qcustomplot.h"
+
 CustomPlotItem::CustomPlotItem( QQuickItem* parent ) : QQuickPaintedItem( parent )
     , m_CustomPlot( nullptr )
 {
