@@ -4,10 +4,13 @@
 #include <QObject>
 #include <QVector>
 #include "customplotitem.h"
+//#include "calculationthread.h"
+
 struct surfaceModelItem
 {
     double x,y,z;
 };
+
 class surfaceModelList : public QObject
 {
     Q_OBJECT
@@ -114,6 +117,12 @@ public slots:
     void removeItems();
     void removeallItems();
     void recalculate();
+    void interrupted();
+    void saveOne(); //sauvegarde le graphic dans le vector save1
+    void saveTwo(); //sauvegarde le graphic dans le vector save2
+    void showOne(); //affiche le graphic de save1
+    void showTwo(); //affiche le graphic de save2
+    void differenceBetweenSaves(); //créer un graphic en faisant la différence entre save1 et save2
     void callTest(CustomPlotItem *test);
     void callTest1();
     void updateProgress(double string);
@@ -122,6 +131,9 @@ public slots:
     void updateGUI(QVector<surfaceModelItem> gui);
 private:
     QVector<surfaceModelItem> mItems;
+    QVector<surfaceModelItem> save1; //stocker le graphic 1
+    QVector<surfaceModelItem> save2; //stocket le graphic 2
+    int checkpoint; //donne la taille du dernier graphic dans mItems
     double m_progress = 0;
     QString m_file = "";
     double m_time = 0, m_iter = 0;

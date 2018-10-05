@@ -1,7 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-import QtQuick.Dialogs 1.0
+import Qt.labs.platform 1.0
 Page {
     id: page
     width: 600
@@ -98,7 +98,7 @@ Page {
          x:30
          y:189
          text: "Выбрать файл"
-         onClicked: fileDialog.open()
+         onClicked: fileDialog.open(    );//
      }
     ComboBox {
         x:150
@@ -116,8 +116,8 @@ Page {
         title: "Please choose a file"
         folder: shortcuts.home
         onAccepted: {
-            console.log("You chose: " + fileDialog.fileUrls)
-            var path = fileDialog.fileUrl.toString();
+            console.log("You chose: " + fileDialog.file)
+            var path = fileDialog.file.toString();
             // remove prefixed "file:///"
             path= path.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"");
             // unescape html codes like '%23' for '#'

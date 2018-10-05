@@ -3,7 +3,10 @@
 #include "calculationthread.h"
 #include <QCoreApplication>
 #include "robcalculation.h"
-#include "cmath"
+#include <cmath>
+
+CalculationThread *calcThread = new CalculationThread();
+
 surfaceModelList::surfaceModelList(QObject *parent): QObject(parent)
 {
   /*  double freqstart=1;
@@ -17,11 +20,11 @@ surfaceModelList::surfaceModelList(QObject *parent): QObject(parent)
         tempFreq=freqstart+dfreq*i;
         tempRob=robCalculation::calcSomeRob(NULL,tempFreq, 0.001, 0.08, 0.12, 0.08, 0.3, 0.3, p);
         if (isnan(tempRob)) tempRob=0;
-        //qDebug()<<tempFreq << tempRob;     
+        //qDebug()<<tempFreq << tempRob;
         mItems.append({ ceilf(tempFreq * 100) / 100, ceilf(tempRob * 100) / 100, p});
         //mItems.append({ tempFreq, tempRob, p});
     }
-  /*  for(int i=0; i<100; i++)
+    for(int i=0; i<100; i++)
          for(int j=0; j<1000; j++)
         mItems.append({ (double)j, (double)j*2, (double)i});*/
 
@@ -98,7 +101,7 @@ void surfaceModelList::updateGUI(QVector<surfaceModelItem> gui)
 }
 void surfaceModelList::recalculate()
 {
-    CalculationThread *calcThread = new CalculationThread;
+    //calcThread = new CalculationThread;
     QObject::connect(calcThread, SIGNAL(progress(double)), this, SLOT(updateProgress(double)));
     QObject::connect(calcThread, SIGNAL(time(double)), this, SLOT(updateTime(double)));
     QObject::connect(calcThread, SIGNAL(iterCount(double)), this, SLOT(updateIterCount(double)));
@@ -129,6 +132,95 @@ void surfaceModelList::recalculate()
     calcThread->start();
 
 }
+
+void surfaceModelList::interrupted()
+{
+    if (calcThread->isRunning())
+        calcThread->requestInterruption();
+}
+
+void surfaceModelList::saveOne()
+{
+    surfaceModelItem tmp;
+    checkpoint = calcThread->size;
+
+    QVector<surfaceModelItem>::const_iterator it, end(calcThread->mItems.end());
+    for (it = (calcThread->mItems.end() - checkpoint); it != end; ++it)
+    {
+        tmp.x = it->x;
+        tmp.y = it->y;
+        tmp.z = it->z;
+        save1.push_back(tmp);
+    }
+}
+
+void surfaceModelList::saveTwo()
+{
+    surfaceModelItem tmp;
+    checkpoint = calcThread->size;
+
+    QVector<surfaceModelItem>::const_iterator it, end(calcThread->mItems.end());
+    for (it = (calcThread->mItems.end() - checkpoint); it != end; ++it)
+    {
+        tmp.x = it->x;
+        tmp.y = it->y;
+        tmp.z = it->z;
+        save2.push_back(tmp);
+    }
+}
+
+void surfaceModelList::showOne()
+{
+    surfaceModelItem tmp;
+
+    QVector<surfaceModelItem>::const_iterator it, end(save1.end());
+    for (it = save1.begin(); it != end; ++it)
+    {
+        tmp.x = it->x;
+        tmp.y = it->y;
+        tmp.z = it->z;
+        calcThread->toShow.push_back(tmp);
+    }
+    calcThread->start();
+}
+
+void surfaceModelList::showTwo()
+{
+    surfaceModelItem tmp;
+
+    QVector<surfaceModelItem>::const_iterator it, end(save2.end());
+    for (it = save2.begin(); it != end; ++it)
+    {
+        tmp.x = it->x;
+        tmp.y = it->y;
+        tmp.z = it->z;
+        calcThread->toShow.push_back(tmp);
+    }
+    calcThread->start();
+}
+
+void surfaceModelList::differenceBetweenSaves()
+{
+    int i = 0;
+    surfaceModelItem tmp;
+    calcThread->toShow.clear();
+
+    QVector<surfaceModelItem>::const_iterator it, end(save1.end());
+    QVector<surfaceModelItem>::const_iterator it2, end2(save2.end());
+    it2 = save2.begin();
+
+    for (it = save1.begin(); it != end && it2 != end2; ++it)
+    {
+        tmp.x = it->x;
+        tmp.y = it->y - it2->y;
+        tmp.z = it->z;
+        calcThread->toShow.push_back(tmp);
+        ++it2;
+    }
+
+    calcThread->start();
+}
+
 void surfaceModelList::callTest(CustomPlotItem *test)
 {
    // qDebug() << mItems.at(0).x <<"im here";

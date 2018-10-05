@@ -11,5 +11,6 @@
         <file>en.svg</file>
         <file>ru.svg</file>
         <file>results.qml</file>
+        <file>document.PNG</file>
     </qresource>
 </RCC>

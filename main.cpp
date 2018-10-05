@@ -10,14 +10,21 @@
 #include "qmltranslator.h"
 #include "hzformatter.h"
 #include "customplotitem.h"
+//#include "opti_fileobject.h"
 Q_DECLARE_METATYPE(HZformatter *)
 
 using namespace QtDataVisualization;
 int main(int argc, char *argv[])
 {
+
+    QLibrary lib( "Comctl32.dll" );
+    lib.setLoadHints( QLibrary::ResolveAllSymbolsHint );
+    lib.load();
+
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     // Создаём объект для работы с переводами ...
     QmlTranslator qmlTranslator;
+
 
      QApplication app(argc, argv);
     qmlRegisterType<HZformatter>("HZformatter", 1, 0, "HZformatter");

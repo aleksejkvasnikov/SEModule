@@ -1,7 +1,10 @@
 #ifndef CALCULATIONTHREAD_H
 #define CALCULATIONTHREAD_H
-#include "QThread"
+
+#include <QThread>
 #include "surfacemodellist.h"
+#include "robcalculation.h"
+
 class CalculationThread : public QThread
 {
     Q_OBJECT
@@ -12,6 +15,15 @@ signals:
     void GUI(QVector<surfaceModelItem>);
 public:
     void run();
+public:
+    void CalcThread(double tempValue, int K/*, ptrfc*/);
+    double GetCalculation(int i, double, double);
+public:
+    std::thread m_thread;
+    //I created this variable to avoid calls on static functions
+    robCalculation rob_calcs;
+    int size = 0; //sauvegarde la taille du dernier graphic créer
+    QVector<surfaceModelItem> toShow;
     QVector<surfaceModelItem> mItems;
     int mod = 0;
     int modS = 0;

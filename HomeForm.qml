@@ -201,7 +201,31 @@ Page {
                     radius: 2
                 }
             }
-
+            Button{
+                id: control42
+                text: qsTr("Annultion") + rootItem.emptyString
+                Layout.fillWidth: true
+                contentItem: Text {
+                    text: control42.text
+                    font: control42.font
+                    opacity: enabled ? 1.0 : 0.3
+                    color: control42.down ? "#17a81a" : "#000"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                }
+                 onClicked: {
+                     modList.interrupted();
+                }
+                 background: Rectangle {
+                    implicitWidth: 100
+                    implicitHeight: 40
+                    opacity: enabled ? 1 : 0.3
+                    border.color: control42.down ? "#17a81a" : "#000"
+                    border.width: 1
+                    radius: 2
+                }
+            }
             ColumnLayout {
                 spacing: 1
                 Button {
@@ -269,6 +293,139 @@ Page {
                     id: iterCount
                  //   visible: false
                     text: "Кол-во итераций: " + modList.iter
+                }
+            }
+            ColumnLayout
+            {
+                spacing: 10
+                Button{
+                    id: controlsa1
+                    text: qsTr("S1") + rootItem.emptyString
+                    Layout.fillWidth: true
+                    contentItem: Text {
+                        text: controlsa1.text
+                        font: controlsa1.font
+                        opacity: enabled ? 1.0 : 0.3
+                        color: controlsa1.down ? "#17a81a" : "#000"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                    }
+                     onClicked: {
+                        modList.saveOne();
+                    }
+                     background: Rectangle {
+                        implicitWidth: 20
+                        implicitHeight: 20
+                        opacity: enabled ? 1 : 0.3
+                        border.color: controlsa1.down ? "#17a81a" : "#000"
+                        border.width: 1
+                        radius: 1
+                    }
+                }
+                 Button{
+                    id: controlsa2
+                    text: qsTr("S2") + rootItem.emptyString
+                    Layout.fillWidth: true
+                    contentItem: Text {
+                        text: controlsa2.text
+                        font: controlsa2.font
+                        opacity: enabled ? 1.0 : 0.3
+                        color: controlsa2.down ? "#17a81a" : "#000"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                    }
+                     onClicked: {
+                        modList.saveTwo();
+                    }
+                     background: Rectangle {
+                        implicitWidth: 20
+                        implicitHeight: 20
+                        opacity: enabled ? 1 : 0.3
+                        border.color: controlsa2.down ? "#17a81a" : "#000"
+                        border.width: 1
+                        radius: 1
+                    }
+                }
+            }
+             ColumnLayout
+            {
+                spacing: 10
+                Button{
+                    id: controlshow1
+                    text: qsTr("Show1") + rootItem.emptyString
+                    Layout.fillWidth: true
+                    contentItem: Text {
+                        text: controlshow1.text
+                        font: controlshow1.font
+                        opacity: enabled ? 1.0 : 0.3
+                        color: controlshow1.down ? "#17a81a" : "#000"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                    }
+                     onClicked: {
+                        modList.showOne();
+                    }
+                     background: Rectangle {
+                        implicitWidth: 20
+                        implicitHeight: 20
+                        opacity: enabled ? 1 : 0.3
+                        border.color: controlshow1.down ? "#17a81a" : "#000"
+                        border.width: 1
+                        radius: 1
+                    }
+                }
+                 Button{
+                    id: controlshow2
+                    text: qsTr("Show2") + rootItem.emptyString
+                    Layout.fillWidth: true
+                    contentItem: Text {
+                        text: controlshow2.text
+                        font: controlshow2.font
+                        opacity: enabled ? 1.0 : 0.3
+                        color: controlshow2.down ? "#17a81a" : "#000"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                    }
+                     onClicked: {
+                        modList.showTwo();
+                    }
+                     background: Rectangle {
+                        implicitWidth: 20
+                        implicitHeight: 20
+                        opacity: enabled ? 1 : 0.3
+                        border.color: controlshow2.down ? "#17a81a" : "#000"
+                        border.width: 1
+                        radius: 1
+                    }
+                }
+            }
+             Button{
+                id: compute
+                text: qsTr("compute") + rootItem.emptyString
+                Layout.fillWidth: true
+                contentItem: Text {
+                    text: compute.text
+                    font: compute.font
+                    opacity: enabled ? 1.0 : 0.3
+                    color: compute.down ? "#17a81a" : "#000"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                }
+                 onClicked: {
+                    modList.differenceBetweenSaves();
+                }
+                 background: Rectangle {
+                    implicitWidth: 20
+                    implicitHeight: 20
+                    opacity: enabled ? 1 : 0.3
+                    border.color: compute.down ? "#17a81a" : "#000"
+                    border.width: 1
+                    radius: 1
                 }
             }
         }

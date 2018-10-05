@@ -2,10 +2,16 @@
 #include <complex>
 #include "QDebug"
 #include <math.h>
+#include <omp.h>
+#include <iostream>
+#include <QTime>
+#include <QtDebug>
+
 #define _USE_MATH_DEFINES
 using namespace std;
 typedef complex<double> dcomp;
 const double M_PI = 3.141592653589793238463;
+
 double robCalculation::calcSomeRob(int *iter, double freq, double t, double w, double b, double L, double a, double d, double p)
 {
     auto c0 = 299792458;
@@ -64,20 +70,31 @@ double robCalculation::func3(double y, double n, double b, double w)
 }
 double robCalculation::doubleintegral(int *iter,double a, double b, double c, double d, double nx, double ny, double w, double L, double m,double n)
 {
+    //variable to mesure the time of execution
+    QTime time;
     double hx = (b - a)/(nx);
     double hy = (d - c)/(ny);
     double xi, yj;
     double I = 0;
-    for(int i=0; i<nx; i++){
-        for(int j=0; j<ny; j++){
-            xi = a + hx/2 + i*hx;
-            yj = c + hy/2 + j*hy;
-            ++(*iter);
-            I += hx*hy*func(xi,yj,w,L,m,n,a,b);
+
+    time.start();
+
+    #pragma omp parallel for schedule(dynamic, 100)
+        for(int i=0; i<(int)nx; i++)
+        {
+            for(int j=0; j<ny; j++){
+                xi = a + hx/2 + i*hx;
+                yj = c + hy/2 + j*hy;
+                ++(*iter);
+                I += hx*hy*func(xi,yj,w,L,m,n,a,b);
+            }
         }
-    }
+
+    int elapse = time.elapsed();
+    qDebug() << "elapsed time double integral " << elapse << "\n";
     return I;
 }
+
 // 2018 Ivanov
 double robCalculation::ren(double freq, double a, double b,double p, double d, double t, double w, double L, double nap, double map, double m,double n){
     const double c=2.99792458*pow(10,8);
@@ -113,22 +130,41 @@ double robCalculation::ren(double freq, double a, double b,double p, double d, d
     dcomp z1=(z0*zap)/(z0+zap);
     dcomp vpp(0,0); // суммарное напряжение в точке наблюдения
     // Эти циклы для учета высших мод TEmn (mm,nn за номер моды):
-    for (int mm=0; mm<=m; mm++) {
-        for (int nn=0; nn<=n; nn++) {
-            // Характеристический импеданс и постоянная распространения в корпусе
-           // dcomp testing = sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),dcomp(2,0))-pow((lambda*nn/(dcomp(2,0)*b)),dcomp(2,0)));
-            dcomp zg=z0/sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),dcomp(2,0))-pow((lambda*nn/(dcomp(2,0)*b)),dcomp(2,0)));
-            dcomp kg=k0*sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),dcomp(2,0))-pow((lambda*nn/(dcomp(2,0)*b)),dcomp(2,0)));
-            // Преобразование в точку P
-            dcomp v2=v1/(cos(kg*p)+j*(z1/zg)*sin(kg*p));
-            dcomp z2=(z1+j*zg*tan(kg*p))/(dcomp(1,0)+j*(z1/zg)*tan(kg*p));
-            // Нагрузка
-            dcomp z3=j*zg*tan(kg*(d-p));
-            // Напряжение в точке P
-            auto vp=v2*z3/(z2+z3);
-            vpp=vp+vpp;
+
+    dcomp zg = 0;
+    dcomp kg = 0;
+    dcomp v2 = 0;
+    dcomp z2 = 0;
+    dcomp z3 = 0;
+    std::complex<double> vp = 0;
+    //variable to mesure the time of execution
+    QTime time;
+
+    time.start();
+        for (int mm=0; mm<=(int)m; mm++) {
+            for (int nn=0; nn<=n; nn++) {
+                // Характеристический импеданс и постоянная распространения в корпусе
+               // dcomp testing = sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),dcomp(2,0))-pow((lambda*nn/(dcomp(2,0)*b)),dcomp(2,0)));
+                /*dcomp*/ zg=z0/sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),dcomp(2,0))-pow((lambda*nn/(dcomp(2,0)*b)),dcomp(2,0)));
+                /*dcomp*/ kg=k0*sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),dcomp(2,0))-pow((lambda*nn/(dcomp(2,0)*b)),dcomp(2,0)));
+
+                //***récurrence 1
+
+                // Преобразование в точку P
+                /*dcomp*/ v2=v1/(cos(kg*p)+j*(z1/zg)*sin(kg*p));
+                /*dcomp*/ z2=(z1+j*zg*tan(kg*p))/(dcomp(1,0)+j*(z1/zg)*tan(kg*p));
+                // Нагрузка
+                /*dcomp*/ z3=j*zg*tan(kg*(d-p));
+                // Напряжение в точке P
+                /*auto*/ vp=v2*z3/(z2+z3);
+                vpp=vp+vpp;
+
+                //***fin récurrence 1
+            }
         }
-    }
+
+    double elapse = time.elapsed();
+    //qDebug() << "elapsed time ren " << elapse << "\n";
     return (-20*log10(abs(dcomp(2.0,0.0)*vpp/v0)));
 }
 double robCalculation::fact(double N)
@@ -166,8 +202,15 @@ double robCalculation::Dehkhoda_2007(double freq, double a, double b,double p, d
             dcomp temp2=dcomp(288,0)*j/(M_PI*lambda*pow(dd,2));
             dcomp temp3(0,0);
             dcomp temp4;
-            for(int mm=0; mm<=m; mm=mm+2){
-                for(int nn=0; nn<=n; nn=nn+2){
+/*
+#pragma omp parallel shared(temp1, temp2, temp3, temp4)
+    {
+        int I = m;
+#pragma omp for*/
+            for(int mm=0; mm<=m; mm=mm+2)
+            {
+                for(int nn=0; nn<=n; nn=nn+2)
+                {
                     if ((mm==0)&&(nn==0)){
                         dcomp epsn(1,0); dcomp epsm(1,0);
                         temp4=(epsm*pow(nn,2)/pow(dv,2)+epsn*pow(mm,2)/pow(dh,2))*jx;}
@@ -183,9 +226,9 @@ double robCalculation::Dehkhoda_2007(double freq, double a, double b,double p, d
                     temp3=temp4+temp3;
                 }
             }
+         //}
             dcomp temp5=temp1+temp2*temp3;
             dcomp yah=temp5*y0;
-
              // Импеданс перфорированной стенки
             auto zah=dcomp(1,0)/yah;
             auto sarr=warr*larr;  // площадь покрытия массивом
@@ -197,27 +240,52 @@ double robCalculation::Dehkhoda_2007(double freq, double a, double b,double p, d
             dcomp z1=z0*zap/(z0+zap);
 
     dcomp vpp(0,0);
+    dcomp zg(0,0);
+    dcomp kg(0,0);
+    dcomp v2(0,0);
+    dcomp z2(0,0);
+    dcomp z3(0,0);
+    dcomp vp(0,0);
+
+    QTime time;
+
+    time.start();
+/*
+#pragma omp parallel shared(lambda, vp, vpp, v1, v2, kg, k0, p, j, z1, z2, z3, zg, d, a)
+    {
+        int I = m;
+#pragma omp for*/
     for(int mm=0; mm<=m; mm++){
         for(int nn=0; nn<=n; nn++){
             // Характеристический импеданс и постоянная распространения в корпусе
-            dcomp zg=z0/sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),2)-pow((lambda*nn/(dcomp(2,0)*b)),2));
-            dcomp kg=k0*sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),2)-pow((lambda*nn/(dcomp(2,0)*b)),2));
+            /*dcomp*/ zg=z0/sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),2)-pow((lambda*nn/(dcomp(2,0)*b)),2));
+            /*dcomp*/ kg=k0*sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),2)-pow((lambda*nn/(dcomp(2,0)*b)),2));
+
+            //***début récurrence 1
 
             // Преобразование в точку P
-            dcomp v2=v1/(cos(kg*p)+j*(z1/zg)*sin(kg*p));
-            dcomp z2=(z1+j*zg*tan(kg*p))/(dcomp(1,0)+j*(z1/zg)*tan(kg*p));
+            /*dcomp*/ v2=v1/(cos(kg*p)+j*(z1/zg)*sin(kg*p));
+            /*dcomp*/ z2=(z1+j*zg*tan(kg*p))/(dcomp(1,0)+j*(z1/zg)*tan(kg*p));
 
             // Нагрузка
-            dcomp z3=j*zg*tan(kg*(d-p));
+            /*dcomp*/ z3=j*zg*tan(kg*(d-p));
 
             // Напряжение в точке P
-            dcomp vp=v2*z3/(z2+z3);
+            /*dcomp*/ vp=v2*z3/(z2+z3);
             vpp=vp+vpp;
+
+            //***fin récurrnce 1
         }
+
+    //}
     }
     //SE
     auto SEDeh=-20*log10(abs(dcomp(2.0,0.0)*vpp/v0));
     //qDebug() << SEDeh;
+
+    int elapse = time.elapsed();
+    //qDebug() << "elapsed time Dekhoda_2007 " << elapse << "\n";
+
     return SEDeh;
 }
 
@@ -238,6 +306,8 @@ double robCalculation::Nie_2017(double freq, double a, double b,double p, double
     auto lambda=c/freq;
     auto k0=2.0*M_PI/lambda;
     dcomp zah;
+
+
     // Сопротивление стенки с апертурой
     if (polariz==1) {
         auto temp11=(3*dh*dv*lambda)/(16*M_PI*cos(tetta)*pow((dd/2),3));
@@ -257,11 +327,14 @@ double robCalculation::Nie_2017(double freq, double a, double b,double p, double
     dcomp v1=v0*zap/(z0+zap);
     dcomp z1=z0*zap/(z0+zap);
     dcomp vp1(0,0);
+
     for (int mm=0; mm<=m; mm++){
         for (int nn=0; nn<=n; nn++){
             // Характеристический импеданс и постоянная распространения в корпусе
             dcomp zg=z0/sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),2)-pow((lambda*nn/(dcomp(2,0)*b)),2));
             dcomp kg=k0*sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),2)-pow((lambda*nn/(dcomp(2,0)*b)),2));
+
+            //***début récurrence 1
 
             // Преобразование в точку P
             dcomp v2=v1/(cos(kg*p)+j*(z1/zg)*sin(kg*p));
@@ -272,6 +345,8 @@ double robCalculation::Nie_2017(double freq, double a, double b,double p, double
             // Напряжение в точке P
             dcomp vp=v2*z3/(z2+z3);
             vp1=vp+vp1;
+
+            //***fin récurrnce 1
         }
     }
     //qDebug() << -20*log10(abs(dcomp(2.0,0.0)*vp1/v0));
@@ -304,59 +379,86 @@ double robCalculation::calcsomeYongshi(int *iter,double freq, double t, double w
     auto mue_r =  1.000023;
     auto lambda = c0/freq;
     dcomp v0(1.0,0.0);
-    auto z0 = 120*M_PI;
-    dcomp Z0(z0,0.0);
+    //auto z0 = 120*M_PI;
+    dcomp Z0((120*M_PI),0.0);
     dcomp j(0.0,1.0);
-    auto we = w - ((5*t*(1+log(4*M_PI*w/t))) / (4 *M_PI));
-    auto kc = we / b;
-    auto temp = pow((1-kc*kc),0.25);
-    auto temp2 = (2+2*temp) / (1-temp);
-    auto temp3 =  1/log(temp2);
-    auto Z0s = 120*M_PI*M_PI* temp3;
+    //auto we = w - ((5*t*(1+log(4*M_PI*w/t))) / (4 *M_PI));
+    auto kc = (w - ((5*t*(1+log(4*M_PI*w/t))) / (4 *M_PI))) / b;
+    //auto temp = pow((1-kc*kc),0.25);
+    //auto temp2 = (2+2*(pow((1-kc*kc),0.25))) / (1-(pow((1-kc*kc),0.25)));
+    //auto temp3 =  1/log((2+2*(pow((1-kc*kc),0.25))) / (1-(pow((1-kc*kc),0.25))));
+    auto Z0s = 120*M_PI*M_PI* (1/log((2+2*(pow((1-kc*kc),0.25))) / (1-(pow((1-kc*kc),0.25)))));
     auto k0 = 2.0*M_PI / lambda;
     dcomp ZL=dcomp(1.0,1.0)*pow(((M_PI*freq*mue_r)/sigma),0.5);
-    auto l=L;
-    auto temp4=(a-L)/2;
-    auto temp6=(b-w)/2;
-    auto xmin=temp4;
-    auto xmax=temp4+l;
-    auto ymin=temp6;
-    auto ymax=temp6+w;
+    //auto l=L;
+    //auto temp4=(a-L)/2;
+    //auto temp6=(b-w)/2;
+    auto xmin=(a-L)/2;
+    auto xmax=((a-L)/2)+L;
+    auto ymin=(b-w)/2;
+    auto ymax=((b-w)/2)+w;
     ++(*iter);
-    double temp8;
+    double temp8 = 0;
+
     if(RungeVal){
         int integval=2;
         double temp88;
         temp8=doubleintegral(iter,ymin,ymax,xmin,xmax,integval,integval,w,L,m,n);
-        do{
+        do
+        {
             temp88=temp8;
             integval=integval+2;
             temp8=doubleintegral(iter,ymin,ymax,xmin,xmax,integval,integval,w,L,m,n);
-        } while(abs(temp8-temp88)>0.001);
-    } else temp8=doubleintegral(iter,ymin,ymax,xmin,xmax,intval,intval,w,L,m,n);
+        }
+        while(abs(temp8-temp88)>0.001);
+    }
+    else
+        temp8=doubleintegral(iter,ymin,ymax,xmin,xmax,intval,intval,w,L,m,n);
+
     auto Cma=temp8/(xbol*ybol);
     dcomp temp9= (ZL+j*Z0s*tan(k0*L/2)) / (Z0s+j*ZL*tan(k0*L/2));
     dcomp Zap = Cma / 2 * j * Z0s * temp9;
-    dcomp Ztmp = Z0 + Zap;
-    dcomp v1 = v0 * Zap/Ztmp;
-    dcomp Z1 = Z0 * Zap / Ztmp;
+    //dcomp Ztmp = Z0 + Zap;
+    //dcomp v1 = v0 * Zap/Ztmp;
+    //dcomp Z1 = Z0 * Zap / Ztmp;
     auto temp10 = pow((lambda*m/(2*a)),2);
     auto temp11 = pow((lambda*n/(2*b)),2);
     dcomp tmp_zg = dcomp(1.0,0.0)-dcomp(temp11,0.0)-dcomp(temp10,0.0);
     dcomp Zg = Z0 / ( sqrt(tmp_zg));
     dcomp kg = dcomp(k0,0.0)*sqrt(tmp_zg);
     dcomp temp12 = kg * p;
-    dcomp v2 = v1 / (cos(temp12) + j*Z1/Zg*sin(temp12));
-    auto temp13 = tan(temp12);
-    auto kgp=kg * p;
-    dcomp temp44 = tan(kgp);
-    dcomp Z21=Z1+sqrt(dcomp(-1.0,0.0))*Zg*temp44;
-    dcomp Z22=1.0+sqrt(dcomp(-1.0,0.0))*(Z1/Zg)*temp44;
-    dcomp Z2=Z21/Z22;
+    dcomp v2 = (v0 * Zap/(Z0 + Zap)) / (cos(temp12) + j*( Z0 * Zap / (Z0 + Zap))/Zg*sin(temp12));
+    //auto temp13 = tan(temp12);
+    //auto kgp=kg * p;
+    //dcomp temp44 = tan(kgp);
+    dcomp Z21=( Z0 * Zap / (Z0 + Zap))+sqrt(dcomp(-1.0,0.0))*Zg*(tan((kg * p)));
+    dcomp Z22=1.0+sqrt(dcomp(-1.0,0.0))*(( Z0 * Zap / (Z0 + Zap))/Zg)*(tan((kg * p)));
+    //dcomp Z2=Z21/Z22;
     dcomp Z3 = Zg*(ZL+j*Zg*tan(kg*(d-p)))/(Zg+j*ZL*tan(kg*(d-p)));
-    dcomp vp = (v2*Z3) / (Z2+Z3);
+    dcomp vp = (v2*Z3) / ((Z21/Z22)+Z3);
     auto SE4 = 20*log10(abs(v0/(dcomp(2.0,0.0)*vp)));
+
+    //std::cout << "SE4 = " << SE4 << std::endl;
+
     return SE4;
+}
+
+double robCalculation::CalcTemp(bool RungeVal, double xmax, double xmin, double temp6, double m, double a, double L, double intval)
+{
+    if(RungeVal)
+    {
+        int integval=2;
+        double temp66;
+        temp6=integral(xmin,xmax,integval,m,a,L,2);
+        do{
+            temp66=temp6;
+            integval=integval+2;
+            temp6=integral(xmin,xmax,integval,m,a,L,2);
+        } while(abs(temp6-temp66)>0.001);
+    }
+    else
+        temp6=integral(xmin,xmax,intval,m,a,L,2);
+    return temp6;
 }
 
 double robCalculation::calcsomePoad(double freq, double t, double w, double b, double L, double a, double d, double p, double xbol, double n, double m, double sigma, double intval, bool RungeVal)
@@ -380,7 +482,14 @@ double robCalculation::calcsomePoad(double freq, double t, double w, double b, d
     auto temp4=(a-L)/2;
     auto xmin=temp4;
     auto xmax=temp4+l;
-    double temp6;
+    double temp6 = 0;
+
+    temp6 = CalcTemp(RungeVal, xmax, xmin, temp6, m, a, L, intval);
+
+
+    //I made the line down as a function -> CalcTemp
+    //*** début récurrenc 2
+    /*
     if(RungeVal){
         int integval=2;
         double temp66;
@@ -390,7 +499,12 @@ double robCalculation::calcsomePoad(double freq, double t, double w, double b, d
             integval=integval+2;
             temp6=integral(xmin,xmax,integval,m,a,L,2);
         } while(abs(temp6-temp66)>0.001);
-    } else temp6=integral(xmin,xmax,intval,m,a,L,2);
+    }
+    else
+        temp6=integral(xmin,xmax,intval,m,a,L,2);
+        */
+    //***fin récurrenc 2
+
     auto Cma = temp6/xbol;
     dcomp temp9= (ZL+j*Z0s*tan(k0*L/2)) / (Z0s+j*ZL*tan(k0*L/2));
     dcomp Zap = 0.5 * Cma  * j * Z0s * temp9;
@@ -436,7 +550,12 @@ double robCalculation::calcsomePoadPlus(double freq, double t, double w, double 
     auto xmax=temp4+l;
     auto ymin=temp6;
     auto ymax=temp6+w;
-    double temp8,temp9;
+    double temp8 = 0,temp9 = 0;
+
+    temp8 = CalcTemp(RungeVal, xmax, xmin, temp8, m, a, L, intval);
+
+    //***début récurrence 2
+    /*
     if(RungeVal){
         int integval=2;
         double temp88;
@@ -447,9 +566,15 @@ double robCalculation::calcsomePoadPlus(double freq, double t, double w, double 
             temp8=integral(xmin,xmax, integval, m, a, L, 2);
         } while(abs(temp8-temp88)>0.001);
     } else temp8=integral(xmin,xmax,intval,m,a,L,2);
+    */
+    //***fin récurrence 2
 
     auto Cm_x=temp8/xbol;
 
+    temp9 = CalcTemp(RungeVal, ymax, ymin, temp9, m, a, L, intval);
+
+    //***début récurrence 2
+    /*
     if(RungeVal){
         int integval=2;
         double temp99;
@@ -459,7 +584,11 @@ double robCalculation::calcsomePoadPlus(double freq, double t, double w, double 
             integval=integval+2;
             temp9=integral(ymin,ymax, integval, n, b, w, 3);
         } while(abs(temp9-temp99)>0.001);
-    } else temp9=integral(ymin,ymax, intval, n, b, w, 3);
+    }
+    else
+        temp9=integral(ymin,ymax, intval, n, b, w, 3);
+    */
+    //***fin récurrence 2
 
     auto Cm_y=temp9/ybol;
     auto Cma = Cm_x+Cm_y;
@@ -508,7 +637,12 @@ double robCalculation::calcsomePoadMultiple(double freq, double t, double w, dou
     auto xmax=temp4+l;
     auto ymin=temp6;
     auto ymax=temp6+w;
-    double temp8,temp9;
+    double temp8 = 0,temp9 = 0;
+
+    temp8 = CalcTemp(RungeVal, xmax, xmin, temp8, m, a, L, intval);
+
+    //*** début récurrence2
+    /*
     if(RungeVal){
         int integval=2;
         double temp88;
@@ -519,9 +653,15 @@ double robCalculation::calcsomePoadMultiple(double freq, double t, double w, dou
             temp8=integral(xmin,xmax, integval, m, a, L, 2);
         } while(abs(temp8-temp88)>0.001);
     } else temp8=integral(xmin,xmax,intval,m,a,L,2);
+    */
+    //*** fin rcurrence 2
 
     auto Cm_x=temp8/xbol;
 
+    temp9 = CalcTemp(RungeVal, ymax, ymin, temp9, m, a, L, intval);
+
+    //*** début récurrence 2
+    /*
     if(RungeVal){
         int integval=2;
         double temp99;
@@ -532,6 +672,8 @@ double robCalculation::calcsomePoadMultiple(double freq, double t, double w, dou
             temp9=integral(ymin,ymax, integval, n, b, w, 3);
         } while(abs(temp9-temp99)>0.001);
     } else temp9=integral(ymin,ymax, intval, n, b, w, 3);
+    */
+    //*** fin récurrence 2
 
     auto Cm_y=temp9/ybol;
     auto Cma = Cm_x*Cm_y;
@@ -600,7 +742,7 @@ double robCalculation::calcsomeAKC(double freq,double t,double w,double b,double
 double robCalculation::calcMethod2(double a, double d, double b, double p, double fm, double mnoj, double S11){
     auto c0 = 299792458;
     double f;
-    if (fm == 0.0) fm=1;
+    if (fm == 0.0) f=0.000001;
     else f = fm * mnoj;
     dcomp j(0.0,1.0);
     auto lambda = c0/f;
@@ -678,8 +820,12 @@ double robCalculation::calcsomeAKCintegral(double freq, double t, double w, doub
     auto xmax=temp4+l;   // пределы интегрирования по иксу
     auto ymin=temp6;
     auto ymax=temp6+w;   // пределы интегрирования по игреку
+    double temp8 = 0,temp9 = 0;
 
-    double temp8,temp9;
+    temp8 = CalcTemp(RungeVal, xmax, xmin, temp8, m, a, L, intval);
+
+    //***début récurrence 2
+    /*
     if(RungeVal){
         int integval=2;
         double temp88;
@@ -690,9 +836,15 @@ double robCalculation::calcsomeAKCintegral(double freq, double t, double w, doub
             temp8=integral(xmin,xmax, integval, m, a, L, 2);
         } while(abs(temp8-temp88)>0.001);
     } else temp8=integral(xmin,xmax,intval,m,a,L,2);
+    */
+    //***fin récurrence 2
 
     auto Cm_x=temp8/xbol;
 
+    temp9 = CalcTemp(RungeVal, ymax, ymin, temp9, m, a, L, intval);
+
+    //***début récurrence 2
+    /*
     if(RungeVal){
         int integval=2;
         double temp99;
@@ -703,6 +855,8 @@ double robCalculation::calcsomeAKCintegral(double freq, double t, double w, doub
             temp9=integral(ymin,ymax, integval, n, b, w, 3);
         } while(abs(temp9-temp99)>0.001);
     } else temp9=integral(ymin,ymax, intval, n, b, w, 3);
+    */
+    //***fin récurrence 2
 
     auto Cm_y=temp9/ybol;
     auto Cma = Cm_x*Cm_y;
