@@ -32,5 +32,6 @@ QString HZformatter::stringForValue(qreal value, const QString &format) const
     if(value>=1000000000){
         result = QString::number(value/1000000000) + QObject::tr("*10E9");
     }
+    result.replace(".",",");
     return result;
 }

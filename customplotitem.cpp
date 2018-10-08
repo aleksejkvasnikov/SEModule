@@ -143,11 +143,15 @@ void CustomPlotItem::setupQuadraticDemo( QCustomPlot* customPlot,QVector<double>
     double maxx = *std::max_element(x.constBegin(), x.constEnd());
     double miny = *std::min_element(y.constBegin(), y.constEnd());
     double maxy = *std::max_element(y.constBegin(), y.constEnd());
-    customPlot->xAxis->setLabel( "x" );
-    customPlot->yAxis->setLabel( "y" );
+    QFont serifFont(QFont("Times New Roman", 9));
+    customPlot->yAxis->setLabelFont(serifFont);
+    customPlot->xAxis->setLabelFont(serifFont);
+    customPlot->xAxis->setLabel( tr("Частота, Гц") );
+    customPlot->yAxis->setLabel( tr("ЭЭ, дБ") );
+
     // set axes ranges, so we see all data:
     customPlot->xAxis->setRange( minx, maxx);
-   customPlot->yAxis->setRange( miny, maxy );
+    customPlot->yAxis->setRange( miny, maxy );
 
     customPlot ->setInteractions( QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables );
     connect( customPlot, SIGNAL( plottableClick( QCPAbstractPlottable*, QMouseEvent* ) ), this, SLOT( graphClicked( QCPAbstractPlottable* ) ) );
