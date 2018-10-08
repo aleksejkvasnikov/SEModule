@@ -105,7 +105,7 @@ Page {
         y: 22
         width: 73
         height: 27
-        text: qsTr("Корпус") + rootItem.emptyString
+        text: qsTr("Корпус  (величины указаны в метрах)") + rootItem.emptyString
          font: window.font
     }
 
@@ -121,7 +121,7 @@ Page {
         id: text3
         x: 132
         y: 50
-        text: qsTr("B")
+        text: qsTr("b")
          font: window.font
     }
 
@@ -129,7 +129,7 @@ Page {
         id: text4
         x: 30
         y: 50
-        text: qsTr("A")
+        text: qsTr("a")
         font: window.font
     }
 
@@ -137,7 +137,7 @@ Page {
         id: text5
         x: 234
         y: 50
-        text: qsTr("D")
+        text: qsTr("d")
          font: window.font
     }
 
@@ -154,7 +154,7 @@ Page {
         id: text7
         x: 184
         y: 100
-        text: qsTr("Sigma")
+        text: qsTr("σ")
          font: window.font
     }
 
@@ -290,7 +290,7 @@ Page {
         id: text8
         x: 378
         y: 50
-        text: qsTr("W")
+        text: qsTr("w")
         font: window.font
         //font.pixelSize: 14
     }
@@ -299,7 +299,7 @@ Page {
         id: text9
         x: 483
         y: 50
-        text: qsTr("L")
+        text: qsTr("l")
         font: window.font
     }
 

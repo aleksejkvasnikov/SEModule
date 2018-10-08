@@ -64,7 +64,7 @@ Page {
             axisX.formatter: HZformatter {
 
             }
-
+            locale: Qt.locale("ru_RU")
             axisZ.labelFormat: "%.2f"
             axisY.labelFormat: "%d"
             axisY.title: qsTr("ЭЭ, дБ") + rootItem.emptyString
@@ -132,7 +132,7 @@ Page {
                             }
 
                 background: Rectangle {
-                    implicitWidth: 100
+                    implicitWidth: 60
                     implicitHeight: 40
                     opacity: enabled ? 1 : 0.3
                     border.color: control31.down ? "#17a81a" : "#000"
@@ -203,7 +203,7 @@ Page {
             }
             Button{
                 id: control42
-                text: qsTr("Annultion") + rootItem.emptyString
+                text: qsTr("Стоп")  + rootItem.emptyString
                 Layout.fillWidth: true
                 contentItem: Text {
                     text: control42.text
@@ -218,7 +218,7 @@ Page {
                      modList.interrupted();
                 }
                  background: Rectangle {
-                    implicitWidth: 100
+                    implicitWidth: 60
                     implicitHeight: 40
                     opacity: enabled ? 1 : 0.3
                     border.color: control42.down ? "#17a81a" : "#000"
@@ -287,12 +287,12 @@ Page {
                 Label {
                     id: timeElapsed
                    // visible: false
-                    text: "Затрачено: " + modList.time/1000 + " с"
+                    text: qsTr("Время вычислений: ")  + rootItem.emptyString + modList.time/1000 + qsTr(" с")  + rootItem.emptyString
                 }
                 Label {
                     id: iterCount
                  //   visible: false
-                    text: "Кол-во итераций: " + modList.iter
+                    text: qsTr("Кол-во итераций: ")  + rootItem.emptyString + modList.iter
                 }
             }
             ColumnLayout
@@ -300,7 +300,7 @@ Page {
                 spacing: 10
                 Button{
                     id: controlsa1
-                    text: qsTr("S1") + rootItem.emptyString
+                    text: qsTr("1") + rootItem.emptyString
                     Layout.fillWidth: true
                     contentItem: Text {
                         text: controlsa1.text
@@ -325,7 +325,7 @@ Page {
                 }
                  Button{
                     id: controlsa2
-                    text: qsTr("S2") + rootItem.emptyString
+                    text: qsTr("2") + rootItem.emptyString
                     Layout.fillWidth: true
                     contentItem: Text {
                         text: controlsa2.text
@@ -354,7 +354,7 @@ Page {
                 spacing: 10
                 Button{
                     id: controlshow1
-                    text: qsTr("Show1") + rootItem.emptyString
+                    text: qsTr("Граф.1") + rootItem.emptyString
                     Layout.fillWidth: true
                     contentItem: Text {
                         text: controlshow1.text
@@ -379,7 +379,7 @@ Page {
                 }
                  Button{
                     id: controlshow2
-                    text: qsTr("Show2") + rootItem.emptyString
+                    text: qsTr("Граф.2") + rootItem.emptyString
                     Layout.fillWidth: true
                     contentItem: Text {
                         text: controlshow2.text
@@ -405,7 +405,7 @@ Page {
             }
              Button{
                 id: compute
-                text: qsTr("compute") + rootItem.emptyString
+                text: qsTr("Дельта") + rootItem.emptyString
                 Layout.fillWidth: true
                 contentItem: Text {
                     text: compute.text
