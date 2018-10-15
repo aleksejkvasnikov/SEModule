@@ -8,6 +8,7 @@ import HZformatter 1.0
 import Qt3D.Extras 2.0
 import Qt3D.Core 2.0
 import Qt3D.Render 2.0
+import QtWinExtras 1.0
 Page {
     id: pag
     width: 600
@@ -16,15 +17,35 @@ Page {
     Item {
         width: window.width
         height: window.height
-      //  OrbitCameraController {
-          //  camera: surface.scene.activeCamera
-     //   }
         Popup {
             id: rect
+            width: window.width
+            height: window.height
+            contentItem: Row {
+                anchors.fill: parent
+                Text {
+                    id: text1
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: "3D SE Box v1.0"
+                    font.family: "Arial"
+                    font.pointSize: 50
+                    color: "yellow"
+                }
+                Text {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: "TALGAT team (talgat.org)"
+                    font.family: "Arial"
+                    font.pointSize: 20
+                    color: "yellow"
+                    anchors.topMargin: window.height / 3
+                    anchors.top: text1.bottom
+                }
+            }
             background: Rectangle {
                     implicitWidth: window.width
                     implicitHeight: window.height
-                    color: 'red'
+                    color: 'black'
                     border.color: "#444"
                 }
             visible: opacity > 0
@@ -33,7 +54,7 @@ Page {
         SequentialAnimation {
             running: true
             PauseAnimation {
-                duration: 1000 // Wait for 4000ms
+                duration: 2000 // Wait for 4000ms
             }
             NumberAnimation {
                 target: rect
@@ -180,8 +201,8 @@ Page {
                     column11.visible = true;
                     compute.visible = true;
                     column12.visible = true;
-                    timeElapsed.visible = true;
-                    iterCount.visible = true;
+                    //timeElapsed.visible = true;
+                    //iterCount.visible = true;
                     prb.visible = true;
                     modList.recalculate();
                     //customPlot.initCustomPlot();
@@ -471,7 +492,17 @@ Page {
                 width: window.width
                // indeterminate: true
                 value: modList.progress/100
+                onValueChanged: {
+                    console.log(value)
+                }
             }
+        }
+        TaskbarButton {
+            id: tB
+            progress.visible: true
+            progress.minimum : 0
+            progress.maximum : 100
+            progress.value: modList.progress
         }
     }
 }

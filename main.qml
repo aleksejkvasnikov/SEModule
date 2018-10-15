@@ -1,17 +1,38 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-
+import Qt.labs.platform 1.0
 ApplicationWindow {
     property color firstColor
     property color secondColor
     id: window
+    flags: Qt.FramelessWindowHint|Qt.Window
     visible: true
     width: 640
     height: 480
     title: qsTr("3D SE box") + rootItem.emptyString
+    /*SystemTrayIcon {
+        visible: true
+        iconSource: "ru.svg"
+        menu: Menu {
+            MenuItem {
+                text: qsTr("Open")
+                onTriggered:    {
+                    window.show()
+                    window.raise()
+                }
+            }
+            MenuItem {
+                text: qsTr("Quit")
+                onTriggered: Qt.quit()
+            }
+        }
+    } */
     Timer {
-        interval: 1000 // triggers every 5000 ms
-        onTriggered: toolBar.visible = true
+        interval: 2000 // triggers every 5000 ms
+        onTriggered: {
+            window.flags = Qt.Window
+            toolBar.visible = true
+        }
         running: true
     }
     Popup {

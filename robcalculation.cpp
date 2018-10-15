@@ -92,7 +92,7 @@ double robCalculation::doubleintegral(int *iter,double a, double b, double c, do
         }
 
     int elapse = time.elapsed();
-    qDebug() << "elapsed time double integral " << elapse << "\n";
+    //qDebug() << "elapsed time double integral " << elapse << "\n";
     return I;
 }
 
