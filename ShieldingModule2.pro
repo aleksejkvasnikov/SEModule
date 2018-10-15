@@ -54,3 +54,7 @@ SOURCES = customplotitem.cpp \
           *.qml \
           *.js \
 }
+
+DISTFILES += \
+    textureandlight.js \
+    gl-matrix.js

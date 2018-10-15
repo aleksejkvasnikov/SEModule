@@ -12,5 +12,7 @@
         <file>ru.svg</file>
         <file>results.qml</file>
         <file>document.PNG</file>
+        <file>gl-matrix.js</file>
+        <file>textureandlight.js</file>
     </qresource>
 </RCC>
