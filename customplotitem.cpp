@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <algorithm>
 #include "qcustomplot.h"
+#include <QTranslator>
 CustomPlotItem::CustomPlotItem( QQuickItem* parent ) : QQuickPaintedItem( parent )
     , m_CustomPlot( nullptr )
 {

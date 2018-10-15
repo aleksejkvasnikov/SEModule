@@ -81,6 +81,13 @@ void surfaceModelList::updateProgress(double string)
     emit progressChanged();
    // qDebug() << string;
 }
+/*void surfaceModelList::updatelocale(QString locale)
+{
+    qDebug()<< locale << m_locale;
+    m_locale = locale;
+    emit localeChanged();
+   // qDebug() << string;
+}*/
 void surfaceModelList::updateTime(double string)
 {
     m_time = string;

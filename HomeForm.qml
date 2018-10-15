@@ -12,7 +12,6 @@ Page {
     id: pag
     width: 600
     height: 400
-
     title: qsTr("3D отображение") + rootItem.emptyString
     Item {
         width: window.width
@@ -20,6 +19,29 @@ Page {
       //  OrbitCameraController {
           //  camera: surface.scene.activeCamera
      //   }
+        Popup {
+            id: rect
+            background: Rectangle {
+                    implicitWidth: window.width
+                    implicitHeight: window.height
+                    color: 'red'
+                    border.color: "#444"
+                }
+            visible: opacity > 0
+        }
+
+        SequentialAnimation {
+            running: true
+            PauseAnimation {
+                duration: 1000 // Wait for 4000ms
+            }
+            NumberAnimation {
+                target: rect
+                property: 'opacity'
+                to: 0
+                duration: 1000 // Then fade away for 1000ms
+            }
+        }
         Surface3D {
             width: window.width
             height: window.height
@@ -62,9 +84,9 @@ Page {
             shadowQuality: AbstractGraph3D.ShadowQualityMedium
            // axisX.labelFormat: "%f"
             axisX.formatter: HZformatter {
-
+                selectedLocale: rootItem.locale
             }
-            locale: Qt.locale("ru_RU")
+            locale: Qt.locale(rootItem.locale)
             axisZ.labelFormat: "%.2f"
             axisY.labelFormat: "%d"
             axisY.title: qsTr("ЭЭ, дБ") + rootItem.emptyString
@@ -155,7 +177,9 @@ Page {
                     elide: Text.ElideRight
                 }
                 onClicked: {
-                //  surface.axisX.setLocale(Qt.locale("ru_RU"));
+                    column11.visible = true;
+                    compute.visible = true;
+                    column12.visible = true;
                     timeElapsed.visible = true;
                     iterCount.visible = true;
                     prb.visible = true;
@@ -188,6 +212,9 @@ Page {
                     elide: Text.ElideRight
                 }
                 onClicked: {
+                    column11.visible = false;
+                    compute.visible = false;
+                    column12.visible = false;
                     //timeElapsed.visible = false;
                    // iterCount.visible = false;
                     modList.removeallItems();
@@ -228,6 +255,9 @@ Page {
             }
             ColumnLayout {
                 spacing: 1
+                Label {
+                   // text: modList.locale
+                }
                 Button {
                     id: control2
                    // text: qsTr("Up")
@@ -297,6 +327,8 @@ Page {
             }
             ColumnLayout
             {
+                id: column11
+                visible: false
                 spacing: 10
                 Button{
                     id: controlsa1
@@ -351,6 +383,8 @@ Page {
             }
              ColumnLayout
             {
+                id: column12
+                visible: false
                 spacing: 10
                 Button{
                     id: controlshow1
@@ -405,6 +439,7 @@ Page {
             }
              Button{
                 id: compute
+                visible: false
                 text: qsTr("Дельта") + rootItem.emptyString
                 Layout.fillWidth: true
                 contentItem: Text {

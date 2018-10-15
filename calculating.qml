@@ -98,8 +98,8 @@ Page {
     Button{
          x:30
          y:189
-         text: "Выбрать файл"
-         onClicked: fileDialog.open(    );//
+         text: qsTr("Выбрать файл")
+         onClicked: fileDialog.open();//
      }
     ComboBox {
         x:150

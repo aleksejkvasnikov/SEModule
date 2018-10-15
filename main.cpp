@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     QLibrary lib( "Comctl32.dll" );
     lib.setLoadHints( QLibrary::ResolveAllSymbolsHint );
     lib.load();
-    QLocale::setDefault(QLocale::Russian);
+   // QLocale::setDefault(QLocale::Russian);
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     // Создаём объект для работы с переводами ...

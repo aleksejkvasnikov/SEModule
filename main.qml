@@ -9,6 +9,11 @@ ApplicationWindow {
     width: 640
     height: 480
     title: qsTr("3D SE box") + rootItem.emptyString
+    Timer {
+        interval: 1000 // triggers every 5000 ms
+        onTriggered: toolBar.visible = true
+        running: true
+    }
     Popup {
         id: popup
         x: window.width * 0.3
@@ -68,8 +73,8 @@ ApplicationWindow {
     }
     header: ToolBar {
         id: toolBar
+        visible: false
         contentHeight: toolButton.implicitHeight
-
         ToolButton {
             id: toolButton
             text: stackView.depth > 1 ? "\u25C0" : "\u2630"

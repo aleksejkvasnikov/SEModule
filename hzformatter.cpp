@@ -24,14 +24,26 @@ QString HZformatter::stringForValue(qreal value, const QString &format) const
     Q_UNUSED(format);
     QString result = QString::number(value)+ QObject::tr("");
     if(value>=1000){
-    result = QString::number(value/1000) + QObject::tr("*10E3");
+    result = QString::number(value/1000) + QObject::tr("×10³");
     }
     if(value>=1000000){
-        result = QString::number(value/1000000) + QObject::tr("*10E6");
+        result = QString::number(value/1000000) + QObject::tr("×10⁶");
     }
     if(value>=1000000000){
-        result = QString::number(value/1000000000) + QObject::tr("*10E9");
+        result = QString::number(value/1000000000) + QObject::tr("×10⁹");
     }
-    result.replace(".",",");
+    if(m_selectedLocale == "ru_RU") result.replace(".",",");
     return result;
+}
+QString HZformatter::selectedLocale() const
+{
+    return m_selectedLocale;
+}
+void HZformatter::setSelectedLocale(const QString &locale)
+{
+    if (m_selectedLocale != locale) {
+        m_selectedLocale = locale;
+        markDirty(true); // Necessary to regenerate already visible selection label
+        emit selectedLocaleChanged(locale);
+    }
 }
