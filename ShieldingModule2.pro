@@ -53,3 +53,7 @@ lupdate_only{
 SOURCES = *.qml \
           *.js \
 }
+
+DISTFILES += \
+    textureandlight.js \
+    gl-matrix.js
