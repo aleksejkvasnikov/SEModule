@@ -100,6 +100,60 @@ Page {
                     }
                 }
             }
+
+            Image {
+                source: "ru.svg"
+                Layout.preferredWidth: window.width/17
+                Layout.preferredHeight: window.width/17
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                     //   console.log(modList.locale)
+                        rootItem.selectLanguage("fr_FR")
+                        rootItem.selectLocale("fr_FR")
+                        rootItem.fontVal = 0
+                     //   modList.updatelocale("ru_RU")
+                     //   modList.locale= "ru_RU"
+                    }
+                }
+            }
+
+            /*
+            Image {
+                source: "fr.svg"
+                Layout.preferredWidth: window.width/17
+                Layout.preferredHeight: window.width/17
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                     //   console.log(modList.locale)
+                        rootItem.selectLanguage("fr_FR")
+                        rootItem.selectLocale("fr_FR")
+                        rootItem.fontVal = 0
+                     //   modList.updatelocale("ru_RU")
+                     //   modList.locale= "ru_RU"
+                    }
+                }
+            }*/
+
+            /*
+            Image {
+             id: image
+             source: "fr.jpg"
+             Layout.preferredWidth: window.width/17
+             Layout.preferredHeight: window.width/17
+             MouseArea {
+                 anchors.fill: parent
+                 onClicked: {
+                  //   console.log(modList.locale)
+                     rootItem.selectLanguage("fr_FR")
+                     rootItem.selectLocale("fr_FR")
+                     rootItem.fontVal = 0
+                  //   modList.updatelocale("ru_RU")
+                  //   modList.locale= "ru_RU"
+                            }
+                }
+            } */
         }
     }
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en_US">
+<TS version="2.1" language="fr_FR">
 <context>
     <name>CustomPlotItem</name>
     <message>
         <location filename="customplotitem.cpp" line="151"/>
         <source>Частота, Гц</source>
-        <translation>Frequency, Hz</translation>
+        <translation>Fréquence, Hz</translation>
     </message>
     <message>
         <location filename="customplotitem.cpp" line="152"/>
@@ -19,54 +19,48 @@
     <message>
         <location filename="HomeForm.qml" line="16"/>
         <source>3D отображение</source>
-        <translation>3D result</translation>
+        <translation>résutat 3D</translation>
     </message>
     <message>
         <location filename="HomeForm.qml" line="80"/>
         <source>ЭЭ в точке (@xLabel, @zLabel м): @yLabel дБ</source>
-        <translation>SE at (@xLabel, @zLabel m): @yLabel dB</translation>
+        <translation>SE a (@xLabel, @zLabel m): @yLabel dB</translation>
     </message>
     <message>
         <location filename="HomeForm.qml" line="113"/>
         <source>ЭЭ, дБ</source>
-        <oldsource>ЭЭ</oldsource>
         <translation>SE, dB</translation>
     </message>
     <message>
         <location filename="HomeForm.qml" line="114"/>
         <source>Частота, Гц</source>
-        <oldsource>Частота, дБ</oldsource>
-        <translation>Frequency, Hz</translation>
-    </message>
-    <message>
-        <source>Частота</source>
-        <translation type="vanished">Frequency</translation>
+        <translation>Fréquence, Hz</translation>
     </message>
     <message>
         <location filename="HomeForm.qml" line="115"/>
         <source>Точка обзора, м</source>
-        <translation>Viewpoint, m</translation>
+        <translation>angle de vue, m</translation>
     </message>
     <message>
         <location filename="HomeForm.qml" line="128"/>
         <location filename="HomeForm.qml" line="140"/>
         <source>Выберите цвет</source>
-        <translation>Choose color</translation>
+        <translation>choisir couleur</translation>
     </message>
     <message>
         <location filename="HomeForm.qml" line="156"/>
         <source>Сетка</source>
-        <translation>Mesh</translation>
+        <translation type="unfinished">Couleur</translation>
     </message>
     <message>
         <location filename="HomeForm.qml" line="189"/>
         <source>Вычислить</source>
-        <translation>Calculate</translation>
+        <translation>Calcul</translation>
     </message>
     <message>
         <location filename="HomeForm.qml" line="224"/>
         <source>Очистить</source>
-        <translation>Clear</translation>
+        <translation>Effacer</translation>
     </message>
     <message>
         <location filename="HomeForm.qml" line="254"/>
@@ -76,17 +70,17 @@
     <message>
         <location filename="HomeForm.qml" line="341"/>
         <source>Время вычислений: </source>
-        <translation>Running time: </translation>
+        <translation>Temps d&apos; éxécution: </translation>
     </message>
     <message>
         <location filename="HomeForm.qml" line="341"/>
         <source> с</source>
-        <translation> s</translation>
+        <translation>s</translation>
     </message>
     <message>
         <location filename="HomeForm.qml" line="346"/>
         <source>Кол-во итераций: </source>
-        <translation>Iterations: </translation>
+        <translation>Itérations: </translation>
     </message>
     <message>
         <location filename="HomeForm.qml" line="356"/>
@@ -111,7 +105,7 @@
     <message>
         <location filename="HomeForm.qml" line="464"/>
         <source>Дельта</source>
-        <translation>Diff.</translation>
+        <translation>Diff</translation>
     </message>
 </context>
 <context>
@@ -119,7 +113,7 @@
     <message>
         <location filename="Page1Form.ui.qml" line="8"/>
         <source>Page 1</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="Page1Form.ui.qml" line="11"/>
@@ -132,12 +126,12 @@
     <message>
         <location filename="calculating.qml" line="13"/>
         <source>Вычисление</source>
-        <translation>Calculation</translation>
+        <translation>Calcule</translation>
     </message>
     <message>
         <location filename="calculating.qml" line="101"/>
         <source>Выбрать файл</source>
-        <translation type="unfinished">Select a file</translation>
+        <translation>Choisir fichier</translation>
     </message>
     <message>
         <location filename="calculating.qml" line="140"/>
@@ -147,7 +141,7 @@
     <message>
         <location filename="calculating.qml" line="148"/>
         <source>Точка наблюдения</source>
-        <translation>Viewpoint</translation>
+        <translation>Angle de vue</translation>
     </message>
     <message>
         <location filename="calculating.qml" line="156"/>
@@ -162,7 +156,7 @@
     <message>
         <location filename="calculating.qml" line="172"/>
         <source>Кол-во точек</source>
-        <translation>Points number</translation>
+        <translation>nombre de points</translation>
     </message>
     <message>
         <location filename="calculating.qml" line="180"/>
@@ -182,30 +176,26 @@
     <message>
         <location filename="calculating.qml" line="255"/>
         <source>Проц. шаг</source>
-        <translation>Perc. step</translation>
+        <translation>Pourcentage pas</translation>
     </message>
     <message>
         <location filename="calculating.qml" line="263"/>
         <source>Функция</source>
-        <translation>Function</translation>
+        <translation>Fonction</translation>
     </message>
     <message>
         <location filename="calculating.qml" line="270"/>
         <source>Отрезки интегрирования</source>
-        <translation>Integral calc. segments</translation>
+        <translation>Calcul d&apos;intégral, segments</translation>
     </message>
     <message>
         <location filename="calculating.qml" line="292"/>
         <source>Правило Рунге</source>
-        <translation>Runge rule</translation>
+        <translation>Règle de Runge</translation>
     </message>
 </context>
 <context>
     <name>main</name>
-    <message>
-        <source>ЭФФЕКТИВНОСТЬ ЭКРАНИРОВАНИЯ КОРПУСОМ С АПЕРТУРОЙ</source>
-        <translation type="vanished">3D SE box</translation>
-    </message>
     <message>
         <location filename="main.qml" line="12"/>
         <source>3D SE box</source>
@@ -214,12 +204,12 @@
     <message>
         <location filename="main.qml" line="53"/>
         <source>О программе</source>
-        <translation>About</translation>
+        <translation>Infos</translation>
     </message>
     <message>
         <location filename="main.qml" line="64"/>
         <source>Свидетельство о регистрации</source>
-        <translation>Copyright Registration</translation>
+        <translation>Mentions légal</translation>
     </message>
     <message>
         <location filename="main.qml" line="76"/>
@@ -229,42 +219,42 @@
     <message>
         <location filename="main.qml" line="133"/>
         <source>Новый файл</source>
-        <translation>New file</translation>
+        <translation>Nouveau fichier</translation>
     </message>
     <message>
         <location filename="main.qml" line="134"/>
         <source>Сохранить</source>
-        <translation>Save</translation>
+        <translation>Sauvegarder</translation>
     </message>
     <message>
         <location filename="main.qml" line="135"/>
         <source>Загрузить</source>
-        <translation>Load</translation>
+        <translation>Charger</translation>
     </message>
     <message>
         <location filename="main.qml" line="149"/>
         <source>Файл</source>
-        <translation>File</translation>
+        <translation>Fichier</translation>
     </message>
     <message>
         <location filename="main.qml" line="184"/>
         <source>Моделирование</source>
-        <translation>Modelling</translation>
+        <translation>Modelisation</translation>
     </message>
     <message>
         <location filename="main.qml" line="219"/>
         <source>Вычисление</source>
-        <translation>Calculating</translation>
+        <translation>Calcul</translation>
     </message>
     <message>
         <location filename="main.qml" line="253"/>
         <source>Результаты</source>
-        <translation type="unfinished">Results</translation>
+        <translation>Résultats</translation>
     </message>
     <message>
         <location filename="main.qml" line="287"/>
         <source>Настройки</source>
-        <translation>Settings</translation>
+        <translation>Paramètres</translation>
     </message>
 </context>
 <context>
@@ -272,26 +262,17 @@
     <message>
         <location filename="modeling.qml" line="19"/>
         <source>Моделирование</source>
-        <translation>Modelling</translation>
-    </message>
-    <message>
-        <source>Корпус</source>
-        <translation type="vanished">Box</translation>
-    </message>
-    <message>
-        <location filename="modeling.qml" line="237"/>
-        <source>Апертура</source>
-        <translation>Aperture</translation>
-    </message>
-    <message>
-        <location filename="modeling.qml" line="269"/>
-        <source>t</source>
-        <translation></translation>
+        <translation>Modelisation</translation>
     </message>
     <message>
         <location filename="modeling.qml" line="229"/>
         <source>Корпус  (величины указаны в метрах)</source>
-        <translation>Enclosure  (in metres)</translation>
+        <translation>Limite (en mètre)</translation>
+    </message>
+    <message>
+        <location filename="modeling.qml" line="237"/>
+        <source>Апертура</source>
+        <translation>Ouverture</translation>
     </message>
     <message>
         <location filename="modeling.qml" line="245"/>
@@ -306,6 +287,11 @@
     <message>
         <location filename="modeling.qml" line="261"/>
         <source>d</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="modeling.qml" line="269"/>
+        <source>t</source>
         <translation></translation>
     </message>
     <message>
@@ -359,7 +345,7 @@
     <message>
         <location filename="results.qml" line="13"/>
         <source>Результаты</source>
-        <translation>Results</translation>
+        <translation>Résultats</translation>
     </message>
 </context>
 <context>
@@ -367,17 +353,17 @@
     <message>
         <location filename="settings.qml" line="13"/>
         <source>Настройки</source>
-        <translation>Settings</translation>
+        <translation>Réglages</translation>
     </message>
     <message>
         <location filename="settings.qml" line="25"/>
         <source>Выберите шрифт</source>
-        <translation>Choose font</translation>
+        <translation>Police</translation>
     </message>
     <message>
         <location filename="settings.qml" line="46"/>
         <source>Шрифт</source>
-        <translation>Font</translation>
+        <translation type="unfinished">Langue</translation>
     </message>
 </context>
 </TS>

@@ -19,6 +19,7 @@ Page {
     title: qsTr("Моделирование") + rootItem.emptyString
 
 
+    /*
     //! [0]
     Canvas3D {
         id: canvas3d
@@ -127,7 +128,7 @@ Page {
                 easing.type: Easing.InOutSine
             }
         }*/
-    }
+    //}
 
 
     Rectangle {
@@ -469,7 +470,7 @@ Page {
         text: qsTr("dv")
         font: window.font
     }
-    /*
+
        Image {
         id: image
         x: window.width/3
@@ -478,7 +479,7 @@ Page {
         height: (window.height-35)/3
         source: "corpus.PNG"
     }
-    */
+
 
 }
 
