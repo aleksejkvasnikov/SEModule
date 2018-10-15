@@ -8,6 +8,7 @@
 #include <QtDebug>
 
 #define _USE_MATH_DEFINES
+
 using namespace std;
 typedef complex<double> dcomp;
 const double M_PI = 3.141592653589793238463;
