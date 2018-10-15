@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+//import QtQuick.Dialogs 1.3
 import Qt.labs.platform 1.0
 Page {
     id: page
@@ -97,8 +98,8 @@ Page {
     Button{
          x:30
          y:189
-         text: "Выбрать файл"
-         onClicked: fileDialog.open(    );//
+         text: qsTr("Выбрать файл")
+         onClicked: fileDialog.open();//
      }
     ComboBox {
         x:150

@@ -12,7 +12,6 @@ Page {
     id: pag
     width: 600
     height: 400
-
     title: qsTr("3D отображение") + rootItem.emptyString
     Item {
         width: window.width
@@ -20,6 +19,29 @@ Page {
       //  OrbitCameraController {
           //  camera: surface.scene.activeCamera
      //   }
+        Popup {
+            id: rect
+            background: Rectangle {
+                    implicitWidth: window.width
+                    implicitHeight: window.height
+                    color: 'red'
+                    border.color: "#444"
+                }
+            visible: opacity > 0
+        }
+
+        SequentialAnimation {
+            running: true
+            PauseAnimation {
+                duration: 1000 // Wait for 4000ms
+            }
+            NumberAnimation {
+                target: rect
+                property: 'opacity'
+                to: 0
+                duration: 1000 // Then fade away for 1000ms
+            }
+        }
         Surface3D {
             width: window.width
             height: window.height
@@ -62,9 +84,9 @@ Page {
             shadowQuality: AbstractGraph3D.ShadowQualityMedium
            // axisX.labelFormat: "%f"
             axisX.formatter: HZformatter {
-
+                selectedLocale: rootItem.locale
             }
-
+            locale: Qt.locale(rootItem.locale)
             axisZ.labelFormat: "%.2f"
             axisY.labelFormat: "%d"
             axisY.title: qsTr("ЭЭ, дБ") + rootItem.emptyString
@@ -132,7 +154,7 @@ Page {
                             }
 
                 background: Rectangle {
-                    implicitWidth: 100
+                    implicitWidth: 60
                     implicitHeight: 40
                     opacity: enabled ? 1 : 0.3
                     border.color: control31.down ? "#17a81a" : "#000"
@@ -155,7 +177,9 @@ Page {
                     elide: Text.ElideRight
                 }
                 onClicked: {
-                //  surface.axisX.setLocale(Qt.locale("ru_RU"));
+                    column11.visible = true;
+                    compute.visible = true;
+                    column12.visible = true;
                     timeElapsed.visible = true;
                     iterCount.visible = true;
                     prb.visible = true;
@@ -188,6 +212,9 @@ Page {
                     elide: Text.ElideRight
                 }
                 onClicked: {
+                    column11.visible = false;
+                    compute.visible = false;
+                    column12.visible = false;
                     //timeElapsed.visible = false;
                    // iterCount.visible = false;
                     modList.removeallItems();
@@ -203,7 +230,7 @@ Page {
             }
             Button{
                 id: control42
-                text: qsTr("Annultion") + rootItem.emptyString
+                text: qsTr("Стоп")  + rootItem.emptyString
                 Layout.fillWidth: true
                 contentItem: Text {
                     text: control42.text
@@ -218,7 +245,7 @@ Page {
                      modList.interrupted();
                 }
                  background: Rectangle {
-                    implicitWidth: 100
+                    implicitWidth: 60
                     implicitHeight: 40
                     opacity: enabled ? 1 : 0.3
                     border.color: control42.down ? "#17a81a" : "#000"
@@ -228,6 +255,9 @@ Page {
             }
             ColumnLayout {
                 spacing: 1
+                Label {
+                   // text: modList.locale
+                }
                 Button {
                     id: control2
                    // text: qsTr("Up")
@@ -287,20 +317,22 @@ Page {
                 Label {
                     id: timeElapsed
                    // visible: false
-                    text: "Затрачено: " + modList.time/1000 + " с"
+                    text: qsTr("Время вычислений: ")  + rootItem.emptyString + modList.time/1000 + qsTr(" с")  + rootItem.emptyString
                 }
                 Label {
                     id: iterCount
                  //   visible: false
-                    text: "Кол-во итераций: " + modList.iter
+                    text: qsTr("Кол-во итераций: ")  + rootItem.emptyString + modList.iter
                 }
             }
             ColumnLayout
             {
+                id: column11
+                visible: false
                 spacing: 10
                 Button{
                     id: controlsa1
-                    text: qsTr("S1") + rootItem.emptyString
+                    text: qsTr("1") + rootItem.emptyString
                     Layout.fillWidth: true
                     contentItem: Text {
                         text: controlsa1.text
@@ -325,7 +357,7 @@ Page {
                 }
                  Button{
                     id: controlsa2
-                    text: qsTr("S2") + rootItem.emptyString
+                    text: qsTr("2") + rootItem.emptyString
                     Layout.fillWidth: true
                     contentItem: Text {
                         text: controlsa2.text
@@ -351,10 +383,12 @@ Page {
             }
              ColumnLayout
             {
+                id: column12
+                visible: false
                 spacing: 10
                 Button{
                     id: controlshow1
-                    text: qsTr("Show1") + rootItem.emptyString
+                    text: qsTr("Граф.1") + rootItem.emptyString
                     Layout.fillWidth: true
                     contentItem: Text {
                         text: controlshow1.text
@@ -379,7 +413,7 @@ Page {
                 }
                  Button{
                     id: controlshow2
-                    text: qsTr("Show2") + rootItem.emptyString
+                    text: qsTr("Граф.2") + rootItem.emptyString
                     Layout.fillWidth: true
                     contentItem: Text {
                         text: controlshow2.text
@@ -405,7 +439,8 @@ Page {
             }
              Button{
                 id: compute
-                text: qsTr("compute") + rootItem.emptyString
+                visible: false
+                text: qsTr("Дельта") + rootItem.emptyString
                 Layout.fillWidth: true
                 contentItem: Text {
                     text: compute.text

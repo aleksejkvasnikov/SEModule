@@ -50,7 +50,8 @@ HEADERS += \
     customplotitem.h
 
 lupdate_only{
-SOURCES = *.qml \
+SOURCES = customplotitem.cpp \
+          *.qml \
           *.js \
 }
 

@@ -142,7 +142,7 @@ double robCalculation::ren(double freq, double a, double b,double p, double d, d
     QTime time;
 
     time.start();
-        for (int mm=0; mm<=(int)m; mm++) {
+        for (int mm=1; mm<=(int)m; mm++) {
             for (int nn=0; nn<=n; nn++) {
                 // Характеристический импеданс и постоянная распространения в корпусе
                // dcomp testing = sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),dcomp(2,0))-pow((lambda*nn/(dcomp(2,0)*b)),dcomp(2,0)));
@@ -256,7 +256,7 @@ double robCalculation::Dehkhoda_2007(double freq, double a, double b,double p, d
     {
         int I = m;
 #pragma omp for*/
-    for(int mm=0; mm<=m; mm++){
+    for(int mm=1; mm<=m; mm++){
         for(int nn=0; nn<=n; nn++){
             // Характеристический импеданс и постоянная распространения в корпусе
             /*dcomp*/ zg=z0/sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),2)-pow((lambda*nn/(dcomp(2,0)*b)),2));
@@ -329,7 +329,7 @@ double robCalculation::Nie_2017(double freq, double a, double b,double p, double
     dcomp z1=z0*zap/(z0+zap);
     dcomp vp1(0,0);
 
-    for (int mm=0; mm<=m; mm++){
+    for (int mm=1; mm<=m; mm++){
         for (int nn=0; nn<=n; nn++){
             // Характеристический импеданс и постоянная распространения в корпусе
             dcomp zg=z0/sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),2)-pow((lambda*nn/(dcomp(2,0)*b)),2));

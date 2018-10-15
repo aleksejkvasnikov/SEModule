@@ -19,6 +19,7 @@ class surfaceModelList : public QObject
     Q_PROPERTY(double iter READ iter WRITE setiter NOTIFY iterChanged)
     Q_PROPERTY(double aVal READ aVal WRITE setaVal)
     Q_PROPERTY(QString file READ file WRITE setfile)
+//    Q_PROPERTY(QString locale READ locale WRITE setlocale)
     Q_PROPERTY(double bVal READ bVal WRITE setbVal)
     Q_PROPERTY(double dVal READ dVal WRITE setdVal)
     Q_PROPERTY(double tVal READ tVal WRITE settVal)
@@ -50,6 +51,8 @@ public:
     double iter() const { return m_iter; }
     void setfile(const QString &file) { if (file != m_file) { m_file = file;} }
     QString file() const { return m_file; }
+ //   void setlocale(const QString &locale) { if (locale != m_locale) { m_locale = locale;} }
+  //  QString locale() const { return m_locale; }
     void setprogress(const double &pr) { if (pr != m_progress) { m_progress = pr;} }
     double progress() const { return m_progress; }
     void settime(const double &time) { if (time != m_time) { m_time = time;} }
@@ -107,6 +110,7 @@ signals:
     void preItemAppended();
     void postItemAppended();
     void progressChanged();
+   // void localeChanged();
     void timeChanged();
     void iterChanged();
     void preItemRemoved(int index);
@@ -126,6 +130,7 @@ public slots:
     void callTest(CustomPlotItem *test);
     void callTest1();
     void updateProgress(double string);
+  //  Q_INVOKABLE void updatelocale(QString locale);
     void updateTime(double string);
     void updateIterCount(double string);
     void updateGUI(QVector<surfaceModelItem> gui);
@@ -135,7 +140,7 @@ private:
     QVector<surfaceModelItem> save2; //stocket le graphic 2
     int checkpoint; //donne la taille du dernier graphic dans mItems
     double m_progress = 0;
-    QString m_file = "";
+    QString m_file = "";//, m_locale = "ru_RU"
     double m_time = 0, m_iter = 0;
     double m_aVal = 0.3, m_dvVal = 0.02, m_dhVal = 0.02, m_bVal = 0.12, m_dVal = 0.3, m_tVal = 0.0015,
     m_sigmaVal = 37000000, m_wVal = 0.012, m_lVal = 0.012, m_xVal = 0.15, m_yVal = 0.06,m_mapVal = 7, m_napVal = 3,
