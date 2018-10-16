@@ -125,18 +125,6 @@ Page {
 
         }
 
-
-        Rectangle {
-            id: rectangle
-            x: 15
-            y: 14
-            width: 12
-            height: 12
-            color: "#cfcfcf"
-            radius: 0
-            border.width: 1
-        }
-
         ColorDialog {
             id: colorDialog
             currentColor: cgs1.color
