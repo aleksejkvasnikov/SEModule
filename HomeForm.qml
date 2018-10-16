@@ -125,6 +125,41 @@ Page {
 
         }
 
+        //Rectangle bouton gauche
+        Rectangle {
+            id: rectangle
+            anchors.topMargin: 10
+            anchors.leftMargin: 10
+            anchors.top: parent.top
+            anchors.left: parent.left
+            //x: 200
+            y: 14
+
+            width: 343
+            height: 60
+            color: "#cfcfcf"
+            radius: 0
+            border.width: 1
+        }
+
+        //Rectangle bouton droit
+        Rectangle {
+            visible: false
+            id: rectangle2
+            anchors.topMargin: 10
+            anchors.rightMargin: 10
+            anchors.top: parent.top
+            anchors.right: parent.right
+            //x: 200
+            y: 14
+
+            width: 325
+            height: 70
+            color: "#cfcfcf"
+            radius: 0
+            border.width: 1
+        }
+
         ColorDialog {
             id: colorDialog
             currentColor: cgs1.color
@@ -150,9 +185,10 @@ Page {
             }
         }
         RowLayout {
-            anchors.topMargin: 10
+            anchors.topMargin: 20
+            anchors.leftMargin: 15
             anchors.top: parent.top
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.left: parent.left
             Button {
 
                 id: control31
@@ -205,8 +241,13 @@ Page {
                     column11.visible = true;
                     compute.visible = true;
                     column12.visible = true;
-                    //timeElapsed.visible = true;
-                    //iterCount.visible = true;
+
+
+                    infos.visible = true;
+                    control2.visible = true;
+                    control3.visible = true;
+                    rectangle2.visible = true;
+
                     prb.visible = true;
                     modList.recalculate();
                     //customPlot.initCustomPlot();
@@ -240,6 +281,12 @@ Page {
                     column11.visible = false;
                     compute.visible = false;
                     column12.visible = false;
+
+                    infos.visible = false;
+                    control2.visible = false;
+                    control3.visible = false;
+                    rectangle2.visible = false;
+
                     //timeElapsed.visible = false;
                    // iterCount.visible = false;
                     modList.removeallItems();
@@ -279,6 +326,13 @@ Page {
                     radius: 2
                 }
             }
+        }
+
+        RowLayout {
+            anchors.topMargin: 10
+            anchors.rightMargin: 15
+            anchors.top: parent.top
+            anchors.right: parent.right
             //petit carrées de couleur
             ColumnLayout {
                 spacing: 1
@@ -286,6 +340,7 @@ Page {
                    // text: modList.locale
                 }
                 Button {
+                    visible: false
                     id: control2
                    // text: qsTr("Up")
                    // Layout.fillWidth: true
@@ -312,6 +367,7 @@ Page {
                     }
                 }
                 Button {
+                    visible: false
                     id: control3
                     //text: qsTr("Down")
                    // Layout.fillWidth: true
@@ -341,6 +397,8 @@ Page {
             }
             //text après les petits carrés
             ColumnLayout {
+                id: infos
+                visible: false
                 spacing: 10
                 Label {
                     id: timeElapsed
