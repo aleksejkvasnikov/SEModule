@@ -1,21 +1,18 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick 2.11
 import QtDataVisualization 1.3
-import SfModel 1.0
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.3
 import HZformatter 1.0
-import Qt3D.Extras 2.0
-import Qt3D.Core 2.0
-import Qt3D.Render 2.0
 import QtWinExtras 1.0
+import QtQuick.Controls 2.4
+import Qt.labs.platform 1.0
+import QtQuick.Layouts 1.11
+import SfModel 1.0
 Page {
     id: pag
     width: 600
     height: 400
     title: qsTr("3D отображение") + rootItem.emptyString
-
-
     Item {
         width: window.width
         height: window.height
@@ -29,7 +26,7 @@ Page {
                     id: text1
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    text: "3D SE Box v1.0"
+                    text: "3D SE Box"
                     font.family: "Arial"
                     font.pointSize: 50
                     color: "yellow"
@@ -65,7 +62,6 @@ Page {
                 duration: 1000 // Then fade away for 1000ms
             }
         }
-
         Surface3D {
             width: window.width
             height: window.height
@@ -124,8 +120,6 @@ Page {
             axisZ.labelAutoRotation: 15
 
         }
-
-
         Rectangle {
             id: rectangle
             x: 15

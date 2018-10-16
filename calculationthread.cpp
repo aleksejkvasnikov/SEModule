@@ -63,7 +63,7 @@ double CalculationThread::GetCalculation(int i, double tempFreq, double pp)
 
 void CalculationThread::CalcThread(double tempValue, int K)
 {
-    int Y;
+    //int Y;
     double tempFreq = 0;
     double dfreq,ival=0;
     int a = 0;

@@ -78,7 +78,7 @@ Page {
                         rootItem.selectLanguage("en_US")
                         rootItem.selectLocale("en_US")
                         rootItem.fontVal = 1
-                       // modList.locale= "en_US"
+                        modList.locale= "en_US"
                       //  modList.updatelocale("en_US")
                        // modList.locale= "en_US"
                     }
@@ -95,7 +95,7 @@ Page {
                         rootItem.selectLanguage("ru_RU")
                         rootItem.selectLocale("ru_RU")
                         rootItem.fontVal = 0
-                     //   modList.updatelocale("ru_RU")
+                        modList.updatelocale("ru_RU")
                      //   modList.locale= "ru_RU"
                     }
                 }
@@ -112,7 +112,7 @@ Page {
                         rootItem.selectLanguage("fr_FR")
                         rootItem.selectLocale("fr_FR")
                         rootItem.fontVal = 0
-                     //   modList.updatelocale("ru_RU")
+                        modList.updatelocale("fr_FR")
                      //   modList.locale= "ru_RU"
                     }
                 }

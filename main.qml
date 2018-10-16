@@ -1,6 +1,7 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick 2.11
+import QtQuick.Controls 2.4
 import Qt.labs.platform 1.0
+import QtQuick.Layouts 1.11
 ApplicationWindow {
     property color firstColor
     property color secondColor
@@ -9,7 +10,7 @@ ApplicationWindow {
     visible: true
     width: 640
     height: 480
-    title: qsTr("3D SE box") + rootItem.emptyString
+    title: qsTr("3D SE box") + " v1.1" + rootItem.emptyString
     /*SystemTrayIcon {
         visible: true
         iconSource: "ru.svg"
@@ -32,9 +33,11 @@ ApplicationWindow {
         onTriggered: {
             window.flags = Qt.Window
             toolBar.visible = true
+            stackView.push("calculating.qml")
         }
         running: true
     }
+
     Popup {
         id: popup
         x: window.width * 0.3
@@ -126,14 +129,76 @@ ApplicationWindow {
             text: stackView.currentItem.title
             anchors.centerIn: parent
         }
+        Button {
+            id: settingButton
+            x: 85
+            y: 0
+            width: 39
+            height: 40
+            text: "⚙"
+            anchors.rightMargin: 0
+            anchors.right: window.right
+            // anchors.rightMargin: -639
+            font.pixelSize: Qt.application.font.pixelSize * 1.6
+            onClicked: stackView.push("settings.qml")
+        }
+        Label {
+            text: stackView.currentItem.title
+            anchors.centerIn: parent
+        }
     }
+   /* MenuBar {
+        id: menuBar
 
-    Menu {
+        Menu {
+            id: fileMenu
+            title: qsTr("Файл") + rootItem.emptyString
+            MenuItem {
+                       text: qsTr("Сохранить") + rootItem.emptyString
+                       onTriggered: autoIndentSelection()
+                   }
+
+                   MenuItem {
+                       text: qsTr("Загрузить") + rootItem.emptyString
+                       onTriggered: rewrapParagraph()
+                   }
+        }
+       Menu {
+            id: helpMenu
+            title: qsTr("Помощь") + rootItem.emptyString
+            MenuItem {
+                text: qsTr("О программе") + rootItem.emptyString
+                onTriggered: popup.open()
+            }
+            // ...
+        }
+    }*/
+   /* Menu {
         id: contextMenu
         MenuItem { text: qsTr("Новый файл") + rootItem.emptyString }
         MenuItem { text: qsTr("Сохранить") + rootItem.emptyString }
         MenuItem { text: qsTr("Загрузить") + rootItem.emptyString }
+    } */
+    FileDialog {
+        id: folderDialog
+        //currentFolder: viewer.folder
+        folder: StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0]
+        title: qsTr("Please choose a file") + rootItem.emptyString
+        onAccepted: {
+            console.log("You chose: " + folderDialog.file)
+            var path = folderDialog.file.toString();
+            // remove prefixed "file:///"
+            path= path.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"");
+            // unescape html codes like '%23' for '#'
+            modList.save(decodeURIComponent(path))
+            folderDialog.close()
+        }
+        onRejected: {
+            console.log("Canceled")
+            folderDialog.close()
+        }
     }
+
     Drawer {
         id: drawer
         edge: Qt.TopEdge
@@ -143,13 +208,15 @@ ApplicationWindow {
         Row {
             anchors.fill: parent
 
-            ItemDelegate {
+           ItemDelegate {
                 id: file
                 width: window.width/5
-                text: qsTr("Файл")
+                text: qsTr("Файл") + rootItem.emptyString
                 height: parent.height
                 onClicked: {
-                    contextMenu.popup(file.x,file.y+6)
+                    folderDialog.open()
+                   // contextMenu.open()
+                    //modList.save()
                     // stackView.push("Page1Form.ui.qml")
                     // drawer.close()
                 }

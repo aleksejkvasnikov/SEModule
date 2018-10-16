@@ -146,6 +146,24 @@ void surfaceModelList::interrupted()
         calcThread->requestInterruption();
 }
 
+void surfaceModelList::save(QString path)
+{
+   // qDebug() << path;
+    //QString filename = "doc.txt";
+    QFile file(path);
+    QString string;
+    if (!mItems.empty())
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream stream(&file);
+        for (int i=0; i<mItems.size(); i++)
+        {
+            string = QString::number(mItems.at(i).x) + "\t" + QString::number(mItems.at(i).y) + "\t" + QString::number(mItems.at(i).z);
+            if(m_locale == "ru_RU") string.replace(".",",");
+            stream << string << endl;
+          //  qDebug() << i;
+        }
+    }
+}
 void surfaceModelList::saveOne()
 {
     surfaceModelItem tmp;
@@ -258,7 +276,7 @@ void surfaceModelList::callTest1()
 }
 void surfaceModelList::removeItems()
 {
-        for (int i=0; i<mItems.size();)
+        for (int i=0; i<mItems.size(); i++)
         {
             emit preItemRemoved(i);
             mItems.removeAt(i);

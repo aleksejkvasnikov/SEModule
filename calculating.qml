@@ -98,7 +98,7 @@ Page {
     Button{
          x:30
          y:189
-         text: qsTr("Выбрать файл")
+         text: qsTr("Выбрать файл") + rootItem.emptyString
          onClicked: fileDialog.open();//
      }
     ComboBox {
@@ -114,7 +114,7 @@ Page {
     }
     FileDialog {
         id: fileDialog
-        title: "Please choose a file"
+        title: qsTr("Please choose a file") + rootItem.emptyString
         folder: shortcuts.home
         onAccepted: {
             console.log("You chose: " + fileDialog.file)
@@ -153,7 +153,7 @@ Page {
         id: text3
         x: 132
         y: 50
-        text: qsTr("F max")
+        text: qsTr("F max") + rootItem.emptyString
         font: window.font
     }
 
@@ -161,7 +161,7 @@ Page {
         id: text4
         x: 30
         y: 50
-        text: qsTr("F min")
+        text: qsTr("F min") + rootItem.emptyString
         font: window.font
     }
 
@@ -289,7 +289,7 @@ Page {
         }
         CheckBox {
             id: rungeVal
-            text: qsTr("Правило Рунге")
+            text: qsTr("Правило Рунге") + rootItem.emptyString
             checked: modList.RungeVal
             onClicked:
             {

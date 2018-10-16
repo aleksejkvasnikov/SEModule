@@ -32,7 +32,7 @@ QString HZformatter::stringForValue(qreal value, const QString &format) const
     if(value>=1000000000){
         result = QString::number(value/1000000000) + QObject::tr("×10⁹");
     }
-    if(m_selectedLocale == "ru_RU") result.replace(".",",");
+    if(m_selectedLocale != "en_US") result.replace(".",",");
     return result;
 }
 QString HZformatter::selectedLocale() const
