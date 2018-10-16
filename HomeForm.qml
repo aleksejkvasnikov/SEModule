@@ -10,8 +10,8 @@ import QtQuick.Layouts 1.11
 import SfModel 1.0
 Page {
     id: pag
-    width: 600
-    height: 400
+    width: 700
+    height: 450
     title: qsTr("3D отображение") + rootItem.emptyString
     Item {
         width: window.width
@@ -120,12 +120,39 @@ Page {
             axisZ.labelAutoRotation: 15
 
         }
+
+
+        //Rectangle bouton gauche
+
         Rectangle {
             id: rectangle
-            x: 15
+            anchors.topMargin: 10
+            anchors.leftMargin: 10
+            anchors.top: parent.top
+            anchors.left: parent.left
+            //x: 200
             y: 14
-            width: 12
-            height: 12
+
+            width: 325
+            height: 68
+            color: "#cfcfcf"
+            radius: 0
+            border.width: 1
+        }
+
+        //Rectangle bouton droit
+        Rectangle {
+            visible: false
+            id: rectangle2
+            anchors.topMargin: 10
+            anchors.rightMargin: 10
+            anchors.top: parent.top
+            anchors.right: parent.right
+            //x: 200
+            y: 14
+
+            width: 325
+            height: 68
             color: "#cfcfcf"
             radius: 0
             border.width: 1
@@ -156,9 +183,10 @@ Page {
             }
         }
         RowLayout {
-            anchors.topMargin: 10
+            anchors.topMargin: 23
+            anchors.leftMargin: 15
             anchors.top: parent.top
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.left: parent.left
             Button {
 
                 id: control31
@@ -184,7 +212,7 @@ Page {
                             }
 
                 background: Rectangle {
-                    implicitWidth: 60
+                    implicitWidth: 75
                     implicitHeight: 40
                     opacity: enabled ? 1 : 0.3
                     border.color: control31.down ? "#17a81a" : "#000"
@@ -211,8 +239,13 @@ Page {
                     column11.visible = true;
                     compute.visible = true;
                     column12.visible = true;
-                    //timeElapsed.visible = true;
-                    //iterCount.visible = true;
+
+
+                    infos.visible = true;
+                    control2.visible = true;
+                    control3.visible = true;
+                    rectangle2.visible = true;
+
                     prb.visible = true;
                     modList.recalculate();
                     //customPlot.initCustomPlot();
@@ -221,7 +254,7 @@ Page {
                 }
 
                 background: Rectangle {
-                    implicitWidth: 100
+                    implicitWidth: 75
                     implicitHeight: 40
                     opacity: enabled ? 1 : 0.3
                     border.color: control.down ? "#17a81a" : "#000"
@@ -246,12 +279,18 @@ Page {
                     column11.visible = false;
                     compute.visible = false;
                     column12.visible = false;
+
+                    infos.visible = false;
+                    control2.visible = false;
+                    control3.visible = false;
+                    rectangle2.visible = false;
+
                     //timeElapsed.visible = false;
                    // iterCount.visible = false;
                     modList.removeallItems();
                 }
                 background: Rectangle {
-                    implicitWidth: 100
+                    implicitWidth: 75
                     implicitHeight: 40
                     opacity: enabled ? 1 : 0.3
                     border.color: control1.down ? "#17a81a" : "#000"
@@ -277,7 +316,7 @@ Page {
                      modList.interrupted();
                 }
                  background: Rectangle {
-                    implicitWidth: 60
+                    implicitWidth: 75
                     implicitHeight: 40
                     opacity: enabled ? 1 : 0.3
                     border.color: control42.down ? "#17a81a" : "#000"
@@ -285,6 +324,13 @@ Page {
                     radius: 2
                 }
             }
+        }
+
+        RowLayout {
+            anchors.topMargin: 10
+            anchors.rightMargin: 15
+            anchors.top: parent.top
+            anchors.right: parent.right
             //petit carrées de couleur
             ColumnLayout {
                 spacing: 1
@@ -292,6 +338,7 @@ Page {
                    // text: modList.locale
                 }
                 Button {
+                    visible: false
                     id: control2
                    // text: qsTr("Up")
                    // Layout.fillWidth: true
@@ -318,6 +365,7 @@ Page {
                     }
                 }
                 Button {
+                    visible: false
                     id: control3
                     //text: qsTr("Down")
                    // Layout.fillWidth: true
@@ -347,6 +395,8 @@ Page {
             }
             //text après les petits carrés
             ColumnLayout {
+                id: infos
+                visible: false
                 spacing: 10
                 Label {
                     id: timeElapsed

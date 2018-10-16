@@ -8,8 +8,8 @@ ApplicationWindow {
     id: window
     flags: Qt.FramelessWindowHint|Qt.Window
     visible: true
-    width: 640
-    height: 480
+    width: 740
+    height: 530
     title: qsTr("3D SE box") + " v1.1" + rootItem.emptyString
     /*SystemTrayIcon {
         visible: true
@@ -212,14 +212,27 @@ ApplicationWindow {
                 id: file
                 width: window.width/5
                 text: qsTr("Файл") + rootItem.emptyString
+                //text: qsTr("Файл")
                 height: parent.height
+                /*
                 onClicked: {
                     folderDialog.open()
                    // contextMenu.open()
                     //modList.save()
                     // stackView.push("Page1Form.ui.qml")
                     // drawer.close()
+                }*/
+
+                ComboBox {
+                    //name: qsTr("Файл")
+                    width: window.width/5 - 5
+                    model: [ "Banana", "Apple" ]
+                    height: parent.height - 5
+                    x: 3
+                    y: 3
+                    onCurrentIndexChanged: console.debug(cbItems.get(currentIndex).text)
                 }
+                /*
                 contentItem: Text {
                     rightPadding: file.spacing
                     text: file.text
@@ -228,7 +241,7 @@ ApplicationWindow {
                     elide: Text.ElideRight
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
-                }
+                }*/
                 background: Rectangle {
                     implicitWidth: 100
                     implicitHeight: 40

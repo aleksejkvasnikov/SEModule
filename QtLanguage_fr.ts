@@ -363,7 +363,7 @@
     <message>
         <location filename="settings.qml" line="46"/>
         <source>Шрифт</source>
-        <translation type="unfinished">Langue</translation>
+        <translation type="unfinished">Font</translation>
     </message>
 </context>
 </TS>
