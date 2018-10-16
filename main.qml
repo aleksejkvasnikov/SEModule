@@ -146,13 +146,25 @@ ApplicationWindow {
             ItemDelegate {
                 id: file
                 width: window.width/5
-                text: qsTr("Файл")
+                //text: qsTr("Файл")
                 height: parent.height
+                /*
                 onClicked: {
                     contextMenu.popup(file.x,file.y+6)
                     // stackView.push("Page1Form.ui.qml")
                     // drawer.close()
+                }*/
+
+                ComboBox {
+                    //name: qsTr("Файл")
+                    width: window.width/5 - 5
+                    model: [ "Banana", "Apple" ]
+                    height: parent.height - 5
+                    x: 3
+                    y: 3
+                    onCurrentIndexChanged: console.debug(cbItems.get(currentIndex).text)
                 }
+                /*
                 contentItem: Text {
                     rightPadding: file.spacing
                     text: file.text
@@ -161,7 +173,7 @@ ApplicationWindow {
                     elide: Text.ElideRight
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
-                }
+                }*/
                 background: Rectangle {
                     implicitWidth: 100
                     implicitHeight: 40
