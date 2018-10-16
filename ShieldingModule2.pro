@@ -33,7 +33,8 @@ QML_IMPORT_PATH =
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
-TRANSLATIONS += QtLanguage_en.ts
+TRANSLATIONS += QtLanguage_en.ts \
+                QtLanguage_fr.ts
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
@@ -57,4 +58,5 @@ SOURCES = customplotitem.cpp \
 
 DISTFILES += \
     textureandlight.js \
-    gl-matrix.js
+    gl-matrix.js \
+    ../../../Downloads/white.png

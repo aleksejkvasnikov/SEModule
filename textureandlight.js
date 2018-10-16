@@ -77,7 +77,7 @@ function initializeGL(canvas) {
     qtLogoImage.imageLoadingFailed.connect(function() {
         console.log("Texture load FAILED, "+qtLogoImage.errorString);
     });
-    qtLogoImage.src = "C:\Users\RAGUIN\Downloads\white";
+    qtLogoImage.src = "C:/Users/RAGUIN/Downloads/white.png";
 }
 
 function resizeGL(canvas)

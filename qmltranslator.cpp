@@ -1,4 +1,5 @@
 #include "qmltranslator.h"
+#include "QDebug"
 #include <QApplication>
 
 void QmlTranslator::selectLanguage(QString language) {
@@ -9,6 +10,12 @@ void QmlTranslator::selectLanguage(QString language) {
 
   if(language == QString("ru_RU")) {
    qApp->removeTranslator(translator1);
+  }
+
+  if (language == QString("fr_FR"))
+  {
+      translator1->load("QtLanguage_fr", ".");
+      qApp->installTranslator(translator1);
   }
 
   emit languageChanged();

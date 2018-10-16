@@ -14,6 +14,8 @@ Page {
     width: 600
     height: 400
     title: qsTr("3D отображение") + rootItem.emptyString
+
+
     Item {
         width: window.width
         height: window.height
@@ -63,6 +65,7 @@ Page {
                 duration: 1000 // Then fade away for 1000ms
             }
         }
+
         Surface3D {
             width: window.width
             height: window.height
@@ -120,6 +123,18 @@ Page {
             axisY.labelAutoRotation: 90
             axisZ.labelAutoRotation: 15
 
+        }
+
+
+        Rectangle {
+            id: rectangle
+            x: 15
+            y: 14
+            width: 12
+            height: 12
+            color: "#cfcfcf"
+            radius: 0
+            border.width: 1
         }
 
         ColorDialog {
@@ -183,6 +198,7 @@ Page {
                     radius: 2
                 }
             }
+            //bouton de calcul
             Button {
 
                 id: control
@@ -249,6 +265,7 @@ Page {
                     radius: 2
                 }
             }
+            //bouton arret de calcul
             Button{
                 id: control42
                 text: qsTr("Стоп")  + rootItem.emptyString
@@ -274,6 +291,7 @@ Page {
                     radius: 2
                 }
             }
+            //petit carrées de couleur
             ColumnLayout {
                 spacing: 1
                 Label {
@@ -333,6 +351,7 @@ Page {
                 }
 
             }
+            //text après les petits carrés
             ColumnLayout {
                 spacing: 10
                 Label {
@@ -346,6 +365,8 @@ Page {
                     text: qsTr("Кол-во итераций: ")  + rootItem.emptyString + modList.iter
                 }
             }
+
+            //bouton de sauvegarde
             ColumnLayout
             {
                 id: column11
@@ -402,6 +423,7 @@ Page {
                     }
                 }
             }
+            //bouton pour afficher les sauvegardes
              ColumnLayout
             {
                 id: column12
@@ -458,6 +480,7 @@ Page {
                     }
                 }
             }
+             //bouton pour soustraire les 2
              Button{
                 id: compute
                 visible: false
@@ -502,4 +525,5 @@ Page {
             progress.value: modList.progress
         }
     }
+
 }
