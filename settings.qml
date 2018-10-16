@@ -102,7 +102,7 @@ Page {
             }
 
             Image {
-                source: "ru.svg"
+                source: "fr.svg"
                 Layout.preferredWidth: window.width/17
                 Layout.preferredHeight: window.width/17
                 MouseArea {
