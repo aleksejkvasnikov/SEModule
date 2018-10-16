@@ -503,9 +503,6 @@ Page {
                 width: window.width
                // indeterminate: true
                 value: modList.progress/100
-                onValueChanged: {
-                    console.log(value)
-                }
             }
         }
         TaskbarButton {

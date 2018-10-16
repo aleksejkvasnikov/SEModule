@@ -14,5 +14,6 @@
         <file>document.PNG</file>
         <file>gl-matrix.js</file>
         <file>textureandlight.js</file>
+        <file>fr.svg</file>
     </qresource>
 </RCC>
