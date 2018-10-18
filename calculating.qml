@@ -3,14 +3,20 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 //import QtQuick.Dialogs 1.3
 import Qt.labs.platform 1.0
+import QtQuick 2.0
+import QtCanvas3D 1.0
+
 Page {
     id: page
-    width: 600
-    height: 400
+    //width: 600
+    //height: 400
+    width: window.width
+    height: window.height
     spacing: -6
     transformOrigin: Item.TopLeft
 
     title: qsTr("Вычисление") + rootItem.emptyString
+
     Rectangle {
         id: rectangle
         x: 15
@@ -145,6 +151,8 @@ Page {
         id: text2
         x: 374
         y: 25
+        anchors.right: parent.right
+        anchors.rightMargin: 150
         text: qsTr("Точка наблюдения") + rootItem.emptyString
         font: window.font
     }
@@ -196,6 +204,8 @@ Page {
         y: 70
         width: 200
         height: 30
+        anchors.right: parent.right
+        anchors.rightMargin: 50
         TextField {
             id: pVal
             Layout.fillWidth: true
@@ -226,6 +236,8 @@ Page {
         y: 139
         width: 200
         height: 30
+        anchors.right: parent.right
+        anchors.rightMargin: 50
 
         ComboBox {
             Layout.fillWidth: true
@@ -242,16 +254,20 @@ Page {
 
     Text {
         id: text8
-        x: 378
+        //x: 378
         y: 50
+        anchors.right: parent.right
+        anchors.rightMargin: 240
         text: qsTr("P")
         font: window.font
     }
 
     Text {
         id: text9
-        x: 483
+        //x: 483
         y: 50
+        anchors.right: parent.right
+        anchors.rightMargin: 100
         text: qsTr("Проц. шаг") + rootItem.emptyString
         font: window.font
     }
@@ -260,6 +276,8 @@ Page {
         id: text10
         x: 377
         y: 116
+        anchors.right: parent.right
+        anchors.rightMargin: 205
         text: qsTr("Функция") + rootItem.emptyString
         font: window.font
     }
@@ -267,6 +285,8 @@ Page {
         id: text11
         x: 374
         y: 186
+        anchors.right: parent.right
+        anchors.rightMargin: 120
         text: qsTr("Отрезки интегрирования") + rootItem.emptyString
         font: window.font
     }
@@ -276,6 +296,8 @@ Page {
         y: 210
         width: 200
         height: 30
+        anchors.right: parent.right
+        anchors.rightMargin: 50
         TextField {
             Layout.fillWidth: true
             id: integralVal
