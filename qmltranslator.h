@@ -25,6 +25,7 @@ class QmlTranslator : public QObject
 
  Q_INVOKABLE void selectLanguage(QString language);
  Q_INVOKABLE void selectLocale(QString locale);
+  Q_INVOKABLE void updateStrings();
  signals:
   void languageChanged();
   void localeChanged();

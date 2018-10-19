@@ -26,7 +26,14 @@ int main(int argc, char *argv[])
     // Создаём объект для работы с переводами ...
     QmlTranslator qmlTranslator;
 
-
+    MEMORYSTATUSEX memory_status;
+    ZeroMemory(&memory_status, sizeof(MEMORYSTATUSEX));
+    memory_status.dwLength = sizeof(MEMORYSTATUSEX);
+    if (GlobalMemoryStatusEx(&memory_status)) {
+      qDebug() << QString("RAM: %1 MB").arg(memory_status.ullTotalPhys / (1024 * 1024));
+    } else {
+      qDebug() << "Unknown RAM" ;
+    }
      QApplication app(argc, argv);
     qmlRegisterType<HZformatter>("HZformatter", 1, 0, "HZformatter");
     qmlRegisterType<CustomPlotItem>("CustomPlot", 1, 0, "CustomPlotItem");

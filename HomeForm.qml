@@ -328,9 +328,10 @@ Page {
 
         RowLayout {
             anchors.topMargin: 10
-            anchors.rightMargin: 15
+            anchors.rightMargin: 20
             anchors.top: parent.top
             anchors.right: parent.right
+            spacing: 7
             //petit carrées de couleur
             ColumnLayout {
                 spacing: 1

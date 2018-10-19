@@ -91,14 +91,15 @@ double robCalculation::doubleintegral(int *iter,double a, double b, double c, do
             }
         }
 
-    int elapse = time.elapsed();
+    //int elapse = time.elapsed();
     //qDebug() << "elapsed time double integral " << elapse << "\n";
     return I;
 }
 
 // 2018 Ivanov
-double robCalculation::ren(double freq, double a, double b,double p, double d, double t, double w, double L, double nap, double map, double m,double n){
+double robCalculation::ren(int *iter,double freq, double a, double b,double p, double d, double t, double w, double L, double nap, double map, double m,double n){
     const double c=2.99792458*pow(10,8);
+    ++(*iter);
     auto lambda=c/freq;
     auto z0=120*M_PI;                // free-space characteristic impedance
     dcomp v0(1.0,0.0);     // напряжение эквивал. источника
@@ -148,7 +149,7 @@ double robCalculation::ren(double freq, double a, double b,double p, double d, d
                // dcomp testing = sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),dcomp(2,0))-pow((lambda*nn/(dcomp(2,0)*b)),dcomp(2,0)));
                 /*dcomp*/ zg=z0/sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),dcomp(2,0))-pow((lambda*nn/(dcomp(2,0)*b)),dcomp(2,0)));
                 /*dcomp*/ kg=k0*sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),dcomp(2,0))-pow((lambda*nn/(dcomp(2,0)*b)),dcomp(2,0)));
-
+                 ++(*iter);
                 //***récurrence 1
 
                 // Преобразование в точку P
@@ -164,7 +165,7 @@ double robCalculation::ren(double freq, double a, double b,double p, double d, d
             }
         }
 
-    double elapse = time.elapsed();
+    //double elapse = time.elapsed();
     //qDebug() << "elapsed time ren " << elapse << "\n";
     return (-20*log10(abs(dcomp(2.0,0.0)*vpp/v0)));
 }
@@ -177,9 +178,10 @@ double robCalculation::fact(double N)
     else // Во всех остальных случаях
         return N * fact(N - 1); // делаем рекурсию.
 }
-double robCalculation::Dehkhoda_2007(double freq, double a, double b,double p, double d, double w, double nap, double map, double m,double n, double dh, double dv)
+double robCalculation::Dehkhoda_2007(int *iter, double freq, double a, double b,double p, double d, double w, double nap, double map, double m,double n, double dh, double dv)
 {
     auto dd=w;
+    ++(*iter);
     auto larr=dh+(map-1)*dh;
     auto warr=dv+(nap-1)*dv;
     dcomp j(0.0,1.0);
@@ -196,7 +198,7 @@ double robCalculation::Dehkhoda_2007(double freq, double a, double b,double p, d
             // Функция Бесселя
             for(int gg=0; gg<=s; gg++){
                 jx=(pow((-1),gg))*(pow(xx,(2*gg+1)))/(pow(2,(2*gg+1))*fact(gg)*fact(gg+1));
-                j1=j1+jx;
+                j1=j1+jx;               
             }
 
             dcomp temp1=-j*dcomp(3,0)*dh*dv*lambda/(M_PI*pow(dd,3));
@@ -212,6 +214,7 @@ double robCalculation::Dehkhoda_2007(double freq, double a, double b,double p, d
             {
                 for(int nn=0; nn<=n; nn=nn+2)
                 {
+                    ++(*iter);
                     if ((mm==0)&&(nn==0)){
                         dcomp epsn(1,0); dcomp epsm(1,0);
                         temp4=(epsm*pow(nn,2)/pow(dv,2)+epsn*pow(mm,2)/pow(dh,2))*jx;}
@@ -261,7 +264,7 @@ double robCalculation::Dehkhoda_2007(double freq, double a, double b,double p, d
             // Характеристический импеданс и постоянная распространения в корпусе
             /*dcomp*/ zg=z0/sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),2)-pow((lambda*nn/(dcomp(2,0)*b)),2));
             /*dcomp*/ kg=k0*sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),2)-pow((lambda*nn/(dcomp(2,0)*b)),2));
-
+            ++(*iter);
             //***début récurrence 1
 
             // Преобразование в точку P
@@ -284,13 +287,13 @@ double robCalculation::Dehkhoda_2007(double freq, double a, double b,double p, d
     auto SEDeh=-20*log10(abs(dcomp(2.0,0.0)*vpp/v0));
     //qDebug() << SEDeh;
 
-    int elapse = time.elapsed();
+    //int elapse = time.elapsed();
     //qDebug() << "elapsed time Dekhoda_2007 " << elapse << "\n";
 
     return SEDeh;
 }
 
-double robCalculation::Nie_2017(double freq, double a, double b,double p, double d, double t, double w, double nap, double map, double m,double n, double dh, double dv)
+double robCalculation::Nie_2017(int *iter, double freq, double a, double b,double p, double d, double t, double w, double nap, double map, double m,double n, double dh, double dv)
 {
     auto larr=dh+(map-1)*dh;
     auto warr=dv+(nap-1)*dv;
@@ -307,10 +310,10 @@ double robCalculation::Nie_2017(double freq, double a, double b,double p, double
     auto lambda=c/freq;
     auto k0=2.0*M_PI/lambda;
     dcomp zah;
-
+    ++(*iter);
 
     // Сопротивление стенки с апертурой
-    if (polariz==1) {
+    if (polariz==1) { // вынести !!!
         auto temp11=(3*dh*dv*lambda)/(16*M_PI*cos(tetta)*pow((dd/2),3));
         //dcomp zah= pow(10,(-0.8*t/(dd/2)))*(j*z0/2)*pow((1+pow(temp11,2)),-0.5);
         zah= pow(10.0,((-0.8*t)/(dd/2.0)))*(j*z0/2.0)*pow((1.0+pow(temp11,2.0)),-0.5);
@@ -334,7 +337,7 @@ double robCalculation::Nie_2017(double freq, double a, double b,double p, double
             // Характеристический импеданс и постоянная распространения в корпусе
             dcomp zg=z0/sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),2)-pow((lambda*nn/(dcomp(2,0)*b)),2));
             dcomp kg=k0*sqrt(dcomp(1,0)-pow((lambda*mm/(dcomp(2,0)*a)),2)-pow((lambda*nn/(dcomp(2,0)*b)),2));
-
+            ++(*iter);
             //***début récurrence 1
 
             // Преобразование в точку P
@@ -444,7 +447,7 @@ double robCalculation::calcsomeYongshi(int *iter,double freq, double t, double w
     return SE4;
 }
 
-double robCalculation::CalcTemp(bool RungeVal, double xmax, double xmin, double temp6, double m, double a, double L, double intval)
+double robCalculation::CalcTemp(int *iter, bool RungeVal, double xmax, double xmin, double temp6, double m, double a, double L, double intval)
 {
     if(RungeVal)
     {
@@ -453,18 +456,22 @@ double robCalculation::CalcTemp(bool RungeVal, double xmax, double xmin, double 
         temp6=integral(xmin,xmax,integval,m,a,L,2);
         do{
             temp66=temp6;
+            ++(*iter);
             integval=integval+2;
             temp6=integral(xmin,xmax,integval,m,a,L,2);
         } while(abs(temp6-temp66)>0.001);
     }
-    else
+    else{
         temp6=integral(xmin,xmax,intval,m,a,L,2);
+        ++(*iter);
+    }
     return temp6;
 }
 
-double robCalculation::calcsomePoad(double freq, double t, double w, double b, double L, double a, double d, double p, double xbol, double n, double m, double sigma, double intval, bool RungeVal)
+double robCalculation::calcsomePoad(int *iter,double freq, double t, double w, double b, double L, double a, double d, double p, double xbol, double n, double m, double sigma, double intval, bool RungeVal)
 {
     auto c0 = 299792458;
+    ++(*iter);
     auto mue_r =  1.000023;
     auto lambda = c0/freq;
     dcomp v0(1.0,0.0);
@@ -485,7 +492,7 @@ double robCalculation::calcsomePoad(double freq, double t, double w, double b, d
     auto xmax=temp4+l;
     double temp6 = 0;
 
-    temp6 = CalcTemp(RungeVal, xmax, xmin, temp6, m, a, L, intval);
+    temp6 = CalcTemp(iter, RungeVal, xmax, xmin, temp6, m, a, L, intval);
 
 
     //I made the line down as a function -> CalcTemp
@@ -527,7 +534,7 @@ double robCalculation::calcsomePoad(double freq, double t, double w, double b, d
     return SE3;
 }
 
-double robCalculation::calcsomePoadPlus(double freq, double t, double w, double b, double L, double a, double d, double p, double xbol, double ybol, double n, double m, double sigma, double intval, bool RungeVal)
+double robCalculation::calcsomePoadPlus(int *iter,double freq, double t, double w, double b, double L, double a, double d, double p, double xbol, double ybol, double n, double m, double sigma, double intval, bool RungeVal)
 {
     auto c0 = 299792458;
     auto mue_r =  1.000023;
@@ -552,8 +559,8 @@ double robCalculation::calcsomePoadPlus(double freq, double t, double w, double 
     auto ymin=temp6;
     auto ymax=temp6+w;
     double temp8 = 0,temp9 = 0;
-
-    temp8 = CalcTemp(RungeVal, xmax, xmin, temp8, m, a, L, intval);
+    ++(*iter);
+    temp8 = CalcTemp(iter, RungeVal, xmax, xmin, temp8, m, a, L, intval);
 
     //***début récurrence 2
     /*
@@ -572,7 +579,7 @@ double robCalculation::calcsomePoadPlus(double freq, double t, double w, double 
 
     auto Cm_x=temp8/xbol;
 
-    temp9 = CalcTemp(RungeVal, ymax, ymin, temp9, m, a, L, intval);
+    temp9 = CalcTemp(iter, RungeVal, ymax, ymin, temp9, m, a, L, intval);
 
     //***début récurrence 2
     /*
@@ -614,8 +621,9 @@ double robCalculation::calcsomePoadPlus(double freq, double t, double w, double 
     return SE2;
 }
 
-double robCalculation::calcsomePoadMultiple(double freq, double t, double w, double b, double L, double a, double d, double p, double xbol, double ybol, double n, double m, double sigma, double intval, bool RungeVal)
+double robCalculation::calcsomePoadMultiple(int *iter,double freq, double t, double w, double b, double L, double a, double d, double p, double xbol, double ybol, double n, double m, double sigma, double intval, bool RungeVal)
 {
+    ++(*iter);
     auto c0 = 299792458;
     auto mue_r =  1.000023;
     auto lambda = c0/freq;
@@ -640,7 +648,7 @@ double robCalculation::calcsomePoadMultiple(double freq, double t, double w, dou
     auto ymax=temp6+w;
     double temp8 = 0,temp9 = 0;
 
-    temp8 = CalcTemp(RungeVal, xmax, xmin, temp8, m, a, L, intval);
+    temp8 = CalcTemp(iter,RungeVal, xmax, xmin, temp8, m, a, L, intval);
 
     //*** début récurrence2
     /*
@@ -659,7 +667,7 @@ double robCalculation::calcsomePoadMultiple(double freq, double t, double w, dou
 
     auto Cm_x=temp8/xbol;
 
-    temp9 = CalcTemp(RungeVal, ymax, ymin, temp9, m, a, L, intval);
+    temp9 = CalcTemp(iter, RungeVal, ymax, ymin, temp9, m, a, L, intval);
 
     //*** début récurrence 2
     /*
@@ -698,8 +706,9 @@ double robCalculation::calcsomePoadMultiple(double freq, double t, double w, dou
     return SE1;
 }
 
-double robCalculation::calcsomeAKC(double freq,double t,double w,double b,double L,double a, double d,double p,double xbol,double ybol,double sigma)
+double robCalculation::calcsomeAKC(int *iter,double freq,double t,double w,double b,double L,double a, double d,double p,double xbol,double ybol,double sigma)
 {
+    ++(*iter);
     auto c0 = 299792458;
     auto mue_r =  1.000023;
     dcomp j(0.0,1.0);
@@ -785,7 +794,7 @@ double robCalculation::calcMethod(double a, double d, double b, double p, double
     //qDebug () << 20.0*log10(abs(x));
     return 20.0*log10(abs(x));
 }
-double robCalculation::calcsomeAKCintegral(double freq, double t, double w, double b, double L, double a, double d, double p, double xbol, double ybol, double n, double m, double sigma, double intval, bool RungeVal)
+double robCalculation::calcsomeAKCintegral(int *iter,double freq, double t, double w, double b, double L, double a, double d, double p, double xbol, double ybol, double n, double m, double sigma, double intval, bool RungeVal)
 {
     auto c0 = 299792458; // константы подключить в общую структуру проекта
     auto mue_r =  1.000023; //------******--------
@@ -796,7 +805,7 @@ double robCalculation::calcsomeAKCintegral(double freq, double t, double w, doub
     dcomp v0(1.0,0.0);
     auto z0 = 120*M_PI;
     dcomp Z0(z0,0.0);
-
+    ++(*iter);
     //Эффективная штрина
     auto we = w - ((5*t*(1+log(4*M_PI*w/t))) / (4 *M_PI));
 
@@ -823,7 +832,7 @@ double robCalculation::calcsomeAKCintegral(double freq, double t, double w, doub
     auto ymax=temp6+w;   // пределы интегрирования по игреку
     double temp8 = 0,temp9 = 0;
 
-    temp8 = CalcTemp(RungeVal, xmax, xmin, temp8, m, a, L, intval);
+    temp8 = CalcTemp(iter, RungeVal, xmax, xmin, temp8, m, a, L, intval);
 
     //***début récurrence 2
     /*
@@ -842,7 +851,7 @@ double robCalculation::calcsomeAKCintegral(double freq, double t, double w, doub
 
     auto Cm_x=temp8/xbol;
 
-    temp9 = CalcTemp(RungeVal, ymax, ymin, temp9, m, a, L, intval);
+    temp9 = CalcTemp(iter, RungeVal, ymax, ymin, temp9, m, a, L, intval);
 
     //***début récurrence 2
     /*

@@ -5,15 +5,14 @@ import QtQuick.Dialogs 1.3
 import CustomPlot 1.0
 Page {
     id: results
-    width: 600
-    height: 400
+    width: window.width
+    height: window.height*0.85
     spacing: -6
-    transformOrigin: Item.TopLeft
+    transformOrigin: Item.Center
 
     title: qsTr("Результаты") + rootItem.emptyString
     Item {
-        width: window.width*0.85
-        height: window.height*0.85
+        anchors.fill: parent
             CustomPlotItem {
                 id: customPlot
                 anchors.fill: parent

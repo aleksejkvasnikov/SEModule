@@ -21,6 +21,9 @@ void QmlTranslator::selectLanguage(QString language) {
   emit languageChanged();
  }
 
+void QmlTranslator::updateStrings() {
+  emit languageChanged();
+ }
 
 void QmlTranslator::selectLocale(QString locale) {
   m_locale = locale;

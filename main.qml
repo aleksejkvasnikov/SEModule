@@ -1,6 +1,6 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
-import Qt.labs.platform 1.0
+import Qt.labs.platform 1.0 as Lab
 import QtQuick.Layouts 1.11
 ApplicationWindow {
     property color firstColor
@@ -179,7 +179,7 @@ ApplicationWindow {
         MenuItem { text: qsTr("Сохранить") + rootItem.emptyString }
         MenuItem { text: qsTr("Загрузить") + rootItem.emptyString }
     } */
-    FileDialog {
+    Lab.FileDialog {
         id: folderDialog
         //currentFolder: viewer.folder
         folder: StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0]
@@ -214,25 +214,31 @@ ApplicationWindow {
                 text: qsTr("Файл") + rootItem.emptyString
                 //text: qsTr("Файл")
                 height: parent.height
-                /*
                 onClicked: {
-                    folderDialog.open()
-                   // contextMenu.open()
-                    //modList.save()
-                    // stackView.push("Page1Form.ui.qml")
-                    // drawer.close()
-                }*/
-
-                ComboBox {
-                    //name: qsTr("Файл")
-                    width: window.width/5 - 5
-                    model: [ "Banana", "Apple" ]
-                    height: parent.height - 5
-                    x: 3
-                    y: 3
-                    onCurrentIndexChanged: console.debug(cbItems.get(currentIndex).text)
+                    menu.open()
                 }
-                /*
+                Menu {
+                    id: menu
+                    y: file.height
+                    width: window.width/5
+                    MenuItem {
+                        text: qsTr("Новый") + rootItem.emptyString
+                        onClicked: {
+                             modList.removeallItems();
+                        }
+                    }
+                    MenuItem {
+                        text: qsTr("Открыть") + rootItem.emptyString
+
+                    }
+                    MenuItem {
+                        text: qsTr("Сохранить") + rootItem.emptyString
+                        onClicked: {
+                            folderDialog.open()
+                        }
+                    }
+                }
+
                 contentItem: Text {
                     rightPadding: file.spacing
                     text: file.text
@@ -241,7 +247,7 @@ ApplicationWindow {
                     elide: Text.ElideRight
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
-                }*/
+                }
                 background: Rectangle {
                     implicitWidth: 100
                     implicitHeight: 40
@@ -399,6 +405,67 @@ ApplicationWindow {
         }
     }
 
+    footer:
+        Column {
+        Text {
+            text: {
+                if (modList.funcVal===0) qsTr("Ожидаемое время выполнения: ") + ((100/modList.pstepVal) * modList.nPointsVal) / 1000000 + " с" +  rootItem.emptyString;
+                else if (modList.funcVal===1) qsTr("Ожидаемое время выполнения: ") + (1000*(100/modList.pstepVal) * modList.nPointsVal) / 2000000 + " с" +  rootItem.emptyString;
+                else if (modList.funcVal===2)  qsTr("Ожидаемое время выполнения: ") + (2*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 + " с" +  rootItem.emptyString;
+                else if (modList.funcVal===3) qsTr("Ожидаемое время выполнения: ") + (3*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 + " с" + rootItem.emptyString;
+                else if (modList.funcVal===4) qsTr("Ожидаемое время выполнения: ") + (3*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 + " с" +  rootItem.emptyString;
+                else if (modList.funcVal===5) qsTr("Ожидаемое время выполнения: ") + ((100/modList.pstepVal) * modList.nPointsVal) / 1000000 + " с" +  rootItem.emptyString;
+                else if (modList.funcVal===6) qsTr("Ожидаемое время выполнения: ") + (3*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 + " с" +  rootItem.emptyString;
+                else if (modList.funcVal===7) qsTr("Ожидаемое время выполнения: ") + (10*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 + " с" +  rootItem.emptyString;
+                else if (modList.funcVal===8) qsTr("Ожидаемое время выполнения: ") + (14*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 + " с"  +  rootItem.emptyString;
+                else if (modList.funcVal===9) qsTr("Ожидаемое время выполнения: ") + (10*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 + " с"  +  rootItem.emptyString;
+            }
+        }
+        Text {
+            text:  qsTr("Объем памяти: ") + Math.round(((((100/modList.pstepVal) * modList.nPointsVal)*3*8)/1024)/1024 + (((100/modList.pstepVal) * modList.nPointsVal)*3)/1024 + 50) + " MB" + rootItem.emptyString
+        }
+        Text {
+            text:  qsTr("Сложность вычислений: ") +  rootItem.emptyString
+        }
+        ProgressBar {
+            id: control
+            value: {
+                if (modList.funcVal===0) ((100/modList.pstepVal) * modList.nPointsVal) / 100000000 +  rootItem.emptyString;
+                else if (modList.funcVal===1) (1000*(100/modList.pstepVal) * modList.nPointsVal) / 200000000  +  rootItem.emptyString;
+                else if (modList.funcVal===2) (2*(100/modList.pstepVal) * modList.nPointsVal) / 100000000  +  rootItem.emptyString;
+                else if (modList.funcVal===3) (3*(100/modList.pstepVal) * modList.nPointsVal) / 100000000 +  rootItem.emptyString;
+                else if (modList.funcVal===4) (3*(100/modList.pstepVal) * modList.nPointsVal) / 100000000 +  rootItem.emptyString;
+                else if (modList.funcVal===5) ((100/modList.pstepVal) * modList.nPointsVal) / 100000000 +  rootItem.emptyString;
+                else if (modList.funcVal===6) (3*(100/modList.pstepVal) * modList.nPointsVal) / 100000000  +  rootItem.emptyString;
+                else if (modList.funcVal===7) (10*(100/modList.pstepVal) * modList.nPointsVal) / 100000000  +  rootItem.emptyString;
+                else if (modList.funcVal===8) (14*(100/modList.pstepVal) * modList.nPointsVal) / 100000000   +  rootItem.emptyString;
+                else if (modList.funcVal===9) (10*(100/modList.pstepVal) * modList.nPointsVal) / 100000000   +  rootItem.emptyString;
+
+            }
+            padding: 2
+
+            background: Rectangle {
+                implicitWidth: window.width
+                implicitHeight: 6
+                color: "#e6e6e6"
+                radius: 3
+            }
+
+            contentItem: Item {
+                implicitWidth: window.width
+                implicitHeight: 4
+
+                Rectangle {
+                    width: control.visualPosition * parent.width
+                    height: parent.height
+                    radius: 2
+                    color: {
+                        if (control.value>0.7) "red"; else if (control.value<=0.6 && control.value>0.4 ) "yellow"; else "green"
+                    }
+                }
+            }
+        }
+    }
     StackView {
         id: stackView
         initialItem: "HomeForm.qml"

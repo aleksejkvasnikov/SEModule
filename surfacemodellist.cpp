@@ -226,7 +226,7 @@ void surfaceModelList::showTwo()
 
 void surfaceModelList::differenceBetweenSaves()
 {
-    int i = 0;
+    //int i = 0;
     surfaceModelItem tmp;
     calcThread->toShow.clear();
 

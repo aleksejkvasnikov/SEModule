@@ -61,6 +61,7 @@ Page {
             onEditingFinished:
             {
                 modList.nPointsVal = nPoints.text
+                rootItem.updateStrings()
             }
         }
     }
@@ -217,6 +218,7 @@ Page {
             onEditingFinished:
             {
                 modList.pstepVal = pstepVal.text
+                rootItem.updateStrings()
             }
         }
     }
@@ -236,6 +238,7 @@ Page {
             width: parent.width
             onCurrentIndexChanged: {
                 modList.funcVal = currentIndex;
+                rootItem.updateStrings();
             }
         }
     }
