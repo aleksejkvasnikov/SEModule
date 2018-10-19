@@ -18,119 +18,6 @@ Page {
 
     title: qsTr("Моделирование") + rootItem.emptyString
 
-
-    /*
-    //! [0]
-    Canvas3D {
-        id: canvas3d
-        anchors.fill:parent
-        //! [0]
-        focus: true
-        property double xRotAnim: 0
-        property double yRotAnim: 0
-        property double zRotAnim: 0
-        property bool isRunning: true
-
-        //! [1]
-        // Emitted when one time initializations should happen
-        onInitializeGL: {
-            GLCode.initializeGL(canvas3d);
-        }
-
-        // Emitted each time Canvas3D is ready for a new frame
-        onPaintGL: {
-            GLCode.paintGL(canvas3d);
-        }
-        //! [1]
-
-        onResizeGL: {
-            GLCode.resizeGL(canvas3d);
-        }
-
-        /*
-        Keys.onSpacePressed: {
-            canvas3d.isRunning = !canvas3d.isRunning
-            if (canvas3d.isRunning) {
-                objAnimationX.pause();
-                //objAnimationY.pause();
-                //objAnimationZ.pause();
-            } else {
-                objAnimationX.resume();
-                //objAnimationY.resume();
-                //objAnimationZ.resume();
-            }
-        }*/
-        /*
-        //! [5]
-        SequentialAnimation {
-            id: objAnimationX
-            loops: Animation.Infinite
-            running: true
-            NumberAnimation {
-                target: canvas3d
-                property: "xRotAnim"
-                from: 0.0
-                to: 20.0
-                duration: 7000
-                easing.type: Easing.InOutQuad
-            }
-            NumberAnimation {
-                target: canvas3d
-                property: "xRotAnim"
-                from: 20.0
-                to: 0.0
-                duration: 7000
-                easing.type: Easing.InOutQuad
-            }
-        }*/
-        /*
-        //! [5]
-        SequentialAnimation {
-            id: objAnimationY
-            loops: Animation.Infinite
-            running: true
-            NumberAnimation {
-                target: canvas3d
-                property: "yRotAnim"
-                from: 0.0
-                to: 240.0
-                duration: 5000
-                easing.type: Easing.InOutCubic
-            }
-            NumberAnimation {
-                target: canvas3d
-                property: "yRotAnim"
-                from: 240.0
-                to: 0.0
-                duration: 5000
-                easing.type: Easing.InOutCubic
-            }
-        }
-
-        SequentialAnimation {
-            id: objAnimationZ
-            loops: Animation.Infinite
-            running: true
-            NumberAnimation {
-                target: canvas3d
-                property: "zRotAnim"
-                from: -100.0
-                to: 100.0
-                duration: 3000
-                easing.type: Easing.InOutSine
-            }
-            NumberAnimation {
-                target: canvas3d
-                property: "zRotAnim"
-                from: 100.0
-                to: -100.0
-                duration: 3000
-                easing.type: Easing.InOutSine
-            }
-        }*/
-    //}
-
-
     Rectangle {
         id: rectangle
         x: 15
@@ -235,6 +122,8 @@ Page {
         id: text2
         x: 374
         y: 25
+        anchors.right: parent.right
+        anchors.rightMargin: 205
         text: qsTr("Апертура") + rootItem.emptyString
          font: window.font
     }
@@ -286,6 +175,8 @@ Page {
         y: 70
         width: 200
         height: 30
+        anchors.right: parent.right
+        anchors.rightMargin: 50
         TextField {
             id: wTf
             implicitHeight: 25
@@ -318,6 +209,8 @@ Page {
         y: 120
         width: 200
         height: 30
+        anchors.right: parent.right
+        anchors.rightMargin: 50
         TextField {
             id: xTf
             implicitHeight: 25
@@ -350,6 +243,8 @@ Page {
         y: 170
         width: 200
         height: 30
+        anchors.right: parent.right
+        anchors.rightMargin: 50
         TextField {
             id: mapTf
             implicitHeight: 25
@@ -410,8 +305,10 @@ Page {
     }
     Text {
         id: text8
-        x: 378
+        //x: 378
         y: 50
+        anchors.right: parent.right
+        anchors.rightMargin: 240
         text: qsTr("w")
         font: window.font
         //font.pixelSize: 14
@@ -419,8 +316,10 @@ Page {
 
     Text {
         id: text9
-        x: 483
+        //x: 483
         y: 50
+        anchors.right: parent.right
+        anchors.rightMargin: 140
         text: qsTr("l")
         font: window.font
     }
@@ -429,6 +328,8 @@ Page {
         id: text10
         x: 378
         y: 100
+        anchors.right: parent.right
+        anchors.rightMargin: 240
         text: qsTr("X")
          font: window.font
     }
@@ -437,6 +338,8 @@ Page {
         id: text11
         x: 483
         y: 100
+        anchors.right: parent.right
+        anchors.rightMargin: 140
         text: qsTr("Y")
          font: window.font
     }
@@ -444,6 +347,8 @@ Page {
         id: text12
         x: 378
         y: 150
+        anchors.right: parent.right
+        anchors.rightMargin: 230
         text: qsTr("M ap")
         font: window.font
     }
@@ -452,6 +357,8 @@ Page {
         id: text13
         x: 483
         y: 150
+        anchors.right: parent.right
+        anchors.rightMargin: 130
         text: qsTr("N ap")
          font: window.font
     }
