@@ -5,12 +5,13 @@ import QtQuick.Layouts 1.11
 ApplicationWindow {
     property color firstColor
     property color secondColor
+    property int currentID: 1;
     id: window
     flags: Qt.FramelessWindowHint|Qt.Window
     visible: true
     width: 740
     height: 530
-    title: qsTr("3D SE box") + " v1.1" + rootItem.emptyString
+    title: qsTr("3D SE box") + " v1.2" + rootItem.emptyString
     /*SystemTrayIcon {
         visible: true
         iconSource: "ru.svg"
@@ -33,11 +34,56 @@ ApplicationWindow {
         onTriggered: {
             window.flags = Qt.Window
             toolBar.visible = true
-            stackView.push("calculating.qml")
+           // stackView.push("modeling.qml")
         }
         running: true
     }
+    Popup {
+        id: rect
+        width: window.width
+        height: window.height
+        contentItem: Row {
+            anchors.fill: parent
+            Text {
+                id: text1s
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                text: "3D SE Box"
+                font.family: "Arial"
+                font.pointSize: 50
+                color: "yellow"
+            }
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "TALGAT team (talgat.org)"
+                font.family: "Arial"
+                font.pointSize: 20
+                color: "yellow"
+                anchors.topMargin: window.height / 3
+                anchors.top: text1s.bottom
+            }
+        }
+        background: Rectangle {
+                implicitWidth: window.width
+                implicitHeight: window.height
+                color: 'black'
+                border.color: "#444"
+            }
+        visible: opacity > 0
+    }
 
+    SequentialAnimation {
+        running: true
+        PauseAnimation {
+            duration: 2000 // Wait for 4000ms
+        }
+        NumberAnimation {
+            target: rect
+            property: 'opacity'
+            to: 0
+            duration: 1000 // Then fade away for 1000ms
+        }
+    }
     Popup {
         id: popup
         x: window.width * 0.3
@@ -53,7 +99,7 @@ ApplicationWindow {
 
         Text {
             id: text1
-            text: qsTr("О программе") + rootItem.emptyString
+            text: qsTr("О программе - SE box v1.2") + rootItem.emptyString
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: window.top
             anchors.topMargin: 0
@@ -76,7 +122,7 @@ ApplicationWindow {
 
         Text {
             id: text2
-            text: qsTr("email: aleksejkvasnikov@gmail.com")
+            text: qsTr("email: aleksejkvasnikov@gmail.com\n Благодарности: Simon Raguin, Thomas Chevrie\n\n https://github.com/aleksejkvasnikov/SEModule")
             anchors.top: parent.top
             anchors.topMargin: 80
             anchors.horizontalCenter: parent.horizontalCenter
@@ -101,20 +147,33 @@ ApplicationWindow {
         contentHeight: toolButton.implicitHeight
         ToolButton {
             id: toolButton
-            text: stackView.depth > 1 ? "\u25C0" : "\u2630"
+        //    text: stackView.depth > 1 ? "\u2A37" : "\u2630"
+            text: "\u25C0"
             font.pixelSize: Qt.application.font.pixelSize * 1.6
             onClicked: {
-                if (stackView.depth > 1) {
-                    stackView.pop()
+                if (currentID == 2) {
+                    stackView.push("modeling.qml")
+                    currentID--;
+                }
+                else if (currentID == 3) {
+                    stackView.push("calculating.qml")
+                    too1lButton2d.visible = false
+                    currentID--;
+                    nextbut.visible = true
+                    //stackView.pop()
                     //drawer.open()
-                } else {
-                    drawer.open()
+                }
+                else if (currentID == 4) {
+                    stackView.push("HomeForm.qml")
+                    currentID--;
+                    //stackView.pop()
+                    //drawer.open()
                 }
             }
         }
         Button {
             id: aboutButton
-            x: 46
+            x: 153
             y: 0
             width: 39
             height: 40
@@ -131,7 +190,7 @@ ApplicationWindow {
         }
         Button {
             id: settingButton
-            x: 85
+            x: 46
             y: 0
             width: 39
             height: 40
@@ -140,11 +199,67 @@ ApplicationWindow {
             anchors.right: window.right
             // anchors.rightMargin: -639
             font.pixelSize: Qt.application.font.pixelSize * 1.6
-            onClicked: stackView.push("settings.qml")
+            onClicked:
+            {
+                if(currentID !=4){
+                    currentID++;
+                    stackView.push("settings.qml")
+                }
+            }
         }
-        Label {
-            text: stackView.currentItem.title
-            anchors.centerIn: parent
+        ToolButton {
+            x: 123
+            y: 0
+            width: 39
+            height: 40
+            id: too1lButton
+            text: "\u25B6"
+            font.pixelSize: Qt.application.font.pixelSize * 1.6
+            onClicked: {
+                if (currentID == 1) {
+                    stackView.push("calculating.qml")
+                    currentID++;
+                }
+                else if (currentID == 2) {
+                    stackView.push("HomeForm.qml")
+                    too1lButton2d.visible = true
+                    nextbut.visible = false
+                    currentID++;
+                    //stackView.pop()
+                    //drawer.open()
+                }
+            }
+        }
+        ToolButton {
+            x: 183
+            y: 0
+            width: 39
+            height: 40
+            visible:false
+            id: too1lButton2d
+            text: "2D"
+            font.pixelSize: Qt.application.font.pixelSize * 1.6
+            onClicked: {
+                if (currentID == 3) {
+                    stackView.push("results.qml")
+                    currentID++;
+                }
+            }
+        }
+        ToolButton {
+            x: 85
+            y: 0
+            width: 39
+            height: 40
+            id: too1lButtonsaveload
+            text: "☰"
+            font.pixelSize: Qt.application.font.pixelSize * 1.6
+            onClicked: {
+                if (currentID == 3) {
+                   // stackView.push("results.qml")
+                    currentID++;
+                }
+            }
         }
     }
    /* MenuBar {
@@ -406,40 +521,96 @@ ApplicationWindow {
     }
 
     footer:
+
         Column {
-        Text {
-            text: {
-                if (modList.funcVal===0) qsTr("Ожидаемое время выполнения: ") + ((100/modList.pstepVal) * modList.nPointsVal) / 1000000 + " с" +  rootItem.emptyString;
-                else if (modList.funcVal===1) qsTr("Ожидаемое время выполнения: ") + (1000*(100/modList.pstepVal) * modList.nPointsVal) / 2000000 + " с" +  rootItem.emptyString;
-                else if (modList.funcVal===2)  qsTr("Ожидаемое время выполнения: ") + (2*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 + " с" +  rootItem.emptyString;
-                else if (modList.funcVal===3) qsTr("Ожидаемое время выполнения: ") + (3*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 + " с" + rootItem.emptyString;
-                else if (modList.funcVal===4) qsTr("Ожидаемое время выполнения: ") + (3*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 + " с" +  rootItem.emptyString;
-                else if (modList.funcVal===5) qsTr("Ожидаемое время выполнения: ") + ((100/modList.pstepVal) * modList.nPointsVal) / 1000000 + " с" +  rootItem.emptyString;
-                else if (modList.funcVal===6) qsTr("Ожидаемое время выполнения: ") + (3*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 + " с" +  rootItem.emptyString;
-                else if (modList.funcVal===7) qsTr("Ожидаемое время выполнения: ") + (10*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 + " с" +  rootItem.emptyString;
-                else if (modList.funcVal===8) qsTr("Ожидаемое время выполнения: ") + (14*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 + " с"  +  rootItem.emptyString;
-                else if (modList.funcVal===9) qsTr("Ожидаемое время выполнения: ") + (10*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 + " с"  +  rootItem.emptyString;
+        Row{
+            spacing: 3
+            anchors.right: parent.right;
+            anchors.rightMargin: 10
+            Button{
+                visible:{
+                 if (currentID==1) false;
+                 else true;
+                }
+
+                text: {
+                    if (currentID==3)  qsTr("Задать параметры") + rootItem.emptyString;
+                    else qsTr("Задать геометрию") + rootItem.emptyString;
+                }
+                onClicked:
+                {
+                    if (currentID == 3) {
+                        stackView.push("calculating.qml")
+                        nextbut.visible = true
+                        too1lButton2d.visible = false
+                        currentID--;
+                    }
+                    else if (currentID == 2) {
+                        stackView.push("modeling.qml")
+                        nextbut.visible = true
+                        currentID--;
+
+                    }
+
+                }
+            }
+            Button{
+                id: nextbut
+                text:{
+                 if (currentID==1)  qsTr("Задать параметры") + rootItem.emptyString;
+                 else qsTr("Вычислить") + rootItem.emptyString;
+                }
+                onClicked:
+                {
+                    if (currentID == 1) {
+                        stackView.push("calculating.qml")
+                        currentID++;
+                    }
+                    else if (currentID == 2) {
+                        stackView.push("HomeForm.qml")
+                        nextbut.visible = false
+                        too1lButton2d.visible = true
+                        currentID++;
+                        //stackView.pop()
+                        //drawer.open()
+                    }
+                }
             }
         }
         Text {
-            text:  qsTr("Объем памяти: ") + Math.round(((((100/modList.pstepVal) * modList.nPointsVal)*3*8)/1024)/1024 + (((100/modList.pstepVal) * modList.nPointsVal)*3)/1024 + 50) + " MB" + rootItem.emptyString
+            text: {
+                if (modList.funcVal===0) qsTr("Ожидаемое время выполнения (с): ") + ((100/modList.pstepVal) * modList.nPointsVal) / 1000000  +  rootItem.emptyString;
+                else if (modList.funcVal===1) qsTr("Ожидаемое время выполнения (с): ") + (1000*(100/modList.pstepVal) * modList.nPointsVal) / 2000000 +  rootItem.emptyString;
+                else if (modList.funcVal===2)  qsTr("Ожидаемое время выполнения (с): ") + (2*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 +  rootItem.emptyString;
+                else if (modList.funcVal===3) qsTr("Ожидаемое время выполнения (с): ") + (3*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 + rootItem.emptyString;
+                else if (modList.funcVal===4) qsTr("Ожидаемое время выполнения (с): ") + (3*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 +  rootItem.emptyString;
+                else if (modList.funcVal===5) qsTr("Ожидаемое время выполнения (с): ") + ((100/modList.pstepVal) * modList.nPointsVal) / 1000000  +  rootItem.emptyString;
+                else if (modList.funcVal===6) qsTr("Ожидаемое время выполнения (с): ") + (3*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 +  rootItem.emptyString;
+                else if (modList.funcVal===7) qsTr("Ожидаемое время выполнения (с): ") + (10*(100/modList.pstepVal) * modList.nPointsVal) / 1000000  +  rootItem.emptyString;
+                else if (modList.funcVal===8) qsTr("Ожидаемое время выполнения (с): ") + (14*(100/modList.pstepVal) * modList.nPointsVal) / 1000000   +  rootItem.emptyString;
+                else if (modList.funcVal===9) qsTr("Ожидаемое время выполнения (с): ") + (10*(100/modList.pstepVal) * modList.nPointsVal) / 1000000   +  rootItem.emptyString;
+            }
         }
+        Text {
+            text:  qsTr("Объем требуемой памяти (МБ): ") + Math.round(((((100/modList.pstepVal) * modList.nPointsVal)*3*8)/1024)/1024 + (((100/modList.pstepVal) * modList.nPointsVal)*3)/1024 + 50) + rootItem.emptyString
+        }
+        Row{
         Text {
             text:  qsTr("Сложность вычислений: ") +  rootItem.emptyString
         }
         ProgressBar {
             id: control
             value: {
-                if (modList.funcVal===0) ((100/modList.pstepVal) * modList.nPointsVal) / 100000000 +  rootItem.emptyString;
-                else if (modList.funcVal===1) (1000*(100/modList.pstepVal) * modList.nPointsVal) / 200000000  +  rootItem.emptyString;
-                else if (modList.funcVal===2) (2*(100/modList.pstepVal) * modList.nPointsVal) / 100000000  +  rootItem.emptyString;
-                else if (modList.funcVal===3) (3*(100/modList.pstepVal) * modList.nPointsVal) / 100000000 +  rootItem.emptyString;
-                else if (modList.funcVal===4) (3*(100/modList.pstepVal) * modList.nPointsVal) / 100000000 +  rootItem.emptyString;
-                else if (modList.funcVal===5) ((100/modList.pstepVal) * modList.nPointsVal) / 100000000 +  rootItem.emptyString;
-                else if (modList.funcVal===6) (3*(100/modList.pstepVal) * modList.nPointsVal) / 100000000  +  rootItem.emptyString;
-                else if (modList.funcVal===7) (10*(100/modList.pstepVal) * modList.nPointsVal) / 100000000  +  rootItem.emptyString;
-                else if (modList.funcVal===8) (14*(100/modList.pstepVal) * modList.nPointsVal) / 100000000   +  rootItem.emptyString;
-                else if (modList.funcVal===9) (10*(100/modList.pstepVal) * modList.nPointsVal) / 100000000   +  rootItem.emptyString;
+                if (modList.funcVal===0) ((100/modList.pstepVal) * modList.nPointsVal) / 10000000 +  rootItem.emptyString;
+                else if (modList.funcVal===1) (1000*(100/modList.pstepVal) * modList.nPointsVal) / 20000000  +  rootItem.emptyString;
+                else if (modList.funcVal===2) (2*(100/modList.pstepVal) * modList.nPointsVal) / 10000000  +  rootItem.emptyString;
+                else if (modList.funcVal===3) (3*(100/modList.pstepVal) * modList.nPointsVal) / 10000000 +  rootItem.emptyString;
+                else if (modList.funcVal===4) (3*(100/modList.pstepVal) * modList.nPointsVal) / 10000000 +  rootItem.emptyString;
+                else if (modList.funcVal===5) ((100/modList.pstepVal) * modList.nPointsVal) / 10000000 +  rootItem.emptyString;
+                else if (modList.funcVal===6) (3*(100/modList.pstepVal) * modList.nPointsVal) / 10000000  +  rootItem.emptyString;
+                else if (modList.funcVal===7) (10*(100/modList.pstepVal) * modList.nPointsVal) / 10000000  +  rootItem.emptyString;
+                else if (modList.funcVal===8) (14*(100/modList.pstepVal) * modList.nPointsVal) / 10000000   +  rootItem.emptyString;
+                else if (modList.funcVal===9) (10*(100/modList.pstepVal) * modList.nPointsVal) / 10000000   +  rootItem.emptyString;
 
             }
             padding: 2
@@ -452,7 +623,7 @@ ApplicationWindow {
             }
 
             contentItem: Item {
-                implicitWidth: window.width
+                implicitWidth: window.width * 0.7
                 implicitHeight: 4
 
                 Rectangle {
@@ -465,11 +636,40 @@ ApplicationWindow {
                 }
             }
         }
+        }
     }
     StackView {
         id: stackView
-        initialItem: "HomeForm.qml"
+          initialItem: "modeling.qml"
+      //  initialItem: "HomeForm.qml"
         anchors.fill: parent
+        pushEnter: Transition {
+               id: pushEnter
+               ParallelAnimation {
+                   PropertyAction { property: "x"; value: pushEnter.ViewTransition.item.pos }
+                   NumberAnimation { properties: "y"; from: pushEnter.ViewTransition.item.pos + stackView.offset; to: pushEnter.ViewTransition.item.pos; duration: 400; easing.type: Easing.OutCubic }
+                   NumberAnimation { property: "opacity"; from: 0; to: 1; duration: 400; easing.type: Easing.OutCubic }
+               }
+           }
+           popExit: Transition {
+               id: popExit
+               ParallelAnimation {
+                   PropertyAction { property: "x"; value: popExit.ViewTransition.item.pos }
+                   NumberAnimation { properties: "y"; from: popExit.ViewTransition.item.pos; to: popExit.ViewTransition.item.pos + stackView.offset; duration: 400; easing.type: Easing.OutCubic }
+                   NumberAnimation { property: "opacity"; from: 1; to: 0; duration: 400; easing.type: Easing.OutCubic }
+               }
+           }
+
+           pushExit: Transition {
+               id: pushExit
+               PropertyAction { property: "x"; value: pushExit.ViewTransition.item.pos }
+               PropertyAction { property: "y"; value: pushExit.ViewTransition.item.pos }
+           }
+           popEnter: Transition {
+               id: popEnter
+               PropertyAction { property: "x"; value: popEnter.ViewTransition.item.pos }
+               PropertyAction { property: "y"; value: popEnter.ViewTransition.item.pos }
+           }
     }
 
 }

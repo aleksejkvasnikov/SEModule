@@ -290,7 +290,7 @@ Page {
         y: 186
         anchors.right: parent.right
         anchors.rightMargin: 120
-        text: qsTr("Отрезки интегрирования") + rootItem.emptyString
+        text: qsTr("Шаг интегрирования") + rootItem.emptyString
         font: window.font
     }
     RowLayout {

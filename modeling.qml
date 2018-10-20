@@ -10,6 +10,7 @@ import "textureandlight.js" as GLCode
 //! [4]
 
 Page {
+    property int val2dor3d: 1
     id: page
     width: window.width
     height: window.height
@@ -165,7 +166,7 @@ Page {
         id: text7
         x: 184
         y: 100
-        text: qsTr("σ")
+        text: qsTr("σ (См/м)")
          font: window.font
     }
 
@@ -252,6 +253,9 @@ Page {
             width: parent.width /2
             height: parent.height
             text: modList.mapVal
+            visible:{
+                if (val2dor3d==1) false; else true;
+            }
             onEditingFinished:
             {
                 modList.mapVal = mapTf.text
@@ -264,6 +268,9 @@ Page {
             Layout.fillWidth: true
             width: parent.width /2
             height: parent.height
+            visible:{
+                if (val2dor3d==1) false; else true;
+            }
             text: modList.napVal
             onEditingFinished:
             {
@@ -276,6 +283,10 @@ Page {
         x: 30
         y: 170
         width: 300
+        visible:{
+            if (val2dor3d==1) false; else true;
+        }
+
         height: 30
         TextField {
             id: dhTf
@@ -297,6 +308,9 @@ Page {
             width: parent.width /2
             height: parent.height
             text: modList.dvVal
+            visible:{
+                if (val2dor3d==1) false; else true;
+            }
             onEditingFinished:
             {
                 modList.dvVal = dvTf.text
@@ -347,6 +361,9 @@ Page {
         id: text12
         x: 378
         y: 150
+        visible:{
+            if (val2dor3d==1) false; else true;
+        }
         anchors.right: parent.right
         anchors.rightMargin: 230
         text: qsTr("M ap")
@@ -356,6 +373,9 @@ Page {
     Text {
         id: text13
         x: 483
+        visible:{
+            if (val2dor3d==1) false; else true;
+        }
         y: 150
         anchors.right: parent.right
         anchors.rightMargin: 130
@@ -365,6 +385,9 @@ Page {
     Text {
         id: text14
         x: 30
+        visible:{
+            if (val2dor3d==1) false; else true;
+        }
         y: 150
         text: qsTr("dh")
          font: window.font
@@ -373,20 +396,64 @@ Page {
     Text {
         id: text15
         x: 184
+        visible:{
+            if (val2dor3d==1) false; else true;
+        }
         y: 150
         text: qsTr("dv")
         font: window.font
     }
-
-       Image {
-        id: image
-        x: window.width/3
-        y: window.height - window.height/2
-        width: window.height/3
-        height: (window.height-35)/3
-        source: "corpus.PNG"
-    }
-
-
+        Row{
+            anchors.horizontalCenter: parent.horizontalCenter
+        Image {
+            id: image
+            x: window.width/3
+            y: window.height - window.height/2
+            width: window.height/3
+            height: (window.height-35)/3
+            source: "corpus.PNG"
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    rect2d.visible = true;
+                    rect3d.visible = false;
+                    val2dor3d = 1;
+                }
+            }
+            Rectangle{
+                id: rect2d
+                border.width: 2
+                border.color: "gray"
+                width: window.height/3
+                color: "#00000000"
+                height: (window.height-35)/3
+            }
+        }
+        Image {
+            id: image2
+            x: window.width/3
+            y: window.height - window.height/2
+            width: window.height/3
+            height: (window.height-35)/3
+            source: "corpus2.PNG"
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    rect3d.visible = true;
+                    rect2d.visible = false;
+                    val2dor3d = 2;
+                }
+            }
+            Rectangle{
+                id: rect3d
+                visible: false
+                border.width: 2
+                border.color: "gray"
+                width: window.height/3
+                color: "#00000000"
+                height: (window.height-35)/3
+            }
+        }
+        }
 }
 

@@ -15,5 +15,7 @@
         <file>gl-matrix.js</file>
         <file>textureandlight.js</file>
         <file>fr.svg</file>
+        <file>corpus2.PNG</file>
+        <file>oilrig.obj</file>
     </qresource>
 </RCC>

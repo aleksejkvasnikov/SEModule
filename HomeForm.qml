@@ -13,55 +13,28 @@ Page {
     width: 700
     height: 450
     title: qsTr("3D отображение") + rootItem.emptyString
+    Component.onCompleted: {
+        column11.visible = true;
+        compute.visible = true;
+        column12.visible = true;
+        infos.visible = true;
+        control2.visible = true;
+        control3.visible = true;
+        rectangle2.visible = true;
+
+        prb.visible = true;
+        modList.recalculate();
+    }
+    Custom3DItem {
+        id:someitem
+        meshFile: ":/oilrig.obj"
+        scaling: Qt.vector3d(.5, .5, .5)
+        position: Qt.vector3d(surface.axisX.min+(surface.axisX.max-surface.axisX.min)/2, surface.axisY.min, surface.axisZ.min+(surface.axisZ.max-surface.axisZ.min)/2)
+    }
     Item {
         width: window.width
         height: window.height
-        Popup {
-            id: rect
-            width: window.width
-            height: window.height
-            contentItem: Row {
-                anchors.fill: parent
-                Text {
-                    id: text1
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: "3D SE Box"
-                    font.family: "Arial"
-                    font.pointSize: 50
-                    color: "yellow"
-                }
-                Text {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    text: "TALGAT team (talgat.org)"
-                    font.family: "Arial"
-                    font.pointSize: 20
-                    color: "yellow"
-                    anchors.topMargin: window.height / 3
-                    anchors.top: text1.bottom
-                }
-            }
-            background: Rectangle {
-                    implicitWidth: window.width
-                    implicitHeight: window.height
-                    color: 'black'
-                    border.color: "#444"
-                }
-            visible: opacity > 0
-        }
 
-        SequentialAnimation {
-            running: true
-            PauseAnimation {
-                duration: 2000 // Wait for 4000ms
-            }
-            NumberAnimation {
-                target: rect
-                property: 'opacity'
-                to: 0
-                duration: 1000 // Then fade away for 1000ms
-            }
-        }
         Surface3D {
             width: window.width
             height: window.height
@@ -201,14 +174,15 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     elide: Text.ElideRight
                 }
-                onClicked: {
+                onClicked: {/*
                                 if (surfaceSeries.drawMode & Surface3DSeries.DrawWireframe) {
                                     surfaceSeries.drawMode &= ~Surface3DSeries.DrawWireframe;
 
                                 } else {
                                     surfaceSeries.drawMode |= Surface3DSeries.DrawWireframe;
 
-                                }
+                                }*/
+                            surface.addCustomItem(someitem)
                             }
 
                 background: Rectangle {
