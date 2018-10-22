@@ -38,6 +38,29 @@ ApplicationWindow {
         }
         running: true
     }
+    Dialog {
+     //   visible: true
+        id: messageDial
+        x: window.width * 0.3
+        y: window.height * 0.3
+        width: window.width * 0.4
+        height:  window.height * 0.4
+        modal: true
+        focus: true
+        title: qsTr("Предупреждение!")+ rootItem.emptyString
+        standardButtons: Dialog.Ok | Dialog.Cancel
+        Label {
+            text: qsTr("\tПревышен лимит итераций. \nЗапуск вычислений может привести к ошибке в работе программы.")+ rootItem.emptyString
+        }
+        onAccepted: {
+            stackView.push("HomeForm.qml")
+            nextbut.visible = false
+            too1lButton2d.visible = true
+            currentID++;
+        }
+        onRejected: console.log("Cancel clicked")
+
+    }
     Popup {
         id: rect
         width: window.width
@@ -554,6 +577,7 @@ ApplicationWindow {
 
                 }
             }
+
             Button{
                 id: nextbut
                 text:{
@@ -567,10 +591,16 @@ ApplicationWindow {
                         currentID++;
                     }
                     else if (currentID == 2) {
-                        stackView.push("HomeForm.qml")
-                        nextbut.visible = false
-                        too1lButton2d.visible = true
-                        currentID++;
+                        console.log(colorSlider.color)
+                        if(colorSlider.color == "#ff0000") {
+                            messageDial.open();
+                        }
+                            else {
+                            stackView.push("HomeForm.qml")
+                            nextbut.visible = false
+                            too1lButton2d.visible = true
+                            currentID++;
+                        }
                         //stackView.pop()
                         //drawer.open()
                     }
@@ -627,6 +657,7 @@ ApplicationWindow {
                 implicitHeight: 4
 
                 Rectangle {
+                    id: colorSlider
                     width: control.visualPosition * parent.width
                     height: parent.height
                     radius: 2
@@ -643,33 +674,7 @@ ApplicationWindow {
           initialItem: "modeling.qml"
       //  initialItem: "HomeForm.qml"
         anchors.fill: parent
-        pushEnter: Transition {
-               id: pushEnter
-               ParallelAnimation {
-                   PropertyAction { property: "x"; value: pushEnter.ViewTransition.item.pos }
-                   NumberAnimation { properties: "y"; from: pushEnter.ViewTransition.item.pos + stackView.offset; to: pushEnter.ViewTransition.item.pos; duration: 400; easing.type: Easing.OutCubic }
-                   NumberAnimation { property: "opacity"; from: 0; to: 1; duration: 400; easing.type: Easing.OutCubic }
-               }
-           }
-           popExit: Transition {
-               id: popExit
-               ParallelAnimation {
-                   PropertyAction { property: "x"; value: popExit.ViewTransition.item.pos }
-                   NumberAnimation { properties: "y"; from: popExit.ViewTransition.item.pos; to: popExit.ViewTransition.item.pos + stackView.offset; duration: 400; easing.type: Easing.OutCubic }
-                   NumberAnimation { property: "opacity"; from: 1; to: 0; duration: 400; easing.type: Easing.OutCubic }
-               }
-           }
 
-           pushExit: Transition {
-               id: pushExit
-               PropertyAction { property: "x"; value: pushExit.ViewTransition.item.pos }
-               PropertyAction { property: "y"; value: pushExit.ViewTransition.item.pos }
-           }
-           popEnter: Transition {
-               id: popEnter
-               PropertyAction { property: "x"; value: popEnter.ViewTransition.item.pos }
-               PropertyAction { property: "y"; value: popEnter.ViewTransition.item.pos }
-           }
     }
 
 }

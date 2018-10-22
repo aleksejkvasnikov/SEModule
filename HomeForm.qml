@@ -174,15 +174,15 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     elide: Text.ElideRight
                 }
-                onClicked: {/*
+                onClicked: {
                                 if (surfaceSeries.drawMode & Surface3DSeries.DrawWireframe) {
                                     surfaceSeries.drawMode &= ~Surface3DSeries.DrawWireframe;
 
                                 } else {
                                     surfaceSeries.drawMode |= Surface3DSeries.DrawWireframe;
 
-                                }*/
-                            surface.addCustomItem(someitem)
+                                }
+                          //  surface.addCustomItem(someitem)
                             }
 
                 background: Rectangle {
