@@ -287,6 +287,7 @@ ApplicationWindow {
                 }
             }
         }
+
         ToolButton {
             x: 85
             y: 0
@@ -296,10 +297,21 @@ ApplicationWindow {
             text: "☰"
             font.pixelSize: Qt.application.font.pixelSize * 1.6
             onClicked: {
-                if (currentID == 3) {
+                menuSave.open()
+                //if (currentID == 3) {
                    // stackView.push("results.qml")
                     //currentID++;
-                }
+                //}
+            }
+            Menu {
+                id:menuSave
+                y: too1lButtonsaveload.height
+                 MenuItem {
+                     text: "Open..."
+                 }
+                 MenuItem {
+                     text: "Save..."
+                 }
             }
         }
     }
@@ -335,6 +347,8 @@ ApplicationWindow {
         MenuItem { text: qsTr("Сохранить") + rootItem.emptyString }
         MenuItem { text: qsTr("Загрузить") + rootItem.emptyString }
     } */
+
+    //Next part of work
     Lab.FileDialog {
         id: folderDialog
         //currentFolder: viewer.folder

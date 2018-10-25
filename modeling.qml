@@ -403,14 +403,16 @@ Page {
         text: qsTr("dv")
         font: window.font
     }
-        Row{
-            anchors.horizontalCenter: parent.horizontalCenter
+        //Row{
+            //anchors.horizontalCenter: parent.horizontalCenter
         Image {
             id: image
             x: window.width/3
             y: window.height - window.height/2
             width: window.height/3
             height: (window.height-35)/3
+            anchors.left: parent.left
+            anchors.leftMargin: 100
             source: "corpus.PNG"
             MouseArea{
                 anchors.fill: parent
@@ -429,12 +431,15 @@ Page {
                 height: (window.height-35)/3
             }
         }
+
         Image {
             id: image2
             x: window.width/3
             y: window.height - window.height/2
             width: window.height/3
             height: (window.height-35)/3
+            anchors.right: parent.right
+            anchors.rightMargin: 100
             source: "corpus2.PNG"
             MouseArea{
                 anchors.fill: parent
@@ -454,6 +459,6 @@ Page {
                 height: (window.height-35)/3
             }
         }
-        }
+        //}
 }
 
