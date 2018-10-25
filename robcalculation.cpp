@@ -5,7 +5,8 @@
 #include <omp.h>
 #include <iostream>
 #include <QTime>
-#include <QtDebug>
+#include <QtDebug> 
+#include <QThread>
 
 #define _USE_MATH_DEFINES
 
@@ -52,7 +53,7 @@ double robCalculation::calcSomeRob(int *iter, double freq, double t, double w, d
     dcomp Z3 = dcomp(0.0,1.0)*Zg*tan(kg*(d-p));
     dcomp vp = (v2*Z3) / (Z2+Z3);
     auto SE = 20*log10(abs(v0/(dcomp(2.0,0.0)*vp)));
-    //qDebug() << "fin de calcRob";
+    //QThread::usleep(1);
     return  SE;
 }
 double robCalculation::func(double x, double y, double w, double L, double m, double n, double a, double b)
