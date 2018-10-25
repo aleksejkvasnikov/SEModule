@@ -50,7 +50,7 @@ ApplicationWindow {
         title: qsTr("Предупреждение!")+ rootItem.emptyString
         standardButtons: Dialog.Ok | Dialog.Cancel
         Label {
-            text: qsTr("\tПревышен лимит итераций. \nЗапуск вычислений может привести к ошибке в работе программы.")+ rootItem.emptyString
+            text: qsTr("\tПревышен лимит итераций. \nЗапуск вычислений может привести к ошибке \nв работе программы.")+ rootItem.emptyString
         }
         onAccepted: {
             stackView.push("HomeForm.qml")
