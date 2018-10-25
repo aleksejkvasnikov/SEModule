@@ -123,11 +123,13 @@ void SurfaceModel::setList(surfaceModelList *list)
         });
         connect(mList, &surfaceModelList::postItemRemoved, this, [=]()
         {
-            endRemoveRows();
+           // endRemoveRows();
+            endResetModel();
         });
         connect(mList, &surfaceModelList::preItemsRemoved, this, [=](int index1, int index2)
         {
-              beginRemoveRows(QModelIndex(), index1, index2);
+             // beginRemoveRows(QModelIndex(), index1, index2);
+            beginResetModel();
         });
     }
     endResetModel();

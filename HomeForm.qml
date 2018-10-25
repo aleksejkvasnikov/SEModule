@@ -23,7 +23,7 @@ Page {
         rectangle2.visible = true;
 
         prb.visible = true;
-        modList.recalculate();
+        //modList.recalculate();
     }
     Custom3DItem {
         id:someitem

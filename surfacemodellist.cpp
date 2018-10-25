@@ -113,9 +113,12 @@ void surfaceModelList::recalculate()
     QObject::connect(calcThread, SIGNAL(time(double)), this, SLOT(updateTime(double)));
     QObject::connect(calcThread, SIGNAL(iterCount(double)), this, SLOT(updateIterCount(double)));
     QObject::connect(calcThread, SIGNAL(GUI(QVector<surfaceModelItem>)), this, SLOT(updateGUI(QVector<surfaceModelItem>)));
-    emit preItemsRemoved(0, mItems.size());
-    mItems.clear();
-    emit postItemRemoved();
+    if(!mItems.empty()){
+        qDebug() << mItems.size();
+        emit preItemsRemoved(0, mItems.size());
+        mItems.clear();
+        emit postItemRemoved();
+    }
     double  perc_step;
     perc_step = (m_dVal - m_pVal)*(m_pstepVal/100);
     //******//

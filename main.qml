@@ -5,13 +5,23 @@ import QtQuick.Layouts 1.11
 ApplicationWindow {
     property color firstColor
     property color secondColor
-    property int currentID: 1;
+    property int currentID: 1
+    property bool firstrun: true
     id: window
     flags: Qt.FramelessWindowHint|Qt.Window
     visible: true
     width: 740
     height: 530
     title: qsTr("3D SE box") + " v1.2" + rootItem.emptyString
+    /*Component.onCompleted: {
+        if(firstrun)
+        {
+         stackView.pop()
+         stackView.push("modeling.qml")
+         firstrun = false
+        }
+    }*/
+
     /*SystemTrayIcon {
         visible: true
         iconSource: "ru.svg"
@@ -53,6 +63,7 @@ ApplicationWindow {
             text: qsTr("\tПревышен лимит итераций. \nЗапуск вычислений может привести к ошибке \nв работе программы.")+ rootItem.emptyString
         }
         onAccepted: {
+            stackView.pop()
             stackView.push("HomeForm.qml")
             nextbut.visible = false
             too1lButton2d.visible = true
@@ -175,10 +186,12 @@ ApplicationWindow {
             font.pixelSize: Qt.application.font.pixelSize * 1.6
             onClicked: {
                 if (currentID == 2) {
+                    stackView.pop()
                     stackView.push("modeling.qml")
                     currentID--;
                 }
                 else if (currentID == 3) {
+                    stackView.pop()
                     stackView.push("calculating.qml")
                     too1lButton2d.visible = false
                     currentID--;
@@ -187,6 +200,7 @@ ApplicationWindow {
                     //drawer.open()
                 }
                 else if (currentID == 4) {
+                    stackView.pop()
                     stackView.push("HomeForm.qml")
                     currentID--;
                     //stackView.pop()
@@ -226,6 +240,7 @@ ApplicationWindow {
             {
                 if(currentID !=4){
                     currentID++;
+                    stackView.pop()
                     stackView.push("settings.qml")
                 }
             }
@@ -240,10 +255,12 @@ ApplicationWindow {
             font.pixelSize: Qt.application.font.pixelSize * 1.6
             onClicked: {
                 if (currentID == 1) {
+                    stackView.pop()
                     stackView.push("calculating.qml")
                     currentID++;
                 }
                 else if (currentID == 2) {
+                    stackView.pop()
                     stackView.push("HomeForm.qml")
                     too1lButton2d.visible = true
                     nextbut.visible = false
@@ -264,6 +281,7 @@ ApplicationWindow {
             font.pixelSize: Qt.application.font.pixelSize * 1.6
             onClicked: {
                 if (currentID == 3) {
+                    stackView.pop()
                     stackView.push("results.qml")
                     currentID++;
                 }
@@ -280,7 +298,7 @@ ApplicationWindow {
             onClicked: {
                 if (currentID == 3) {
                    // stackView.push("results.qml")
-                    currentID++;
+                    //currentID++;
                 }
             }
         }
@@ -408,6 +426,7 @@ ApplicationWindow {
                 text: qsTr("Моделирование") + rootItem.emptyString
                 height: parent.height
                 onClicked: {
+                    stackView.pop()
                     stackView.push("modeling.qml")
                     drawer.close()
                 }
@@ -443,6 +462,7 @@ ApplicationWindow {
                 text: qsTr("Вычисление") + rootItem.emptyString
                 height: parent.height
                 onClicked: {
+                    stackView.pop()
                     stackView.push("calculating.qml")
                     drawer.close()
                 }
@@ -477,6 +497,7 @@ ApplicationWindow {
                 text: qsTr("Результаты") + rootItem.emptyString
                 height: parent.height
                 onClicked: {
+                    stackView.pop()
                     stackView.push("results.qml")
                     drawer.close()
                 }
@@ -511,6 +532,7 @@ ApplicationWindow {
                 text: qsTr("Настройки") + rootItem.emptyString
                 height: parent.height
                 onClicked: {
+                    stackView.pop()
                     stackView.push("settings.qml")
                     drawer.close()
                 }
@@ -563,12 +585,14 @@ ApplicationWindow {
                 onClicked:
                 {
                     if (currentID == 3) {
+                        stackView.pop()
                         stackView.push("calculating.qml")
                         nextbut.visible = true
                         too1lButton2d.visible = false
                         currentID--;
                     }
                     else if (currentID == 2) {
+                        stackView.pop()
                         stackView.push("modeling.qml")
                         nextbut.visible = true
                         currentID--;
@@ -587,6 +611,7 @@ ApplicationWindow {
                 onClicked:
                 {
                     if (currentID == 1) {
+                        stackView.pop()
                         stackView.push("calculating.qml")
                         currentID++;
                     }
@@ -596,6 +621,7 @@ ApplicationWindow {
                             messageDial.open();
                         }
                             else {
+                            stackView.pop()
                             stackView.push("HomeForm.qml")
                             nextbut.visible = false
                             too1lButton2d.visible = true
@@ -671,8 +697,8 @@ ApplicationWindow {
     }
     StackView {
         id: stackView
-          initialItem: "modeling.qml"
-      //  initialItem: "HomeForm.qml"
+         initialItem: "modeling.qml"
+   //   initialItem: "HomeForm.qml"
         anchors.fill: parent
 
     }
