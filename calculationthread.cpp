@@ -114,7 +114,6 @@ void CalculationThread::CalcThread(double tempValue, int K)
                         tempValue=0;
                     //#pragma omp critical
                     //{
-                    usleep(1);
                         mItems.append({ tempFreq, tempValue, pp});
                         //qDebug() << "mItems.x = " << mItems.last().x << "mItems.y = " << mItems.last().y << "mItems.z = " << mItems.last().z;
                         size = size + 1;
