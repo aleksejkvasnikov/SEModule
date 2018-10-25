@@ -15,6 +15,7 @@ const double M_PI = 3.141592653589793238463;
 
 double robCalculation::calcSomeRob(int *iter, double freq, double t, double w, double b, double L, double a, double d, double p)
 {
+    //qDebug() << "début de calcRob";
     auto c0 = 299792458;
     auto lambda = c0/freq;
     dcomp v0(1.0,0.0);
@@ -34,6 +35,7 @@ double robCalculation::calcSomeRob(int *iter, double freq, double t, double w, d
     dcomp Zap = temp10 / (2*a);
     dcomp Ztmp = Z0 + Zap;
     dcomp v1 = v0 * Zap/Ztmp;
+    //qDebug() << "à peu près au milieu de calcRob";
     dcomp Z1 = Z0*Zap / Ztmp;
     auto temp1 = pow((lambda/(2*a)),2);
     auto tmp_zg = dcomp(1.0,0.0) - dcomp(temp1,0.0);
@@ -50,6 +52,7 @@ double robCalculation::calcSomeRob(int *iter, double freq, double t, double w, d
     dcomp Z3 = dcomp(0.0,1.0)*Zg*tan(kg*(d-p));
     dcomp vp = (v2*Z3) / (Z2+Z3);
     auto SE = 20*log10(abs(v0/(dcomp(2.0,0.0)*vp)));
+    //qDebug() << "fin de calcRob";
     return  SE;
 }
 double robCalculation::func(double x, double y, double w, double L, double m, double n, double a, double b)

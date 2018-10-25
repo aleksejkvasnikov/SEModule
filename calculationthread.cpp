@@ -86,7 +86,7 @@ void CalculationThread::CalcThread(double tempValue, int K)
         //#pragma omp for schedule(dynamic, 200)
         for(int Z = (int)(m_pVal * 1000); Z <= (int)(m_dVal * 1000); Z += 1)
         {
-            //qDebug() << "je suis le thread n°" << Y;
+            //qDebug() << "Grand tour de for";
             for(int i=0; i<m_nPointsVal; ++i)
             {
                /* #pragma omp flush (abort)
@@ -108,11 +108,13 @@ void CalculationThread::CalcThread(double tempValue, int K)
                     ival = ival + progres_val;
                     emit progress(ival);
                     tempFreq=m_fMinVal+dfreq*i;
+                    //qDebug() << "juste avant le GetCalculation";
                     tempValue = GetCalculation(K + 1, tempFreq, pp);
                     if (isnan(tempValue))
                         tempValue=0;
                     //#pragma omp critical
                     //{
+                    usleep(1);
                         mItems.append({ tempFreq, tempValue, pp});
                         //qDebug() << "mItems.x = " << mItems.last().x << "mItems.y = " << mItems.last().y << "mItems.z = " << mItems.last().z;
                         size = size + 1;
@@ -167,10 +169,11 @@ void CalculationThread::run()
 
         CalcThread(tempValue, mod);
 
-        /*old code
+        //old code
+        /*
         tempFreq=0;
         tempValue=
-        calcSomeRob(iterations,m_fMinVal, m_tVal, m_wVal, m_bVal, m_lVal, m_aVal, m_dVal, m_pVal);
+        rob_calcs.calcSomeRob(iterations,m_fMinVal, m_tVal, m_wVal, m_bVal, m_lVal, m_aVal, m_dVal, m_pVal);
         dfreq=(m_fMaxVal-m_fMinVal)/m_nPointsVal;
         for(double pp=m_pVal; pp<=m_dVal; pp=pp+perc_step)
         {
