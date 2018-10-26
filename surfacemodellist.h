@@ -123,6 +123,7 @@ public slots:
     void recalculate();
     void interrupted();
     void save(QString path); // save to folder
+    void load(QString path); // load from a folder
     void saveOne(); //sauvegarde le graphic dans le vector save1
     void saveTwo(); //sauvegarde le graphic dans le vector save2
     void showOne(); //affiche le graphic de save1
