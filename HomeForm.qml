@@ -182,7 +182,7 @@ Page {
                                     surfaceSeries.drawMode |= Surface3DSeries.DrawWireframe;
 
                                 }
-                          //  surface.addCustomItem(someitem)
+                             // surface.addCustomItem(someitem)
                             }
 
                 background: Rectangle {

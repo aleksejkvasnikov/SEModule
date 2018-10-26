@@ -123,7 +123,7 @@ ApplicationWindow {
         x: window.width * 0.3
         y: window.height * 0.3
         width: window.width * 0.4
-        height:  window.height * 0.4
+        height:  window.height * 0.5
         modal: true
         focus: true
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
@@ -156,19 +156,26 @@ ApplicationWindow {
 
         Text {
             id: text2
-            text: qsTr("email: aleksejkvasnikov@gmail.com\n Благодарности: Simon Raguin, Thomas Chevrie\n\n https://github.com/aleksejkvasnikov/SEModule")
+            text: qsTr("\temail: aleksejkvasnikov@gmail.com\n Благодарности:\n Simon Raguin, Thomas Chevrie\n\n Исходный код:\n github.com/aleksejkvasnikov/SEModule")
             anchors.top: parent.top
             anchors.topMargin: 80
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.horizontalCenter: button.horizontalCenter
             font.pixelSize: 12
         }
-
+        Text {
+            id: text3
+            text: qsTr("Qt, LGPL\n")
+            anchors.top: text2.bottom
+            anchors.topMargin: 10
+            anchors.horizontalCenter: button.horizontalCenter
+            font.pixelSize: 12
+        }
         Image {
             id: image
             width: window.width* 0.5
           //  height: 100
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: button.verticalCenter
+            anchors.horizontalCenter: button.horizontalCenter
             anchors.left: parent.left
             visible: false
             fillMode: Image.PreserveAspectFit
@@ -206,6 +213,13 @@ ApplicationWindow {
                     //stackView.pop()
                     //drawer.open()
                 }
+                else if (currentID == 5) {
+                    stackView.pop()
+                    stackView.push("modeling.qml")
+                    currentID=1;
+                    //stackView.pop()
+                    //drawer.open()
+                }
             }
         }
         Button {
@@ -238,8 +252,8 @@ ApplicationWindow {
             font.pixelSize: Qt.application.font.pixelSize * 1.6
             onClicked:
             {
-                if(currentID !=4){
-                    currentID++;
+                if(currentID !=5){
+                    currentID=5;
                     stackView.pop()
                     stackView.push("settings.qml")
                 }
