@@ -149,6 +149,55 @@ void surfaceModelList::interrupted()
         calcThread->requestInterruption();
 }
 
+void surfaceModelList::load(QString path)
+{
+    int i;
+
+    qDebug() << "loadwork";
+    QFile file(path);
+    QString string;
+    surfaceModelItem tmp;
+    QByteArray line;
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            mItems.clear();
+            qDebug() << "je suis open";
+            while (!file.atEnd())
+            {
+                 line = file.readLine();
+                 line.replace(",",".");
+
+                 i = line.indexOf("\t", 1);
+                 /*qDebug() << line;
+                 qDebug() << line.left(i);
+                 qDebug() << line.left(i).toDouble();*/
+                 tmp.x = line.left(i).toDouble();
+                 line.remove(0, i + 1);
+
+                 i = line.indexOf("\t", 1);
+                 /*qDebug() << line;
+                 qDebug() << line.left(i);
+                 qDebug() << line.left(i).toDouble();*/
+                 tmp.y = line.left(i).toDouble();
+                 line.remove(0, i + 1);
+
+                 i = line.indexOf("\n", 1);
+                 /*qDebug() << line;
+                 qDebug() << line.left(i);
+                 qDebug() << line.left(i).toDouble();*/
+                 tmp.z = line.left(i).toDouble();
+                 line.remove(0, i + 1);
+
+                 calcThread->toShow.push_back(tmp);
+                 //mItems.append(powerline);
+                 //qDebug() << mItems.last().x << mItems.last().y << mItems.last().z;
+             }
+            file.close();
+            calcThread->start();
+        }
+        qDebug() << "fin du load";
+}
+
 void surfaceModelList::save(QString path)
 {
    // qDebug() << path;
@@ -160,11 +209,13 @@ void surfaceModelList::save(QString path)
         QTextStream stream(&file);
         for (int i=0; i<mItems.size(); i++)
         {
+            qDebug() << mItems.last().x << mItems.last().y << mItems.last().z;
             string = QString::number(mItems.at(i).x) + "\t" + QString::number(mItems.at(i).y) + "\t" + QString::number(mItems.at(i).z);
             if(m_locale == "ru_RU") string.replace(".",",");
             stream << string << endl;
           //  qDebug() << i;
         }
+        file.close();
     }
 }
 void surfaceModelList::saveOne()

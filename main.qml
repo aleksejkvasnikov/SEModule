@@ -301,6 +301,7 @@ ApplicationWindow {
                 }
             }
         }
+
         ToolButton {
             x: 85
             y: 0
@@ -310,10 +311,30 @@ ApplicationWindow {
             text: "☰"
             font.pixelSize: Qt.application.font.pixelSize * 1.6
             onClicked: {
-                if (currentID == 3) {
+                menuSave.open()
+                //if (currentID == 3) {
                    // stackView.push("results.qml")
                     //currentID++;
-                }
+                //}
+            }
+            Menu {
+                id:menuSave
+                y: too1lButtonsaveload.height
+                 MenuItem {
+                     text: "Open..."
+                     onClicked:
+                     {
+                         loadwork.open();
+                     }
+                 }
+                 MenuItem {
+                     text: "Save..."
+                     onClicked:
+                     {
+                        //
+                         folderDialog.open()
+                     }
+                 }
             }
         }
     }
@@ -349,6 +370,8 @@ ApplicationWindow {
         MenuItem { text: qsTr("Сохранить") + rootItem.emptyString }
         MenuItem { text: qsTr("Загрузить") + rootItem.emptyString }
     } */
+
+    //save work in a file
     Lab.FileDialog {
         id: folderDialog
         //currentFolder: viewer.folder
@@ -360,8 +383,28 @@ ApplicationWindow {
             // remove prefixed "file:///"
             path= path.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"");
             // unescape html codes like '%23' for '#'
+            //surfacemodellist.cpp
             modList.save(decodeURIComponent(path))
             folderDialog.close()
+        }
+        onRejected: {
+            console.log("Canceled")
+            folderDialog.close()
+        }
+    }
+
+    //load work work from a file
+    Lab.FileDialog {
+        id: loadwork
+        //currentFolder: viewer.folder
+        folder: StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0]
+        title: qsTr("Please choose a file") + rootItem.emptyString
+        onAccepted: {
+            console.log("You chose: " + loadwork.file)
+            var path = loadwork.file.toString();
+            path= path.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"");
+            modList.load(decodeURIComponent(path));
+            loadwork.close()
         }
         onRejected: {
             console.log("Canceled")
