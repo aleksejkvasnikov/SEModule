@@ -25,12 +25,13 @@ Page {
         prb.visible = true;
         //modList.recalculate();
     }
+    /*
     Custom3DItem {
         id:someitem
         meshFile: ":/oilrig.obj"
         scaling: Qt.vector3d(.5, .5, .5)
         position: Qt.vector3d(surface.axisX.min+(surface.axisX.max-surface.axisX.min)/2, surface.axisY.min, surface.axisZ.min+(surface.axisZ.max-surface.axisZ.min)/2)
-    }
+    } */
     Item {
         width: window.width
         height: window.height
@@ -84,7 +85,7 @@ Page {
             axisY.labelFormat: "%d"
             axisY.title: qsTr("ЭЭ, дБ") + rootItem.emptyString
             axisX.title: qsTr("Частота, Гц") + rootItem.emptyString
-            axisZ.title: qsTr("Точка обзора, м") + rootItem.emptyString
+            axisZ.title: qsTr("Точка наблюдения, м") + rootItem.emptyString
             axisX.titleVisible: true
             axisY.titleVisible: true
             axisZ.titleVisible: true

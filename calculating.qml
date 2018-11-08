@@ -270,8 +270,8 @@ Page {
         //x: 483
         y: 50
         anchors.right: parent.right
-        anchors.rightMargin: 100
-        text: qsTr("Проц. шаг") + rootItem.emptyString
+        anchors.rightMargin: 50
+        text: qsTr("Кол-во точек наблюдения") + rootItem.emptyString
         font: window.font
     }
 

@@ -70,7 +70,7 @@ void CalculationThread::CalcThread(double tempValue, int K)
     iterations = &a;
     double progres_val = 100 / (m_nPointsVal * (m_dVal-m_pVal)/perc_step);
     bool abort = false;
-
+    double Norm=0, tempNorm=0;
     size = 0;
 
     tempValue = GetCalculation(K, 0, 0);
@@ -86,6 +86,7 @@ void CalculationThread::CalcThread(double tempValue, int K)
         //#pragma omp for schedule(dynamic, 200)
         for(int Z = (int)(m_pVal * 1000); Z <= (int)(m_dVal * 1000); Z += 1)
         {
+            tempNorm=0;
             //qDebug() << "Grand tour de for";
             for(int i=0; i<m_nPointsVal; ++i)
             {
@@ -112,6 +113,7 @@ void CalculationThread::CalcThread(double tempValue, int K)
                     tempValue = GetCalculation(K + 1, tempFreq, pp);
                     if (isnan(tempValue))
                         tempValue=0;
+                    tempNorm+=abs(tempValue);
                     //#pragma omp critical
                     //{
                         mItems.append({ tempFreq, tempValue, pp});
@@ -120,6 +122,7 @@ void CalculationThread::CalcThread(double tempValue, int K)
                     //}
                 //}
            }
+             if(tempNorm>Norm) Norm=tempNorm;
             if (abort)
             {
                 mItems.remove(mItems.size() - size, size);
@@ -128,7 +131,9 @@ void CalculationThread::CalcThread(double tempValue, int K)
           //  usleep(1);
             pp += perc_step;
             Z = (pp * 1000);
+           // qDebug() <<Z << pp;
         }
+        qDebug() <<"Norma = " << Norm;
     //}//end of parallel
 
     emit iterCount(*iterations);

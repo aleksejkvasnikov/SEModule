@@ -692,16 +692,16 @@ ApplicationWindow {
         }
         Text {
             text: {
-                if (modList.funcVal===0) qsTr("Ожидаемое время выполнения (с): ") + ((100/modList.pstepVal) * modList.nPointsVal) / 1000000  +  rootItem.emptyString;
-                else if (modList.funcVal===1) qsTr("Ожидаемое время выполнения (с): ") + (1000*(100/modList.pstepVal) * modList.nPointsVal) / 2000000 +  rootItem.emptyString;
-                else if (modList.funcVal===2)  qsTr("Ожидаемое время выполнения (с): ") + (2*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 +  rootItem.emptyString;
-                else if (modList.funcVal===3) qsTr("Ожидаемое время выполнения (с): ") + (3*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 + rootItem.emptyString;
-                else if (modList.funcVal===4) qsTr("Ожидаемое время выполнения (с): ") + (3*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 +  rootItem.emptyString;
-                else if (modList.funcVal===5) qsTr("Ожидаемое время выполнения (с): ") + ((100/modList.pstepVal) * modList.nPointsVal) / 1000000  +  rootItem.emptyString;
-                else if (modList.funcVal===6) qsTr("Ожидаемое время выполнения (с): ") + (3*(100/modList.pstepVal) * modList.nPointsVal) / 1000000 +  rootItem.emptyString;
-                else if (modList.funcVal===7) qsTr("Ожидаемое время выполнения (с): ") + (10*(100/modList.pstepVal) * modList.nPointsVal) / 1000000  +  rootItem.emptyString;
-                else if (modList.funcVal===8) qsTr("Ожидаемое время выполнения (с): ") + (14*(100/modList.pstepVal) * modList.nPointsVal) / 1000000   +  rootItem.emptyString;
-                else if (modList.funcVal===9) qsTr("Ожидаемое время выполнения (с): ") + (10*(100/modList.pstepVal) * modList.nPointsVal) / 1000000   +  rootItem.emptyString;
+                if (modList.funcVal===0) qsTr("Ожидаемое время выполнения (с): ") + ((modList.pstepVal) * modList.nPointsVal) / 1000000  +  rootItem.emptyString;
+                else if (modList.funcVal===1) qsTr("Ожидаемое время выполнения (с): ") + (1000*(modList.pstepVal) * modList.nPointsVal) / 2000000 +  rootItem.emptyString;
+                else if (modList.funcVal===2)  qsTr("Ожидаемое время выполнения (с): ") + (2*(modList.pstepVal) * modList.nPointsVal) / 1000000 +  rootItem.emptyString;
+                else if (modList.funcVal===3) qsTr("Ожидаемое время выполнения (с): ") + (3*(modList.pstepVal) * modList.nPointsVal) / 1000000 + rootItem.emptyString;
+                else if (modList.funcVal===4) qsTr("Ожидаемое время выполнения (с): ") + (3*(modList.pstepVal) * modList.nPointsVal) / 1000000 +  rootItem.emptyString;
+                else if (modList.funcVal===5) qsTr("Ожидаемое время выполнения (с): ") + ((modList.pstepVal) * modList.nPointsVal) / 1000000  +  rootItem.emptyString;
+                else if (modList.funcVal===6) qsTr("Ожидаемое время выполнения (с): ") + (3*(modList.pstepVal) * modList.nPointsVal) / 1000000 +  rootItem.emptyString;
+                else if (modList.funcVal===7) qsTr("Ожидаемое время выполнения (с): ") + (10*(modList.pstepVal) * modList.nPointsVal) / 1000000  +  rootItem.emptyString;
+                else if (modList.funcVal===8) qsTr("Ожидаемое время выполнения (с): ") + (14*(modList.pstepVal) * modList.nPointsVal) / 1000000   +  rootItem.emptyString;
+                else if (modList.funcVal===9) qsTr("Ожидаемое время выполнения (с): ") + (10*(modList.pstepVal) * modList.nPointsVal) / 1000000   +  rootItem.emptyString;
             }
         }
         Text {
@@ -714,16 +714,16 @@ ApplicationWindow {
         ProgressBar {
             id: control
             value: {
-                if (modList.funcVal===0) ((100/modList.pstepVal) * modList.nPointsVal) / 10000000 +  rootItem.emptyString;
-                else if (modList.funcVal===1) (1000*(100/modList.pstepVal) * modList.nPointsVal) / 20000000  +  rootItem.emptyString;
-                else if (modList.funcVal===2) (2*(100/modList.pstepVal) * modList.nPointsVal) / 10000000  +  rootItem.emptyString;
-                else if (modList.funcVal===3) (3*(100/modList.pstepVal) * modList.nPointsVal) / 10000000 +  rootItem.emptyString;
-                else if (modList.funcVal===4) (3*(100/modList.pstepVal) * modList.nPointsVal) / 10000000 +  rootItem.emptyString;
-                else if (modList.funcVal===5) ((100/modList.pstepVal) * modList.nPointsVal) / 10000000 +  rootItem.emptyString;
-                else if (modList.funcVal===6) (3*(100/modList.pstepVal) * modList.nPointsVal) / 10000000  +  rootItem.emptyString;
-                else if (modList.funcVal===7) (10*(100/modList.pstepVal) * modList.nPointsVal) / 10000000  +  rootItem.emptyString;
-                else if (modList.funcVal===8) (14*(100/modList.pstepVal) * modList.nPointsVal) / 10000000   +  rootItem.emptyString;
-                else if (modList.funcVal===9) (10*(100/modList.pstepVal) * modList.nPointsVal) / 10000000   +  rootItem.emptyString;
+                if (modList.funcVal===0) ((modList.pstepVal) * modList.nPointsVal) / 10000000 +  rootItem.emptyString;
+                else if (modList.funcVal===1) (1000*(modList.pstepVal) * modList.nPointsVal) / 20000000  +  rootItem.emptyString;
+                else if (modList.funcVal===2) (2*(modList.pstepVal) * modList.nPointsVal) / 10000000  +  rootItem.emptyString;
+                else if (modList.funcVal===3) (3*(modList.pstepVal) * modList.nPointsVal) / 10000000 +  rootItem.emptyString;
+                else if (modList.funcVal===4) (3*(modList.pstepVal) * modList.nPointsVal) / 10000000 +  rootItem.emptyString;
+                else if (modList.funcVal===5) ((modList.pstepVal) * modList.nPointsVal) / 10000000 +  rootItem.emptyString;
+                else if (modList.funcVal===6) (3*(modList.pstepVal) * modList.nPointsVal) / 10000000  +  rootItem.emptyString;
+                else if (modList.funcVal===7) (10*(modList.pstepVal) * modList.nPointsVal) / 10000000  +  rootItem.emptyString;
+                else if (modList.funcVal===8) (14*(modList.pstepVal) * modList.nPointsVal) / 10000000   +  rootItem.emptyString;
+                else if (modList.funcVal===9) (10*(modList.pstepVal) * modList.nPointsVal) / 10000000   +  rootItem.emptyString;
 
             }
             padding: 2

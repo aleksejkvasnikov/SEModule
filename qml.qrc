@@ -12,10 +12,13 @@
         <file>ru.svg</file>
         <file>results.qml</file>
         <file>document.PNG</file>
-        <file>gl-matrix.js</file>
-        <file>textureandlight.js</file>
         <file>fr.svg</file>
         <file>corpus2.PNG</file>
         <file>oilrig.obj</file>
+        <file>ImageCube.qml</file>
+        <file>imagecube.js</file>
+        <file>three.js</file>
+        <file>csg.js</file>
+        <file>ThreeCSG.js</file>
     </qresource>
 </RCC>

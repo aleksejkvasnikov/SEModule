@@ -1,13 +1,10 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-
+import QtCanvas3D 1.1
 import QtQuick 2.0
-import QtCanvas3D 1.0
+import QtCanvas3D 1.1
 
-//! [4]
-import "textureandlight.js" as GLCode
-//! [4]
 
 Page {
     property int val2dor3d: 1
@@ -18,7 +15,6 @@ Page {
     transformOrigin: Item.TopLeft
 
     title: qsTr("Моделирование") + rootItem.emptyString
-
     Rectangle {
         id: rectangle
         x: 15
@@ -46,6 +42,8 @@ Page {
             onEditingFinished:
             {
                 modList.aVal = aTf.text
+                imageCube.aa=aTf.text*100*5
+                imageCube.callme(imageCube.aa,imageCube.bb, imageCube.dd)
             }
         }
 
@@ -59,6 +57,8 @@ Page {
             onEditingFinished:
             {
                 modList.bVal = bTf.text
+                imageCube.bb=bTf.text*100*5
+                imageCube.callme(imageCube.aa,imageCube.bb, imageCube.dd)
             }
         }
         TextField {
@@ -71,6 +71,8 @@ Page {
             onEditingFinished:
             {
                 modList.dVal = dTf.text
+                imageCube.dd=dTf.text*100*5
+                imageCube.callme(imageCube.aa,imageCube.bb, imageCube.dd)
             }
         }
     }
@@ -405,6 +407,22 @@ Page {
     }
         //Row{
             //anchors.horizontalCenter: parent.horizontalCenter
+    ImageCube {
+        id: imageCube
+        width: 312 * (parent.width / 1280)
+        height: 312 * (parent.height / 768)
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 30
+        anchors.horizontalCenter: parent.horizontalCenter
+        aa: 30*5
+        bb: 12*5
+        dd: 30*5
+        //! [0]
+        angleOffset: -180 / 8.0
+        backgroundColor: "#FCFCFC"
+        state: "image1"
+        image1: "qrc:/devices.png"
+    }
         Image {
             id: image
             x: window.width/3

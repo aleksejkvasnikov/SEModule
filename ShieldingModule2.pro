@@ -1,6 +1,10 @@
 QT += quick
 QT += 3dcore 3drender 3dinput 3dlogic 3dextras qml quick 3dquick 3danimation 3dquickextras printsupport
 
+
+#target.path = $$[QT_INSTALL_EXAMPLES]/canvas3d/threejs/$$TARGET
+#INSTALLS += target
+
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -57,6 +61,9 @@ SOURCES = customplotitem.cpp \
 }
 
 DISTFILES += \
-    textureandlight.js \
-    gl-matrix.js \
-    ../../../Downloads/white.png
+    ../../../Downloads/white.png \
+    ImageCube.qml \
+    three.js \
+    ImageCube.qml \
+    csg.js \
+    ThreeCSG.js

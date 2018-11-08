@@ -120,7 +120,7 @@ void surfaceModelList::recalculate()
         emit postItemRemoved();
     }
     double  perc_step;
-    perc_step = (m_dVal - m_pVal)*(m_pstepVal/100);
+    perc_step = (m_dVal - m_pVal)/(m_pstepVal);
     //******//
     calcThread->perc_step = perc_step;
     calcThread->m_fMinVal = m_fMinVal; calcThread->m_fMaxVal = m_fMaxVal;
