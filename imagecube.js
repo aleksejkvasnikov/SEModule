@@ -55,6 +55,7 @@ var camera, scene, renderer;
 var cube, result;
 var pointLight;
 var PrevX=40, PrevY=90;
+var buttonpressed;
 function initializeGL(canvas, eventSource) {
     //! [0]
     console.log("azaza")
@@ -113,6 +114,8 @@ function initializeGL(canvas, eventSource) {
     renderer.setSize(canvas.width, canvas.height);
     setBackgroundColor(canvas.backgroundColor);
     eventSource.mouseMove.connect(onDocumentMouseMove);
+    eventSource.mouseDown.connect(onDocumentMouseDown);
+    eventSource.mouseUp.connect(onDocumentMouseUp);
     //! [4]
 }
 
@@ -130,10 +133,19 @@ function resizeGL(canvas) {
     renderer.setPixelRatio(canvas.devicePixelRatio);
     renderer.setSize(canvas.width, canvas.height);
 }
+function onDocumentMouseDown(x,y, buttons) {
+  buttonpressed = true;
+}
+function onDocumentMouseUp(x,y) {
+    buttonpressed = false;
+}
 function onDocumentMouseMove(x,y) {
+
     var delta=PrevY-x;
-    console.log(delta)
+   // console.log(delta)
+    if(buttonpressed){
     cube.rotation.y += (-1*delta)/70;
+    }
    // camera.position.y += ( -y/40 - camera.position.y ) * .2;
     PrevY=x;
 }

@@ -424,14 +424,14 @@ Page {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 30
         anchors.horizontalCenter: parent.horizontalCenter
-        aa: 30*5
-        bb: 12*5
-        dd: 30*5
-        t: 0.0015*100*5
-        w: 0.012*100*5
-        l: 0.012*100*5
-        xx: 0.15*100*5
-        yy: 0.06*100*5
+        aa: aTf.text*100*5
+        bb: bTf.text*100*5
+        dd: dTf.text*100*5
+        t: tTf.text*100*5
+        w: wTf.text*100*5
+        l: lTf.text*100*5
+        xx: xTf.text*100*5
+        yy: yTf.text*100*5
         //! [0]
         angleOffset: -180 / 8.0
         backgroundColor: "#FCFCFC"
