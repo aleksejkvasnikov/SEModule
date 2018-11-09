@@ -54,8 +54,8 @@ Qt.include("ThreeCSG.js")
 var camera, scene, renderer;
 var cube, result;
 var pointLight;
-
-function initializeGL(canvas, a, b, d) {
+var PrevX=40, PrevY=90;
+function initializeGL(canvas, eventSource) {
     //! [0]
     console.log("azaza")
     camera = new THREE.PerspectiveCamera(50, canvas.width / canvas.height, 1, 2000);
@@ -79,12 +79,15 @@ function initializeGL(canvas, a, b, d) {
        //wireframe: true,
      });
 
-    var cube1 = new THREE.Mesh(    new THREE.BoxGeometry(a,b,d),    new THREE.MeshLambertMaterial({color: 0xFF0000}));
+    var cube1 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa,canvas.bb,canvas.dd),new THREE.MeshLambertMaterial({color: 0xFF0000}));
     var cube1Csg	= THREE.CSG.toCSG(cube1);
-    var cube3 = new THREE.Mesh(    new THREE.BoxGeometry(a*.99,b*.99,d*.99),    new THREE.MeshLambertMaterial({color: 0xFF0000}));
+    var cube3 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa-canvas.t,canvas.bb-canvas.t,canvas.dd-canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
     var cube3Csg	= THREE.CSG.toCSG(cube3);
-    var cube2 = new THREE.Mesh(    new THREE.BoxGeometry(a/2,b/2,d/2),    new THREE.MeshLambertMaterial({color: 0xFF0000}));
-    cube2.translateX(d/2);
+    var cube2 = new THREE.Mesh(new THREE.BoxGeometry(canvas.l,canvas.w,canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
+    cube2.translateX(-canvas.aa/2+canvas.l/2+canvas.xx);
+    cube2.translateY(-canvas.bb/2+canvas.w/2+canvas.yy);
+    cube2.translateZ(canvas.dd/2);
+ //   cube2.translateY(canvas.bb/2);
     var cube2Csg	= THREE.CSG.toCSG(cube2);
     var resultCsg	= (cube1Csg.subtract(cube3Csg)).subtract(cube2Csg);
     var resultGeo	= THREE.CSG.fromCSG( resultCsg );
@@ -109,6 +112,7 @@ function initializeGL(canvas, a, b, d) {
     renderer.setPixelRatio(canvas.devicePixelRatio);
     renderer.setSize(canvas.width, canvas.height);
     setBackgroundColor(canvas.backgroundColor);
+    eventSource.mouseMove.connect(onDocumentMouseMove);
     //! [4]
 }
 
@@ -126,11 +130,18 @@ function resizeGL(canvas) {
     renderer.setPixelRatio(canvas.devicePixelRatio);
     renderer.setSize(canvas.width, canvas.height);
 }
+function onDocumentMouseMove(x,y) {
+    var delta=PrevY-x;
+    console.log(delta)
+    cube.rotation.y += (-1*delta)/70;
+   // camera.position.y += ( -y/40 - camera.position.y ) * .2;
+    PrevY=x;
+}
 function animate() {
  // resize();
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
-  cube.rotation.z += 0.01;
+  //cube.rotation.x += 0.01;
+  //cube.rotation.y += 0.01;
+  //cube.rotation.z += 0.01;
   renderer.render(scene, camera);
 }
 function resize() {
@@ -142,17 +153,19 @@ function resize() {
     camera.updateProjectionMatrix();
  // }
 }
-function resizeCube(canvas,xSize, ySize, zSize){
+function resizeCube(canvas){
   //console.log(xSize/cube.geometry.parameters.width);
     while(scene.children.length > 0){
         scene.remove(scene.children[0]);
     }
-    var cube1 = new THREE.Mesh(    new THREE.BoxGeometry(xSize,ySize,zSize),    new THREE.MeshLambertMaterial({color: 0xFF0000}));
+    var cube1 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa,canvas.bb,canvas.dd),new THREE.MeshLambertMaterial({color: 0xFF0000}));
     var cube1Csg	= THREE.CSG.toCSG(cube1);
-    var cube3 = new THREE.Mesh(    new THREE.BoxGeometry(xSize*.99,ySize*.99,zSize*.99),    new THREE.MeshLambertMaterial({color: 0xFF0000}));
+    var cube3 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa-canvas.t,canvas.bb-canvas.t,canvas.dd-canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
     var cube3Csg	= THREE.CSG.toCSG(cube3);
-    var cube2 = new THREE.Mesh(    new THREE.BoxGeometry(xSize/2,ySize/2,zSize/2),    new THREE.MeshLambertMaterial({color: 0xFF0000}));
-    cube2.translateX(zSize/2);
+    var cube2 = new THREE.Mesh(new THREE.BoxGeometry(canvas.l,canvas.w,canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
+    cube2.translateX(-canvas.aa/2+canvas.l/2+canvas.xx);
+    cube2.translateY(-canvas.bb/2+canvas.w/2+canvas.yy);
+    cube2.translateZ(canvas.dd/2);
     var cube2Csg	= THREE.CSG.toCSG(cube2);
     var resultCsg	= (cube1Csg.subtract(cube3Csg)).subtract(cube2Csg);
     var resultGeo	= THREE.CSG.fromCSG( resultCsg );

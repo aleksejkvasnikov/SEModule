@@ -2,8 +2,8 @@ QT += quick
 QT += 3dcore 3drender 3dinput 3dlogic 3dextras qml quick 3dquick 3danimation 3dquickextras printsupport
 
 
-#target.path = $$[QT_INSTALL_EXAMPLES]/canvas3d/threejs/$$TARGET
-#INSTALLS += target
+target.path = $$[QT_INSTALL_EXAMPLES]/canvas3d/threejs/$$TARGET
+INSTALLS += target
 
 CONFIG += c++11
 

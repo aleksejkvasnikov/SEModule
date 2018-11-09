@@ -43,7 +43,7 @@ Page {
             {
                 modList.aVal = aTf.text
                 imageCube.aa=aTf.text*100*5
-                imageCube.callme(imageCube.aa,imageCube.bb, imageCube.dd)
+                imageCube.callme()
             }
         }
 
@@ -58,7 +58,7 @@ Page {
             {
                 modList.bVal = bTf.text
                 imageCube.bb=bTf.text*100*5
-                imageCube.callme(imageCube.aa,imageCube.bb, imageCube.dd)
+                imageCube.callme()
             }
         }
         TextField {
@@ -72,7 +72,7 @@ Page {
             {
                 modList.dVal = dTf.text
                 imageCube.dd=dTf.text*100*5
-                imageCube.callme(imageCube.aa,imageCube.bb, imageCube.dd)
+                imageCube.callme()
             }
         }
     }
@@ -92,6 +92,8 @@ Page {
             text: modList.tVal
             onEditingFinished:
             {
+                imageCube.t=tTf.text*100*5
+                imageCube.callme()
                 modList.tVal = tTf.text
             }
         }
@@ -189,6 +191,8 @@ Page {
             text: modList.wVal
             onEditingFinished:
             {
+                imageCube.w=wTf.text*100*5
+                imageCube.callme()
                 modList.wVal = wTf.text
             }
         }
@@ -202,6 +206,8 @@ Page {
             text: modList.lVal
             onEditingFinished:
             {
+                imageCube.l=lTf.text*100*5
+                imageCube.callme()
                 modList.lVal = lTf.text
             }
         }
@@ -223,6 +229,8 @@ Page {
             text: modList.xVal
             onEditingFinished:
             {
+                imageCube.xx=xTf.text*100*5
+                imageCube.callme()
                 modList.xVal = xTf.text
             }
         }
@@ -236,6 +244,8 @@ Page {
             text: modList.yVal
             onEditingFinished:
             {
+                imageCube.yy=yTf.text*100*5
+                imageCube.callme()
                 modList.yVal = yTf.text
             }
         }
@@ -417,6 +427,11 @@ Page {
         aa: 30*5
         bb: 12*5
         dd: 30*5
+        t: 0.0015*100*5
+        w: 0.012*100*5
+        l: 0.012*100*5
+        xx: 0.15*100*5
+        yy: 0.06*100*5
         //! [0]
         angleOffset: -180 / 8.0
         backgroundColor: "#FCFCFC"

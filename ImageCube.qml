@@ -22,6 +22,11 @@ Canvas3D {
     property real aa: 0
     property real bb: 0
     property real dd: 0
+    property real t: 0
+    property real w: 0
+    property real l: 0
+    property real xx: 0
+    property real yy: 0
     onBackgroundColorChanged: { GLCode.setBackgroundColor(cube.backgroundColor); }
 
     //! [1]
@@ -49,14 +54,18 @@ Canvas3D {
         }
     ]
     //! [2]
-    function callme(aa, bb,dd){
-        GLCode.resizeCube(cube,aa, bb, dd);
+    function callme(){
+        GLCode.resizeCube(cube);
     }
     //! [3]
     onInitializeGL: {
-        GLCode.initializeGL(cube, aa, bb, dd);
+        GLCode.initializeGL(cube, eventSource);
     }
-
+    ControlEventSource {
+        anchors.fill: parent
+        focus: true
+        id: eventSource
+    }
     onPaintGL: {
      //   GLCode.paintGL(cube);
     }
