@@ -52,7 +52,7 @@ Qt.include("three.js")
 Qt.include("csg.js")
 Qt.include("ThreeCSG.js")
 var camera, scene, renderer;
-var cube, result;
+var cube, result, axesHelper,gridHelper;
 var pointLight;
 var PrevX=40, PrevY=90;
 var buttonpressed;
@@ -79,6 +79,15 @@ function initializeGL(canvas, eventSource) {
        color: 0x00FF00,
        //wireframe: true,
      });
+    var size = 100;
+    var divisions = 10;
+
+    gridHelper = new THREE.GridHelper( size, divisions );
+    scene.add( gridHelper );
+    gridHelper.translateY(-canvas.bb/2);
+    axesHelper = new THREE.AxisHelper( 25 );
+    axesHelper.translateX(canvas.aa*0.8);
+    scene.add( axesHelper );
 
     var cube1 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa,canvas.bb,canvas.dd),new THREE.MeshLambertMaterial({color: 0xFF0000}));
     var cube1Csg	= THREE.CSG.toCSG(cube1);
@@ -116,6 +125,7 @@ function initializeGL(canvas, eventSource) {
     eventSource.mouseMove.connect(onDocumentMouseMove);
     eventSource.mouseDown.connect(onDocumentMouseDown);
     eventSource.mouseUp.connect(onDocumentMouseUp);
+    eventSource.mouseWheel.connect(onDocumentMouseWheel);
     //! [4]
 }
 
@@ -133,6 +143,11 @@ function resizeGL(canvas) {
     renderer.setPixelRatio(canvas.devicePixelRatio);
     renderer.setSize(canvas.width, canvas.height);
 }
+function onDocumentMouseWheel(x,y) {
+  camera.zoom += (y/120)/8;
+   console.log(y);
+    camera.updateProjectionMatrix();
+}
 function onDocumentMouseDown(x,y, buttons) {
   buttonpressed = true;
 }
@@ -145,6 +160,8 @@ function onDocumentMouseMove(x,y) {
    // console.log(delta)
     if(buttonpressed){
     cube.rotation.y += (-1*delta)/70;
+    axesHelper.rotation.y += (-1*delta)/70;
+    gridHelper.rotation.y += (-1*delta)/70;
     }
    // camera.position.y += ( -y/40 - camera.position.y ) * .2;
     PrevY=x;
@@ -170,6 +187,12 @@ function resizeCube(canvas){
     while(scene.children.length > 0){
         scene.remove(scene.children[0]);
     }
+    axesHelper = new THREE.AxisHelper( 25 );
+    axesHelper.translateX(canvas.aa*0.8);
+    scene.add( axesHelper );
+    gridHelper = new THREE.GridHelper( 100, 10 );
+    scene.add( gridHelper );
+    gridHelper.translateY(-canvas.bb/2);
     var cube1 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa,canvas.bb,canvas.dd),new THREE.MeshLambertMaterial({color: 0xFF0000}));
     var cube1Csg	= THREE.CSG.toCSG(cube1);
     var cube3 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa-canvas.t,canvas.bb-canvas.t,canvas.dd-canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
