@@ -52,7 +52,7 @@ Qt.include("three.js")
 Qt.include("csg.js")
 Qt.include("ThreeCSG.js")
 var camera, scene, renderer;
-var cube, result, axesHelper,gridHelper;
+var cube, result, axesHelper, gridHelper;
 var pointLight;
 var PrevX=40, PrevY=90;
 var buttonpressed;
@@ -157,19 +157,26 @@ function onDocumentMouseUp(x,y) {
 function onDocumentMouseMove(x,y) {
 
     var delta=PrevY-x;
+    var delta2=PrevX-y;
    // console.log(delta)
     if(buttonpressed){
     cube.rotation.y += (-1*delta)/70;
     axesHelper.rotation.y += (-1*delta)/70;
     gridHelper.rotation.y += (-1*delta)/70;
+        cube.rotation.x += (-1*delta2)/70;
+        axesHelper.rotation.x += (-1*delta2)/70;
+        gridHelper.rotation.x += (-1*delta2)/70;
     }
    // camera.position.y += ( -y/40 - camera.position.y ) * .2;
     PrevY=x;
+    PrevX=y;
 }
 function animate() {
  // resize();
-  //cube.rotation.x += 0.01;
-  //cube.rotation.y += 0.01;
+ // cube.rotation.x += 0.01;
+ // cube.rotation.y += 0.03;
+ //   axesHelper.rotation.y += 0.03;
+ //   gridHelper.rotation.y += 0.03;
   //cube.rotation.z += 0.01;
   renderer.render(scene, camera);
 }

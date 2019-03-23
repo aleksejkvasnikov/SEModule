@@ -170,7 +170,7 @@ Page {
         id: text7
         x: 184
         y: 100
-        text: qsTr("σ (См/м)")
+        text: qsTr("σ (С/м)")
          font: window.font
     }
 

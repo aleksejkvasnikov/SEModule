@@ -376,7 +376,7 @@ ApplicationWindow {
         id: folderDialog
         //currentFolder: viewer.folder
         folder: StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0]
-        title: qsTr("Please choose a file") + rootItem.emptyString
+        title: qsTr("Выберите файл") + rootItem.emptyString
         onAccepted: {
             console.log("You chose: " + folderDialog.file)
             var path = folderDialog.file.toString();
@@ -398,7 +398,7 @@ ApplicationWindow {
         id: loadwork
         //currentFolder: viewer.folder
         folder: StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0]
-        title: qsTr("Please choose a file") + rootItem.emptyString
+        title: qsTr("Выберите файл") + rootItem.emptyString
         onAccepted: {
             console.log("You chose: " + loadwork.file)
             var path = loadwork.file.toString();
@@ -692,20 +692,20 @@ ApplicationWindow {
         }
         Text {
             text: {
-                if (modList.funcVal===0) qsTr("Ожидаемое время выполнения (с): ") + ((modList.pstepVal) * modList.nPointsVal) / 1000000  +  rootItem.emptyString;
-                else if (modList.funcVal===1) qsTr("Ожидаемое время выполнения (с): ") + (1000*(modList.pstepVal) * modList.nPointsVal) / 2000000 +  rootItem.emptyString;
-                else if (modList.funcVal===2)  qsTr("Ожидаемое время выполнения (с): ") + (2*(modList.pstepVal) * modList.nPointsVal) / 1000000 +  rootItem.emptyString;
-                else if (modList.funcVal===3) qsTr("Ожидаемое время выполнения (с): ") + (3*(modList.pstepVal) * modList.nPointsVal) / 1000000 + rootItem.emptyString;
-                else if (modList.funcVal===4) qsTr("Ожидаемое время выполнения (с): ") + (3*(modList.pstepVal) * modList.nPointsVal) / 1000000 +  rootItem.emptyString;
-                else if (modList.funcVal===5) qsTr("Ожидаемое время выполнения (с): ") + ((modList.pstepVal) * modList.nPointsVal) / 1000000  +  rootItem.emptyString;
-                else if (modList.funcVal===6) qsTr("Ожидаемое время выполнения (с): ") + (3*(modList.pstepVal) * modList.nPointsVal) / 1000000 +  rootItem.emptyString;
-                else if (modList.funcVal===7) qsTr("Ожидаемое время выполнения (с): ") + (10*(modList.pstepVal) * modList.nPointsVal) / 1000000  +  rootItem.emptyString;
-                else if (modList.funcVal===8) qsTr("Ожидаемое время выполнения (с): ") + (14*(modList.pstepVal) * modList.nPointsVal) / 1000000   +  rootItem.emptyString;
-                else if (modList.funcVal===9) qsTr("Ожидаемое время выполнения (с): ") + (10*(modList.pstepVal) * modList.nPointsVal) / 1000000   +  rootItem.emptyString;
+                if (modList.funcVal===0) qsTr("Ожидаемое время вычислений (с): ") + ((modList.pstepVal) * modList.nPointsVal) / 1000000  +  rootItem.emptyString;
+                else if (modList.funcVal===1) qsTr("Ожидаемое время вычислений (с): ") + (1000*(modList.pstepVal) * modList.nPointsVal) / 2000000 +  rootItem.emptyString;
+                else if (modList.funcVal===2)  qsTr("Ожидаемое время вычислений (с): ") + (2*(modList.pstepVal) * modList.nPointsVal) / 1000000 +  rootItem.emptyString;
+                else if (modList.funcVal===3) qsTr("Ожидаемое время вычислений (с): ") + (3*(modList.pstepVal) * modList.nPointsVal) / 1000000 + rootItem.emptyString;
+                else if (modList.funcVal===4) qsTr("Ожидаемое время вычислений (с): ") + (3*(modList.pstepVal) * modList.nPointsVal) / 1000000 +  rootItem.emptyString;
+                else if (modList.funcVal===5) qsTr("Ожидаемое время вычислений (с): ") + ((modList.pstepVal) * modList.nPointsVal) / 1000000  +  rootItem.emptyString;
+                else if (modList.funcVal===6) qsTr("Ожидаемое время вычислений (с): ") + (3*(modList.pstepVal) * modList.nPointsVal) / 1000000 +  rootItem.emptyString;
+                else if (modList.funcVal===7) qsTr("Ожидаемое время вычислений (с): ") + (10*(modList.pstepVal) * modList.nPointsVal) / 1000000  +  rootItem.emptyString;
+                else if (modList.funcVal===8) qsTr("Ожидаемое время вычислений (с): ") + (14*(modList.pstepVal) * modList.nPointsVal) / 1000000   +  rootItem.emptyString;
+                else if (modList.funcVal===9) qsTr("Ожидаемое время вычислений (с): ") + (10*(modList.pstepVal) * modList.nPointsVal) / 1000000   +  rootItem.emptyString;
             }
         }
         Text {
-            text:  qsTr("Объем требуемой памяти (МБ): ") + Math.round(((((100/modList.pstepVal) * modList.nPointsVal)*3*8)/1024)/1024 + (((100/modList.pstepVal) * modList.nPointsVal)*3)/1024 + 50) + rootItem.emptyString
+            text:  qsTr("Объем памяти (МБ): ") + Math.round(((((100/modList.pstepVal) * modList.nPointsVal)*3*8)/1024)/1024 + (((100/modList.pstepVal) * modList.nPointsVal)*3)/1024 + 50) + rootItem.emptyString
         }
         Row{
         Text {
@@ -754,7 +754,8 @@ ApplicationWindow {
     }
     StackView {
         id: stackView
-         initialItem: "modeling.qml"
+        initialItem: "modeling.qml"
+   //      initialItem: "modeling.qml"
    //   initialItem: "HomeForm.qml"
         anchors.fill: parent
 

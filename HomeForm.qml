@@ -463,6 +463,7 @@ Page {
                         elide: Text.ElideRight
                     }
                      onClicked: {
+                         modList.removeallItems();
                         modList.showOne();
                     }
                      background: Rectangle {
@@ -488,7 +489,8 @@ Page {
                         elide: Text.ElideRight
                     }
                      onClicked: {
-                        modList.showTwo();
+                         modList.removeallItems();
+                         modList.showTwo();
                     }
                      background: Rectangle {
                         implicitWidth: 20
@@ -516,6 +518,7 @@ Page {
                     elide: Text.ElideRight
                 }
                  onClicked: {
+                     modList.removeallItems();
                     modList.differenceBetweenSaves();
                 }
                  background: Rectangle {

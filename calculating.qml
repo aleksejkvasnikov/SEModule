@@ -121,7 +121,7 @@ Page {
     }
     FileDialog {
         id: fileDialog
-        title: qsTr("Please choose a file") + rootItem.emptyString
+        title: qsTr("Выберите файл") + rootItem.emptyString
         folder: shortcuts.home
         onAccepted: {
             console.log("You chose: " + fileDialog.file)

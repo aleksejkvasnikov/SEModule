@@ -66,4 +66,5 @@ DISTFILES += \
     three.js \
     ImageCube.qml \
     csg.js \
-    ThreeCSG.js
+    ThreeCSG.js \
+    selectionpage.qml
