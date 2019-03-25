@@ -270,6 +270,8 @@ Page {
             }
             onEditingFinished:
             {
+                imageCube.map=mapTf.text
+
                 modList.mapVal = mapTf.text
             }
         }
@@ -286,6 +288,7 @@ Page {
             text: modList.napVal
             onEditingFinished:
             {
+                imageCube.nap=napTf.text
                 modList.napVal = napTf.text
             }
         }
@@ -309,6 +312,7 @@ Page {
             text: modList.dhVal
             onEditingFinished:
             {
+                imageCube.dh=dhTf.text*100*5
                 modList.dhVal = dhTf.text
             }
         }
@@ -325,6 +329,7 @@ Page {
             }
             onEditingFinished:
             {
+                imageCube.dv=dvTf.text*100*5
                 modList.dvVal = dvTf.text
             }
         }
@@ -432,6 +437,10 @@ Page {
         l: lTf.text*100*5
         xx: xTf.text*100*5
         yy: yTf.text*100*5
+        map: mapTf.text*1
+        nap: napTf.text*1
+        dh: dhTf.text*100*5
+        dv: dvTf.text*100*5
         //! [0]
         angleOffset: -180 / 8.0
         backgroundColor: "#FCFCFC"
@@ -452,6 +461,7 @@ Page {
                 onClicked: {
                     rect2d.visible = true;
                     rect3d.visible = false;
+                    imageCube.arrayMode(1);
                     val2dor3d = 1;
                 }
             }
@@ -479,6 +489,7 @@ Page {
                 onClicked: {
                     rect3d.visible = true;
                     rect2d.visible = false;
+                    imageCube.arrayMode(2);
                     val2dor3d = 2;
                 }
             }

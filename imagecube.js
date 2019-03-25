@@ -58,7 +58,6 @@ var PrevX=40, PrevY=90;
 var buttonpressed;
 function initializeGL(canvas, eventSource) {
     //! [0]
-    console.log("azaza")
     camera = new THREE.PerspectiveCamera(50, canvas.width / canvas.height, 1, 2000);
     camera.position.z = 400;
     camera.position.y = 140;
@@ -83,8 +82,9 @@ function initializeGL(canvas, eventSource) {
     var divisions = 10;
 
     gridHelper = new THREE.GridHelper( size, divisions );
-    scene.add( gridHelper );
-    gridHelper.translateY(-canvas.bb/2);
+     gridHelper.translateY(-canvas.bb/2);
+   // scene.add( gridHelper );
+
     axesHelper = new THREE.AxisHelper( 25 );
     axesHelper.translateX(canvas.aa*0.8);
     scene.add( axesHelper );
@@ -94,8 +94,8 @@ function initializeGL(canvas, eventSource) {
     var cube3 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa-canvas.t,canvas.bb-canvas.t,canvas.dd-canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
     var cube3Csg	= THREE.CSG.toCSG(cube3);
     var cube2 = new THREE.Mesh(new THREE.BoxGeometry(canvas.l,canvas.w,canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
-    cube2.translateX(-canvas.aa/2+canvas.l/2+canvas.xx);
-    cube2.translateY(-canvas.bb/2+canvas.w/2+canvas.yy);
+    cube2.translateX(-canvas.aa/2+canvas.xx);
+    cube2.translateY(-canvas.bb/2+canvas.yy);
     cube2.translateZ(canvas.dd/2);
  //   cube2.translateY(canvas.bb/2);
     var cube2Csg	= THREE.CSG.toCSG(cube2);
@@ -145,7 +145,7 @@ function resizeGL(canvas) {
 }
 function onDocumentMouseWheel(x,y) {
   camera.zoom += (y/120)/8;
-   console.log(y);
+  // console.log(y);
     camera.updateProjectionMatrix();
 }
 function onDocumentMouseDown(x,y, buttons) {
@@ -162,10 +162,10 @@ function onDocumentMouseMove(x,y) {
     if(buttonpressed){
     cube.rotation.y += (-1*delta)/70;
     axesHelper.rotation.y += (-1*delta)/70;
-    gridHelper.rotation.y += (-1*delta)/70;
+   // gridHelper.rotation.y += (-1*delta)/70;
         cube.rotation.x += (-1*delta2)/70;
         axesHelper.rotation.x += (-1*delta2)/70;
-        gridHelper.rotation.x += (-1*delta2)/70;
+    //    gridHelper.rotation.x += (-1*delta2)/70;
     }
    // camera.position.y += ( -y/40 - camera.position.y ) * .2;
     PrevY=x;
@@ -189,6 +189,52 @@ function resize() {
     camera.updateProjectionMatrix();
  // }
 }
+function changeMode(mode, canvas){
+    if(mode===1)
+        resizeCube(canvas)
+    else if(mode===2){
+        console.log(canvas.map, canvas.nap, canvas.dh, canvas.dv);
+        while(scene.children.length > 0){
+            scene.remove(scene.children[0]);
+        }
+        axesHelper = new THREE.AxisHelper( 25 );
+        axesHelper.translateX(canvas.aa*0.8);
+        scene.add( axesHelper );
+        gridHelper = new THREE.GridHelper( 100, 10 );
+      //  scene.add( gridHelper );
+      //  gridHelper.translateY(-canvas.bb/2);
+        var cube1 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa,canvas.bb,canvas.dd),new THREE.MeshLambertMaterial({color: 0xFF0000}));
+        var cube1Csg	= THREE.CSG.toCSG(cube1);
+        var cube3 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa-canvas.t,canvas.bb-canvas.t,canvas.dd-canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
+        var cube3Csg	= THREE.CSG.toCSG(cube3);
+
+        var resultCsg	= (cube1Csg.subtract(cube3Csg));
+        console.log((canvas.dh*(canvas.map-1))/2);
+        for(var i=0; i<canvas.map; i++)
+            for(var j=0; j<canvas.nap; j++){
+                var cube2 = new THREE.Mesh(new THREE.BoxGeometry(canvas.l,canvas.w,canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
+
+                cube2.translateX(canvas.dh*i - ((canvas.dh*(canvas.map-1))/2));
+                cube2.translateY(canvas.dv*j - ((canvas.dv*(canvas.nap-1))/2));
+                cube2.translateZ(canvas.dd/2);
+                var cube2Csg	= THREE.CSG.toCSG(cube2);
+                resultCsg = resultCsg.subtract(cube2Csg);
+            }
+
+        var resultGeo	= THREE.CSG.fromCSG( resultCsg );
+        cube = new THREE.Mesh( resultGeo,  new THREE.MeshLambertMaterial({color: 0xFF0000}));
+        scene.add( cube );
+       // camera.lookAt(cube.position);
+        scene.add(new THREE.AmbientLight(0x444444));
+        var directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
+        directionalLight.position.y = 130;
+        directionalLight.position.z = 700;
+        directionalLight.position.x = Math.tan(canvas.angleOffset) * directionalLight.position.z;
+        directionalLight.position.normalize();
+        scene.add(directionalLight);
+    }
+}
+
 function resizeCube(canvas){
   //console.log(xSize/cube.geometry.parameters.width);
     while(scene.children.length > 0){
@@ -198,22 +244,22 @@ function resizeCube(canvas){
     axesHelper.translateX(canvas.aa*0.8);
     scene.add( axesHelper );
     gridHelper = new THREE.GridHelper( 100, 10 );
-    scene.add( gridHelper );
-    gridHelper.translateY(-canvas.bb/2);
+    //scene.add( gridHelper );
+   // gridHelper.translateY(-canvas.bb/2);
     var cube1 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa,canvas.bb,canvas.dd),new THREE.MeshLambertMaterial({color: 0xFF0000}));
     var cube1Csg	= THREE.CSG.toCSG(cube1);
     var cube3 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa-canvas.t,canvas.bb-canvas.t,canvas.dd-canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
     var cube3Csg	= THREE.CSG.toCSG(cube3);
     var cube2 = new THREE.Mesh(new THREE.BoxGeometry(canvas.l,canvas.w,canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
-    cube2.translateX(-canvas.aa/2+canvas.l/2+canvas.xx);
-    cube2.translateY(-canvas.bb/2+canvas.w/2+canvas.yy);
+    cube2.translateX(-canvas.aa/2+canvas.xx);
+    cube2.translateY(-canvas.bb/2+canvas.yy);
     cube2.translateZ(canvas.dd/2);
     var cube2Csg	= THREE.CSG.toCSG(cube2);
     var resultCsg	= (cube1Csg.subtract(cube3Csg)).subtract(cube2Csg);
     var resultGeo	= THREE.CSG.fromCSG( resultCsg );
     cube = new THREE.Mesh( resultGeo,  new THREE.MeshLambertMaterial({color: 0xFF0000}));
     scene.add( cube );
-    camera.lookAt(cube.position);
+   // camera.lookAt(cube.position);
  /* var scaleFactorX = xSize / cube.geometry.parameters.width;
   var scaleFactorY = ySize / cube.geometry.parameters.height;
   var scaleFactorZ = zSize / cube.geometry.parameters.depth;

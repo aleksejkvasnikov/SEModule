@@ -27,6 +27,10 @@ Canvas3D {
     property real l: 0
     property real xx: 0
     property real yy: 0
+    property real dh: 0
+    property real dv: 0
+    property real map: 0
+    property real nap: 0
     onBackgroundColorChanged: { GLCode.setBackgroundColor(cube.backgroundColor); }
 
     //! [1]
@@ -56,6 +60,9 @@ Canvas3D {
     //! [2]
     function callme(){
         GLCode.resizeCube(cube);
+    }
+    function arrayMode(mode){
+        GLCode.changeMode(mode, cube);
     }
     //! [3]
     onInitializeGL: {
