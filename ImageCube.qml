@@ -61,6 +61,9 @@ Canvas3D {
     function callme(){
         GLCode.resizeCube(cube);
     }
+    function enableWire(){
+        GLCode.enableWire(cube);
+    }
     function arrayMode(mode){
         GLCode.changeMode(mode, cube);
     }

@@ -754,38 +754,38 @@ double robCalculation::calcsomeAKC(int *iter,double freq,double t,double w,doubl
 }
 //30.08.2018 Komnantov calculation method
 double robCalculation::calcMethod2(double a, double d, double b, double p, double fm, double mnoj, double S11){
-    auto c0 = 299792458;
+    double c0 = 299792458.0;
     double f;
     if (fm == 0.0) f=0.000001;
     else f = fm * mnoj;
     dcomp j(0.0,1.0);
-    auto lambda = c0/f;
+    double lambda = c0/f;
     //Волновое число
     auto k0 = 2.0*M_PI / lambda;
-    dcomp kg = k0 * sqrt(1.0-pow(lambda/(dcomp(2.0,0.0)*a),2));
-    double Z0 = 50;
-    auto nu0 = 120 * M_PI;
-    dcomp Zg = (nu0)/sqrt(1.0-pow(lambda/(dcomp(2.0,0.0)*a),2));
+    dcomp kg = k0 * sqrt(1.0-pow(lambda/(dcomp(2.0,0.0)*a),2.0));
+    double Z0 = 50.0;
+    auto nu0 = 120.0 * M_PI;
+    dcomp Zg = (nu0)/sqrt(1.0-pow(lambda/(dcomp(2.0,0.0)*a),2.0));
     dcomp Zsc = j* Zg * tan(kg*(d-p)); // 3.7204066053e-1i
-    dcomp tmp1 = tan(M_PI/2 - (kg*(a-p)))*(Zsc*nu0-dcomp(2.0,0.0)*S11*Z0*nu0-S11*Zsc*nu0+dcomp(2.0,0.0)*S11*Z0*Zsc);
-    dcomp tmp2 = Zg*Zsc*nu0*cos(kg*p)+dcomp(2.0,0.0)*S11*Z0*Zg*Zsc*cos(kg*p)-dcomp(2.0,0.0)*S11*Z0*Zg*nu0*cos(kg*p)-S11*Zg*Zsc*nu0*cos(kg*p)+dcomp(0.0,2.0)*S11*pow(Z0,2)*Zsc*sin(kg*p);
-    dcomp tmp3 = dcomp(2.0,0.0)*S11*pow(Z0,2)*Zsc-dcomp(0,2.0)*S11*Z0*Zg*nu0*tan(a*kg-kg*p)-dcomp(2.0,0)*S11*Z0*Zsc*tan(a*kg-kg*p)*tan(kg*p)-S11*Zg*Zsc*nu0*tan(kg*p)*j-dcomp(0,2.0)*S11*Z0*Zg*nu0*tan(kg*p)-S11*Zg*Zsc*nu0*tan(a*kg-kg*p)*j+Zg*Zsc*nu0*tan(kg*p)*j+dcomp(2.0,0)*S11*Z0*Zg*Zsc*tan(a*kg-kg*p)+dcomp(2.0,0)*S11*Z0*Zg*Zsc*tan(kg*p)+Zg*Zsc*nu0*tan(a*kg-kg*p)*j;
-    dcomp chis = dcomp(-1.0,0) * tmp1*tmp2*tmp3 * j;
-    dcomp znam = dcomp(4.0,0)*S11*Z0*Zsc*(Zg*Zsc*nu0+dcomp(2.0,0)*S11*Z0*Zg*Zsc-dcomp(2.0,0)*S11*Z0*Zg*nu0-S11*Zg*Zsc*nu0)*(Zg*Zsc*nu0+dcomp(2.0,0)*S11*Z0*Zg*Zsc-dcomp(2.0,0)*S11*Z0*Zg*nu0-S11*Zg*Zsc*nu0+dcomp(0,2.0)*S11*pow(Z0,2)*Zsc*tan(kg*p));
+    dcomp tmp1 = tan(M_PI/2.0 - (kg*(a-p)))*(Zsc*nu0-dcomp(2.0,0.0)*S11*Z0*nu0-S11*Zsc*nu0+dcomp(2.0,0.0)*S11*Z0*Zsc);
+    dcomp tmp2 = Zg*Zsc*nu0*cos(kg*p)+dcomp(2.0,0.0)*S11*Z0*Zg*Zsc*cos(kg*p)-dcomp(2.0,0.0)*S11*Z0*Zg*nu0*cos(kg*p)-S11*Zg*Zsc*nu0*cos(kg*p)+dcomp(0.0,2.0)*S11*pow(Z0,2.0)*Zsc*sin(kg*p);
+    dcomp tmp3 = dcomp(2.0,0.0)*S11*pow(Z0,2.0)*Zsc-dcomp(0.0,2.0)*S11*Z0*Zg*nu0*tan(a*kg-kg*p)-dcomp(2.0,0.0)*S11*Z0*Zsc*tan(a*kg-kg*p)*tan(kg*p)-S11*Zg*Zsc*nu0*tan(kg*p)*j-dcomp(0.0,2.0)*S11*Z0*Zg*nu0*tan(kg*p)-S11*Zg*Zsc*nu0*tan(a*kg-kg*p)*j+Zg*Zsc*nu0*tan(kg*p)*j+dcomp(2.0,0.0)*S11*Z0*Zg*Zsc*tan(a*kg-kg*p)+dcomp(2.0,0.0)*S11*Z0*Zg*Zsc*tan(kg*p)+Zg*Zsc*nu0*tan(a*kg-kg*p)*j;
+    dcomp chis = dcomp(-1.0,0.0) * tmp1*tmp2*tmp3 * j;
+    dcomp znam = dcomp(4.0,0.0)*S11*Z0*Zsc*(Zg*Zsc*nu0+dcomp(2.0,0.0)*S11*Z0*Zg*Zsc-dcomp(2.0,0.0)*S11*Z0*Zg*nu0-S11*Zg*Zsc*nu0)*(Zg*Zsc*nu0+dcomp(2.0,0.0)*S11*Z0*Zg*Zsc-dcomp(2.0,0.0)*S11*Z0*Zg*nu0-S11*Zg*Zsc*nu0+dcomp(0.0,2.0)*S11*pow(Z0,2.0)*Zsc*tan(kg*p));
    // qDebug () << 20*log10(abs(chis/znam));
-    return 20*log10(abs(chis/znam));
+    return 20.0*log10(abs(chis/znam));
 }
 //30.08.2018 Komnantov calculation method
 double robCalculation::calcMethod(double a, double d, double b, double p, double fm, double mnoj, double S11){
-    auto c0 = 299792458;
+    auto c0 = 299792458.0;
     auto f = fm * mnoj;
     dcomp j(0.0,1.0);
     auto lambda = c0/f;
     //Волновое число
     auto k0 = 2.0*M_PI / lambda;
     dcomp kg = k0 * sqrt(1.0-pow(lambda/(dcomp(2.0,0.0)*a),2));
-    double Z0 = 50;
-    auto nu0 = 120 * M_PI;
+    double Z0 = 50.0;
+    auto nu0 = 120.0 * M_PI;
     dcomp Zg = (nu0)/sqrt(1.0-pow(lambda/(dcomp(2.0,0.0)*a),2));
     dcomp Zsc = j* Zg * tan(kg*(d-p)); // 3.7204066053e-1i
     dcomp temp1 = Zsc - (Zsc+ dcomp(2.0,0.0)*nu0)*S11; //-2.5901843574e0+3.7331874621e-1i

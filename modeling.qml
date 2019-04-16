@@ -173,7 +173,15 @@ Page {
         text: qsTr("σ (С/м)")
          font: window.font
     }
-
+    CheckBox {
+        x: 330
+        y: 65
+        text: qsTr("Прозрачность")
+        checked: false
+        onCheckStateChanged:{
+            imageCube.enableWire();
+        }
+    }
     RowLayout {
         id: rowLayout2
         x: 374
@@ -424,8 +432,8 @@ Page {
             //anchors.horizontalCenter: parent.horizontalCenter
     ImageCube {
         id: imageCube
-        width: 312 * (parent.width / 1280)
-        height: 312 * (parent.height / 768)
+        width: parent.width
+        height: parent.height*0.6
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 30
         anchors.horizontalCenter: parent.horizontalCenter

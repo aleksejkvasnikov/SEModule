@@ -29,7 +29,8 @@ SOURCES += main.cpp \
     customplotitem.cpp
 
 RC_ICONS = appicon.ico
-RESOURCES += qml.qrc
+RESOURCES += \
+    qml.qrc
 QT += datavisualization
 QT += widgets
 # Additional import path used to resolve QML modules in Qt Creator's code model
@@ -64,6 +65,7 @@ DISTFILES += \
     ../../../Downloads/white.png \
     ImageCube.qml \
     three.js \
+    Arial_Regular.js \
     ImageCube.qml \
     csg.js \
     ThreeCSG.js \
