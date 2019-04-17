@@ -174,6 +174,7 @@ Page {
          font: window.font
     }
     CheckBox {
+        id: opacId
         x: 330
         y: 65
         text: qsTr("Прозрачность")
@@ -434,7 +435,8 @@ Page {
         id: imageCube
         width: parent.width
         height: parent.height*0.6
-        anchors.bottom: parent.bottom
+        anchors.top: rectangle.bottom
+        //anchors.bottom: parent.bottom
         anchors.bottomMargin: 30
         anchors.horizontalCenter: parent.horizontalCenter
         aa: aTf.text*100*5
@@ -457,58 +459,41 @@ Page {
     }
         Image {
             id: image
-            x: window.width/3
-            y: window.height - window.height/2
-            width: window.height/3
-            height: (window.height-35)/3
-            anchors.left: parent.left
-            anchors.leftMargin: 100
-            source: "corpus.PNG"
+            //x: window.width/3
+            //y: 0
+  //          anchors.top: opacId.anchors.bottom
+            x: 335
+            y: 100
+ //           anchors.left: opacId.anchors.left
+//            anchors.leftMargin: 100
+            source: (val2dor3d==1) ? "single_activated.png" : "single.png"
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    rect2d.visible = true;
-                    rect3d.visible = false;
-                    imageCube.arrayMode(1);
-                    val2dor3d = 1;
+                    if(val2dor3d!=1){
+                        val2dor3d = 1;
+                        imageCube.arrayMode();
+                    }
                 }
-            }
-            Rectangle{
-                id: rect2d
-                border.width: 2
-                border.color: "gray"
-                width: window.height/3
-                color: "#00000000"
-                height: (window.height-35)/3
             }
         }
 
         Image {
             id: image2
-            x: window.width/3
-            y: window.height - window.height/2
-            width: window.height/3
-            height: (window.height-35)/3
-            anchors.right: parent.right
-            anchors.rightMargin: 100
-            source: "corpus2.PNG"
+         //   x: window.width/3
+         //   y: window.height - window.height/2
+            x: 335
+            y: 155
+       //     anchors.rightMargin: 100
+            source: (val2dor3d==2) ? "array_activated.png" : "array.png"
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    rect3d.visible = true;
-                    rect2d.visible = false;
-                    imageCube.arrayMode(2);
-                    val2dor3d = 2;
+                    if(val2dor3d!=2){
+                        val2dor3d = 2;
+                        imageCube.arrayMode();
+                    }
                 }
-            }
-            Rectangle{
-                id: rect3d
-                visible: false
-                border.width: 2
-                border.color: "gray"
-                width: window.height/3
-                color: "#00000000"
-                height: (window.height-35)/3
             }
         }
         //}

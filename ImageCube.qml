@@ -64,8 +64,8 @@ Canvas3D {
     function enableWire(){
         GLCode.enableWire(cube);
     }
-    function arrayMode(mode){
-        GLCode.changeMode(mode, cube);
+    function arrayMode(){
+        GLCode.changeMode(cube);
     }
     //! [3]
     onInitializeGL: {

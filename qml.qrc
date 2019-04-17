@@ -21,7 +21,11 @@
         <file>csg.js</file>
         <file>ThreeCSG.js</file>
         <file>ControlEventSource.qml</file>
-        <file>helvetiker_regular.typeface.js</file>
-        <file>Arial_Regular.js</file>
+        <file>Arial_Regular.json</file>
+        <file>SE_Box_start.png</file>
+        <file>array.png</file>
+        <file>single.png</file>
+        <file>array_activated.png</file>
+        <file>single_activated.png</file>
     </qresource>
 </RCC>

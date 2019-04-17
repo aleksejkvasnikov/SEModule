@@ -76,6 +76,13 @@ ApplicationWindow {
         id: rect
         width: window.width
         height: window.height
+        Image {
+            id: image2
+            source: "SE_Box_start.png"
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+
+        }
         contentItem: Row {
             anchors.fill: parent
             Text {
@@ -92,7 +99,7 @@ ApplicationWindow {
                 text: "TALGAT team (talgat.org)"
                 font.family: "Arial"
                 font.pointSize: 20
-                color: "yellow"
+                color: "white"
                 anchors.topMargin: window.height / 3
                 anchors.top: text1s.bottom
             }
@@ -100,7 +107,7 @@ ApplicationWindow {
         background: Rectangle {
                 implicitWidth: window.width
                 implicitHeight: window.height
-                color: 'black'
+                color: 'white'
                 border.color: "#444"
             }
         visible: opacity > 0
@@ -109,7 +116,7 @@ ApplicationWindow {
     SequentialAnimation {
         running: true
         PauseAnimation {
-            duration: 2000 // Wait for 4000ms
+            duration: 1000 // Wait for 4000ms
         }
         NumberAnimation {
             target: rect

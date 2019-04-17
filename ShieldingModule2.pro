@@ -65,8 +65,7 @@ DISTFILES += \
     ../../../Downloads/white.png \
     ImageCube.qml \
     three.js \
-    Arial_Regular.js \
     ImageCube.qml \
     csg.js \
     ThreeCSG.js \
-    selectionpage.qml
+    selectionpage.qml \
