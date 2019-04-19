@@ -27,5 +27,7 @@
         <file>single.png</file>
         <file>array_activated.png</file>
         <file>single_activated.png</file>
+        <file>cylinder_activated.png</file>
+        <file>cylinder.png</file>
     </qresource>
 </RCC>

@@ -13,7 +13,69 @@
 using namespace std;
 typedef complex<double> dcomp;
 //const double M_PI = 3.141592653589793238463;
+double robCalculation::calcNIEetal(int* iter,double freq, double w, double l, double xbol, double ybol, double p, double d, double b, double a, double t){
+  //  qDebug() << "TEST";
+    auto mu0=4.0*3.14*pow(10,(-7));
+    auto eps0=8.85*pow(10,(-12));
+    auto m=1.0;
+    dcomp j(0.0,1.0);
+    auto n=0.0;
+    auto wctemp1=pow((3.14*m/a),2);
+    auto wctemp2=pow((3.14*n/b),2);
+    auto wc=sqrt((wctemp1+wctemp2)/(eps0*mu0));
+    ++(*iter);
+    auto z0 = 120.0*M_PI;
+    auto c = 299792458.0;
+    auto f= freq;
+    dcomp v0(1.0,0.0);
+    auto lambda=c/freq;
+    auto k0=2.0*M_PI/lambda;
 
+    auto gamtemp=pow((2.0*3.14*f),2);
+    auto gam=sqrt(mu0*eps0*(wc+gamtemp));
+
+    // проводимость емкостной диафрагмы
+    auto yctemp2=3.14*ybol/b;
+    auto yctemp3=3.14*w/(2.0*b);
+    auto yctemp4=1.0/sin(yctemp2);
+    auto yctemp5=1.0/sin(yctemp3);
+    yctemp5=log(yctemp4*yctemp5);
+    auto yctemp1=(b*pow(gam,2))/(mu0*3.14*3.14*f);
+    auto yc=j*yctemp1*yctemp5;
+
+    // Проводимость индуктивной диафрагмы
+
+    auto yltemp1=3.14*xbol/a;
+    auto yltemp2=3.14*l/(2.0*a);
+    auto yltemp3=1.0/(sin(yltemp1));
+    auto yltemp4=1.0/(sin(yltemp2));
+        auto yl=(-j/(a*mu0*f))*((pow(yltemp3,2))*(pow(yltemp4,2))-1.0);
+
+    // Сопротивление стенки с апертурой
+    auto zap=1.0/(yc+yl+yl);
+
+    // Преобразование в точку A
+    auto v1=v0*zap/(z0+zap);
+    dcomp z1=z0*zap/(z0+zap);
+    dcomp temp = pow((lambda*m/(2*a)),2);
+    // Характеристический импеданс и постоянная распространения в корпусе
+    dcomp zg=z0/sqrt(1.0-temp);
+    auto kg=k0*sqrt(1.0-temp);
+
+    // Преобразование в точку P
+    auto v2=v1/(cos(kg*p)+j*(z1/zg)*sin(kg*p));
+    auto z2=(z1+j*zg*tan(kg*p))/(1.0+j*(z1/zg)*tan(kg*p));
+
+    // Нагрузка
+    auto z3=j*zg*tan(kg*(d-p));
+
+    // Напряжение в точке P
+    auto vp=v2*z3/(z2+z3);
+
+    //SE
+   // qDebug() << zg.real() << z0;
+    return -20.0*log10(abs(2.0*vp/v0));
+}
 double robCalculation::calcSomeRob(int *iter, double freq, double t, double w, double b, double L, double a, double d, double p)
 {
     //qDebug() << "début de calcRob";

@@ -38,6 +38,9 @@ class surfaceModelList : public QObject
     Q_PROPERTY(double pVal READ pVal WRITE setpVal)
     Q_PROPERTY(double dhVal READ dhVal WRITE setdhVal)
     Q_PROPERTY(double dvVal READ dvVal WRITE setdvVal)
+    Q_PROPERTY(double rVal READ rVal WRITE setrVal)
+    Q_PROPERTY(double hVal READ hVal WRITE sethVal)
+    Q_PROPERTY(double apVal READ apVal WRITE setapVal)
     Q_PROPERTY(double pstepVal READ pstepVal WRITE setpstepVal)
     Q_PROPERTY(double integralVal READ integralVal WRITE setintegralVal)
     Q_PROPERTY(bool RungeVal READ RungeVal WRITE setRungeVal)
@@ -65,6 +68,14 @@ public:
     double aVal() const { return m_aVal; }
     void setbVal(const double &b) {if (b != m_bVal) { m_bVal = b;} }
     double bVal() const { return m_bVal;}
+
+    void setrVal(const double &r) { if (r != m_rVal) { m_rVal = r;} }
+    double rVal() const { return m_rVal; }
+    void sethVal(const double &h) {if (h != m_hVal) { m_hVal = h;} }
+    double hVal() const { return m_hVal;}
+    void setapVal(const double &ap) {if (ap != m_apVal) { m_apVal = ap;} }
+    double apVal() const { return m_apVal;}
+
     void setdVal(const double &d) { if (d != m_dVal) { m_dVal = d;} }
     double dVal() const { return m_dVal; }
     void settVal(const double &t) { if (t != m_tVal) { m_tVal = t;} }
@@ -144,7 +155,7 @@ private:
     double m_progress = 0;
     QString m_file = "", m_locale = "ru_RU";
     double m_time = 0, m_iter = 0;
-    double m_aVal = 0.3, m_dvVal = 0.02, m_dhVal = 0.02, m_bVal = 0.12, m_dVal = 0.3, m_tVal = 0.0015,
+    double m_aVal = 0.3, m_dvVal = 0.02, m_rVal = 0.15, m_hVal = 0.3, m_apVal = 0.08, m_dhVal = 0.02, m_bVal = 0.12, m_dVal = 0.3, m_tVal = 0.0015,
     m_sigmaVal = 37000000, m_wVal = 0.012, m_lVal = 0.012, m_xVal = 0.15, m_yVal = 0.06,m_mapVal = 7, m_napVal = 3,
     m_fMinVal = 1000000, m_fMaxVal = 1000000000, m_nPointsVal = 1000, m_nVal = 2, m_mVal = 3,
     m_pVal = 0.15, m_pstepVal = 10, m_integralVal = 100; bool m_RungeVal = false;

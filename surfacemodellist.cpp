@@ -139,6 +139,9 @@ void surfaceModelList::recalculate()
     calcThread->m_RungeVal = m_RungeVal;
     calcThread->mod = m_funcVal;
     calcThread->modS = m_funcValS;
+    calcThread->m_apVal = m_apVal;
+    calcThread->m_hVal = m_hVal;
+    calcThread->m_rVal = m_rVal;
     calcThread->start();
 
 }

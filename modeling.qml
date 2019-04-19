@@ -19,19 +19,76 @@ Page {
         id: rectangle
         x: 15
         y: 14
-        width: window.width-30
-        height: (window.height > 600) ? window.height/3 : 200
+        width: 250
+        height: 80
+      //  width: window.width-30
+   //     height: (window.height > 600) ? window.height/3 : 200
+        color: "#cfcfcf"
+        radius: 0
+        border.width: 1
+    }
+    Rectangle {
+        id: rectangle2
+        x: 15
+        y: 104
+        width: 250
+        height: 100
+        color: "#cfcfcf"
+        radius: 0
+        border.width: 1
+    }
+    Rectangle {
+        id: rectangle3
+        x: 15
+        y: 214
+        width: 250
+        height: 190
         color: "#cfcfcf"
         radius: 0
         border.width: 1
     }
 
     RowLayout {
-        x: 30
-        y: 70
-        width: 300
+        x: 20
+        y: 129
+        width: 240
         height: 30
-
+        visible : if (val2dor3d==3) true; else false;
+        TextField {
+            id: rTf
+            implicitHeight: 25
+            Layout.fillWidth: true
+            width: parent.width /2
+            height: parent.height
+            text: modList.rVal
+            onEditingFinished:
+            {
+                modList.rVal = rTf.text
+                imageCube.radius=rTf.text*100*5
+                imageCube.callme()
+            }
+        }
+        TextField {
+            id: hTf
+            implicitHeight: 25
+            Layout.fillWidth: true
+            width: parent.width /2
+            height: parent.height
+            text: modList.hVal
+            onEditingFinished:
+            {
+                modList.hVal = hTf.text
+                imageCube.cylHeight=hTf.text*100*5
+                imageCube.callme()
+            }
+        }
+    }
+    RowLayout {
+        x: 20
+        y: 129
+        width: 240
+        height: 30
+        visible : if (val2dor3d==3) false; else true;
         TextField {
             id: aTf
             implicitHeight: 25
@@ -79,9 +136,9 @@ Page {
 
     RowLayout {
         id: rowLayout1
-        x: 30
-        y: 120
-        width: 300
+        x: 20
+        y: 164
+        width: 240
         height: 30
         TextField {
             id: tTf
@@ -116,7 +173,7 @@ Page {
     Text {
         id: text1
         x: 30
-        y: 22
+        y: 106
         width: 73
         height: 27
         text: qsTr("Корпус  (величины указаны в метрах)") + rootItem.emptyString
@@ -125,42 +182,61 @@ Page {
 
     Text {
         id: text2
-        x: 374
-        y: 25
-        anchors.right: parent.right
-        anchors.rightMargin: 205
+        x: 30
+        y: 215
+       // anchors.right: parent.right
+       // anchors.rightMargin: 205
         text: qsTr("Апертура") + rootItem.emptyString
          font: window.font
     }
 
     Text {
+        visible : if (val2dor3d==3) false; else true;
         id: text3
         x: 132
-        y: 50
+        y: 117
         text: qsTr("b")
          font: window.font
     }
 
     Text {
+        visible : if (val2dor3d==3) false; else true;
         id: text4
         x: 30
-        y: 50
+        y: 117
         text: qsTr("a")
         font: window.font
     }
 
     Text {
+        visible : if (val2dor3d==3) false; else true;
         id: text5
         x: 234
-        y: 50
+        y: 117
         text: qsTr("d")
          font: window.font
     }
+    Text {
+        visible : if (val2dor3d==3) true; else false;
+        id: textR
+        x: 30
+        y: 117
+        text: qsTr("r")
+        font: window.font
+    }
 
+    Text {
+        visible : if (val2dor3d==3) true; else false;
+        id: textH
+        x: 234
+        y: 117
+        text: qsTr("h")
+         font: window.font
+    }
     Text {
         id: text6
         x: 30
-        y: 100
+        y: 156
         text: qsTr("t")
          font: window.font
     }
@@ -169,14 +245,14 @@ Page {
     Text {
         id: text7
         x: 184
-        y: 100
+        y: 156
         text: qsTr("σ (С/м)")
          font: window.font
     }
     CheckBox {
         id: opacId
-        x: 330
-        y: 65
+        x: 30
+        y: 352
         text: qsTr("Прозрачность")
         checked: false
         onCheckStateChanged:{
@@ -184,13 +260,36 @@ Page {
         }
     }
     RowLayout {
-        id: rowLayout2
-        x: 374
-        y: 70
-        width: 200
+        id: rowLayout3
+        x: 20
+        y: 235
+        width: 240
         height: 30
-        anchors.right: parent.right
-        anchors.rightMargin: 50
+        visible : if (val2dor3d==3) true; else false;
+        TextField {
+            id: apTf
+            implicitHeight: 25
+            Layout.fillWidth: true
+            width: parent.width
+            height: parent.height
+            text: modList.apVal
+            onEditingFinished:
+            {
+                imageCube.apRadius=apTf.text*100*5
+                imageCube.callme()
+                modList.apVal = apTf.text
+            }
+        }
+    }
+    RowLayout {
+        id: rowLayout2
+        x: 20
+        y: 235
+        width: 240
+        height: 30
+        visible : if (val2dor3d==3) false; else true;
+      //  anchors.right: parent.right
+      //  anchors.rightMargin: 50
         TextField {
             id: wTf
             implicitHeight: 25
@@ -222,13 +321,14 @@ Page {
         }
     }
     RowLayout {
-        id: rowLayout3
-        x: 374
-        y: 120
-        width: 200
+        id: rowLayout5
+        x: 20
+        y: 275
+        width: 240
         height: 30
-        anchors.right: parent.right
-        anchors.rightMargin: 50
+        visible : if (val2dor3d==1) true; else false;
+      //  anchors.right: parent.right
+      //  anchors.rightMargin: 50
         TextField {
             id: xTf
             implicitHeight: 25
@@ -261,12 +361,15 @@ Page {
     }
     RowLayout {
         id: rowLayout4
-        x: 374
-        y: 170
-        width: 200
+        x: 20
+        y: 316
+        width: 240
         height: 30
-        anchors.right: parent.right
-        anchors.rightMargin: 50
+        visible:{
+            if (val2dor3d==2) true; else false;
+        }
+   //     anchors.right: parent.right
+  //      anchors.rightMargin: 50
         TextField {
             id: mapTf
             implicitHeight: 25
@@ -274,9 +377,6 @@ Page {
             width: parent.width /2
             height: parent.height
             text: modList.mapVal
-            visible:{
-                if (val2dor3d==1) false; else true;
-            }
             onEditingFinished:
             {
                 imageCube.map=mapTf.text
@@ -284,16 +384,12 @@ Page {
                 modList.mapVal = mapTf.text
             }
         }
-
         TextField {
             id: napTf
             implicitHeight: 25
             Layout.fillWidth: true
             width: parent.width /2
             height: parent.height
-            visible:{
-                if (val2dor3d==1) false; else true;
-            }
             text: modList.napVal
             onEditingFinished:
             {
@@ -303,12 +399,12 @@ Page {
         }
     }
     RowLayout {
-        id: rowLayout5
-        x: 30
-        y: 170
-        width: 300
+        id: rowLayout55
+        x: 20
+        y: 274
+        width: 240
         visible:{
-            if (val2dor3d==1) false; else true;
+            if (val2dor3d==2) true; else false;
         }
 
         height: 30
@@ -333,9 +429,6 @@ Page {
             width: parent.width /2
             height: parent.height
             text: modList.dvVal
-            visible:{
-                if (val2dor3d==1) false; else true;
-            }
             onEditingFinished:
             {
                 imageCube.dv=dvTf.text*100*5
@@ -345,10 +438,11 @@ Page {
     }
     Text {
         id: text8
-        //x: 378
-        y: 50
-        anchors.right: parent.right
-        anchors.rightMargin: 240
+        x: 30
+        y: 225
+        visible : if (val2dor3d==3) false; else true;
+      //  anchors.right: parent.right
+      //  anchors.rightMargin: 240
         text: qsTr("w")
         font: window.font
         //font.pixelSize: 14
@@ -356,65 +450,72 @@ Page {
 
     Text {
         id: text9
-        //x: 483
-        y: 50
-        anchors.right: parent.right
-        anchors.rightMargin: 140
+        x: 184
+        y: 225
+        visible : if (val2dor3d==3) false; else true;
+       // anchors.right: parent.right
+      //  anchors.rightMargin: 140
         text: qsTr("l")
         font: window.font
     }
 
     Text {
         id: text10
-        x: 378
-        y: 100
-        anchors.right: parent.right
+        x: 30
+        y: 265
+        //anchors.right: parent.right
         anchors.rightMargin: 240
         text: qsTr("X")
+        visible:{
+            if (val2dor3d==1) true; else false;
+        }
          font: window.font
     }
 
     Text {
         id: text11
-        x: 483
-        y: 100
-        anchors.right: parent.right
-        anchors.rightMargin: 140
+        x: 184
+        y: 265
+       // anchors.right: parent.right
+       // anchors.rightMargin: 140
         text: qsTr("Y")
+        visible:{
+            if (val2dor3d==1) true; else false;
+        }
          font: window.font
     }
     Text {
         id: text12
-        x: 378
-        y: 150
+        x: 30
+        y: 303
         visible:{
-            if (val2dor3d==1) false; else true;
+            if (val2dor3d==2) true; else false;
         }
-        anchors.right: parent.right
-        anchors.rightMargin: 230
+     //   anchors.right: parent.right
+      //  anchors.rightMargin: 230
         text: qsTr("M ap")
         font: window.font
     }
 
     Text {
         id: text13
-        x: 483
+        x: 184
         visible:{
-            if (val2dor3d==1) false; else true;
+            if (val2dor3d==2) true; else false;
         }
-        y: 150
-        anchors.right: parent.right
-        anchors.rightMargin: 130
+        y: 303
+     //   anchors.right: parent.right
+    //    anchors.rightMargin: 130
         text: qsTr("N ap")
          font: window.font
     }
     Text {
         id: text14
-        x: 30
+        x: 29
         visible:{
-            if (val2dor3d==1) false; else true;
+            if (val2dor3d==2) true; else false;
         }
-        y: 150
+        y: 264
         text: qsTr("dh")
          font: window.font
     }
@@ -423,9 +524,9 @@ Page {
         id: text15
         x: 184
         visible:{
-            if (val2dor3d==1) false; else true;
+            if (val2dor3d==2) true; else false;
         }
-        y: 150
+        y: 264
         text: qsTr("dv")
         font: window.font
     }
@@ -433,12 +534,13 @@ Page {
             //anchors.horizontalCenter: parent.horizontalCenter
     ImageCube {
         id: imageCube
-        width: parent.width
-        height: parent.height*0.6
-        anchors.top: rectangle.bottom
+        width: parent.width-rectangle.width
+        height: parent.height
+      //  anchors.top: window.top
+       anchors.left: rectangle.right
         //anchors.bottom: parent.bottom
-        anchors.bottomMargin: 30
-        anchors.horizontalCenter: parent.horizontalCenter
+      //  anchors.bottomMargin: 30
+      //  anchors.horizontalCenter: parent.horizontalCenter
         aa: aTf.text*100*5
         bb: bTf.text*100*5
         dd: dTf.text*100*5
@@ -451,47 +553,67 @@ Page {
         nap: napTf.text*1
         dh: dhTf.text*100*5
         dv: dvTf.text*100*5
+        apRadius: apTf.text*100*5
+        radius: rTf.text*100*5
+        cylHeight: hTf.text*100*5
         //! [0]
         angleOffset: -180 / 8.0
         backgroundColor: "#FCFCFC"
         state: "image1"
         image1: "qrc:/devices.png"
     }
-        Image {
-            id: image
-            //x: window.width/3
-            //y: 0
-  //          anchors.top: opacId.anchors.bottom
-            x: 335
-            y: 100
- //           anchors.left: opacId.anchors.left
+    Image {
+        id: image
+        //x: window.width/3
+        //y: 0
+//          anchors.top: opacId.anchors.bottom
+        x: 30
+        y: 25
+//           anchors.left: opacId.anchors.left
 //            anchors.leftMargin: 100
-            source: (val2dor3d==1) ? "single_activated.png" : "single.png"
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    if(val2dor3d!=1){
-                        val2dor3d = 1;
-                        imageCube.arrayMode();
-                    }
+        source: (val2dor3d!=1) ? "single_activated.png" : "single.png"
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                if(val2dor3d!=1){
+                    val2dor3d = 1;
+                    imageCube.arrayMode(0);
                 }
             }
         }
-
+    }
         Image {
             id: image2
          //   x: window.width/3
          //   y: window.height - window.height/2
-            x: 335
-            y: 155
+            x: 100
+            y: 25
        //     anchors.rightMargin: 100
-            source: (val2dor3d==2) ? "array_activated.png" : "array.png"
+            source: (val2dor3d!=2) ? "array_activated.png" : "array.png"
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
                     if(val2dor3d!=2){
                         val2dor3d = 2;
-                        imageCube.arrayMode();
+                        imageCube.arrayMode(1);
+                    }
+                }
+            }
+        }
+        Image {
+            id: image3
+         //   x: window.width/3
+         //   y: window.height - window.height/2
+            x: 160
+            y: 25
+       //     anchors.rightMargin: 100
+            source: (val2dor3d!=3) ? "cylinder_activated.png" : "cylinder.png"
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    if(val2dor3d!=3){
+                        val2dor3d = 3;
+                        imageCube.arrayMode(2);
                     }
                 }
             }

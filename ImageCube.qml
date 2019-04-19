@@ -20,6 +20,9 @@ Canvas3D {
     property real yRotation: 0
     property real zRotation: 0
     property real aa: 0
+    property real cylHeight: 0
+    property real radius: 0
+    property real apRadius: 0
     property real bb: 0
     property real dd: 0
     property real t: 0
@@ -64,9 +67,10 @@ Canvas3D {
     function enableWire(){
         GLCode.enableWire(cube);
     }
-    function arrayMode(){
-        GLCode.changeMode(cube);
+    function arrayMode(type){
+        GLCode.changeMode(type, cube);
     }
+
     //! [3]
     onInitializeGL: {
         GLCode.initializeGL(cube, eventSource);

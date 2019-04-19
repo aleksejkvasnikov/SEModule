@@ -55,7 +55,7 @@ Qt.include("ThreeCSG.js")
 var camera, scene, renderer,group;
 var cube, result, axesHelper, gridHelper, letterA;
 var pointLight;
-var mode = false;
+var mode = 0;
 var PrevX=40, PrevY=90;
 var buttonpressed;
 var wireVal = false;
@@ -64,7 +64,9 @@ function drawLetters(canvas){
     var source ='qrc:/Arial_Regular.json';
     var loader = new THREE.FontLoader();
     loader.load( source, function ( font ) {
-      var textGeometry = new THREE.TextGeometry( "a", {
+        if(mode == 2) var aText = "r"
+        else aText = "a"
+      var textGeometry = new THREE.TextGeometry( aText, {
         font: font,
         size: 10,
         height: 1,
@@ -96,9 +98,10 @@ function drawLetters(canvas){
         var letterB = new THREE.Mesh( textGeometry, textMaterial );
           letterB.translateX(-canvas.aa/2-(canvas.aa/2*0.1));
           letterB.translateZ(canvas.dd/2);
-        group.add(letterB);
-
-        textGeometry = new THREE.TextGeometry( "d", {
+        if(mode != 2) group.add(letterB);
+        if(mode == 2) var dText = "h"
+        else dText = "d"
+        textGeometry = new THREE.TextGeometry( dText, {
           font: font,
           size: 10,
           height: 1,
@@ -130,17 +133,21 @@ function initializeGL(canvas, eventSource) {
     var size = 100;
     var divisions = 10;
 
-    gridHelper = new THREE.GridHelper( size, divisions );
-    gridHelper.translateY(-canvas.bb/2);
+ //   gridHelper = new THREE.GridHelper( size, divisions );
+   // gridHelper.translateY(-1*canvas.bb);
    // scene.add( gridHelper );
     var cube1, cube1Csg, cube2, cube2Csg, cube3, cube3Csg, resultGeo, resultCsg;
     axesHelper = new THREE.AxisHelper( 25 );
-    axesHelper.translateX(canvas.aa*0.8);
-    scene.add( axesHelper );
-    if(!mode){
-        cube1 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa,canvas.bb,canvas.dd),new THREE.MeshLambertMaterial({color: 0xFF0000}));
+    axesHelper.translateX(-1*canvas.aa/2);
+    axesHelper.translateY(-1*canvas.bb/2);
+    if(mode==2) axesHelper.translateZ(canvas.cylHeight*0.8);
+    else axesHelper.translateZ(canvas.dd*0.8);
+    axesHelper.rotation.y = Math.PI / 2;
+   // scene.add( axesHelper );
+    if(mode==0){
+        cube1 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa+canvas.t,canvas.bb+canvas.t,canvas.dd+canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
         cube1Csg	= THREE.CSG.toCSG(cube1);
-        cube3 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa-canvas.t,canvas.bb-canvas.t,canvas.dd-canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
+        cube3 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa,canvas.bb,canvas.dd),new THREE.MeshLambertMaterial({color: 0xFF0000}));
         cube3Csg	= THREE.CSG.toCSG(cube3);
         cube2 = new THREE.Mesh(new THREE.BoxGeometry(canvas.l,canvas.w,canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
         cube2.translateX(-canvas.aa/2+canvas.xx);
@@ -151,10 +158,10 @@ function initializeGL(canvas, eventSource) {
          resultCsg	= (cube1Csg.subtract(cube3Csg)).subtract(cube2Csg);
          resultGeo	= THREE.CSG.fromCSG( resultCsg );
     }
-    else{
-         cube1 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa,canvas.bb,canvas.dd),new THREE.MeshLambertMaterial({color: 0xFF0000}));
+    else if(mode==1){
+         cube1 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa+canvas.t,canvas.bb+canvas.t,canvas.dd+canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
          cube1Csg	= THREE.CSG.toCSG(cube1);
-         cube3 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa-canvas.t,canvas.bb-canvas.t,canvas.dd-canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
+         cube3 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa,canvas.bb,canvas.dd),new THREE.MeshLambertMaterial({color: 0xFF0000}));
          cube3Csg	= THREE.CSG.toCSG(cube3);
          resultCsg	= (cube1Csg.subtract(cube3Csg));
        // console.log((canvas.dh*(canvas.map-1))/2);
@@ -168,9 +175,25 @@ function initializeGL(canvas, eventSource) {
                 resultCsg = resultCsg.subtract(cube2Csg);
             }
          resultGeo	= THREE.CSG.fromCSG( resultCsg );
+    }else if(mode==2){
+        // цилиндр
+        var cylinder1  = new THREE.Mesh(new THREE.CylinderGeometry(canvas.radius+canvas.t, canvas.radius+canvas.t, canvas.cylHeight+canvas.t, 36), new THREE.MeshLambertMaterial({color: 0xFF0000}));
+        cylinder1.rotation.x = Math.PI / 2;
+        var cylinder2  = new THREE.Mesh(new THREE.CylinderGeometry(canvas.radius, canvas.radius, canvas.cylHeight, 36), new THREE.MeshLambertMaterial({color: 0xFF0000}));
+        cylinder2.rotation.x = Math.PI / 2;
+        var cylinder3  = new THREE.Mesh(new THREE.CylinderGeometry(canvas.apRadius, canvas.apRadius, canvas.cylHeight, 36), new THREE.MeshLambertMaterial({color: 0xFF0000}));
+        cylinder3.rotation.x = Math.PI / 2;
+        cylinder3.translateZ(-1 * canvas.cylHeight/2);
+        var cylinder1Csg	= THREE.CSG.toCSG(cylinder1);
+        var cylinder2Csg	= THREE.CSG.toCSG(cylinder2);
+        var cylinder3Csg	= THREE.CSG.toCSG(cylinder3);
+        resultCsg	= (cylinder1Csg.subtract(cylinder2Csg)).subtract(cylinder3Csg);
+        resultGeo	= THREE.CSG.fromCSG( resultCsg );
+        console.log("here");
     }
+
     group = new THREE.Group();
-    cube = new THREE.Mesh( resultGeo,  new THREE.MeshLambertMaterial({color: 0xFF0000, wireframe: wireVal}) );
+    cube = new THREE.Mesh( resultGeo,  new THREE.MeshLambertMaterial({color: 0x6A5ACD, wireframe: wireVal}) );
     if(!wireVal){       
         group.add(cube);
     }
@@ -181,6 +204,7 @@ function initializeGL(canvas, eventSource) {
         var wireframe = new THREE.LineSegments( geo, mat );
         group.add( wireframe );
     }
+    group.add(axesHelper);
     drawLetters(canvas);
     scene.add( group );
     camera.lookAt(group.position);
@@ -240,10 +264,10 @@ function onDocumentMouseMove(x,y) {
    // console.log(delta)
     if(buttonpressed){
     group.rotation.y += (-1*delta)/70;
-    axesHelper.rotation.y += (-1*delta)/70;
+  //  axesHelper.rotation.y += (-1*delta)/70;
    // gridHelper.rotation.y += (-1*delta)/70;
         group.rotation.x += (-1*delta2)/70;
-        axesHelper.rotation.x += (-1*delta2)/70;
+     //   axesHelper.rotation.x += (-1*delta2)/70;
     //    gridHelper.rotation.x += (-1*delta2)/70;
     }
    // camera.position.y += ( -y/40 - camera.position.y ) * .2;
@@ -267,56 +291,19 @@ function enableWire(canvas)
     else wireVal = true;
     initializeGL(canvas);
 }
-function changeMode(canvas)
+function changeMode(type, canvas)
 {
     while(scene.children.length > 0){
         scene.remove(scene.children[0]);
     }
-    if(mode) mode = false;
-    else mode = true;
+    mode = type;
     initializeGL(canvas);
 }
 function resizeCube(canvas){
-  //console.log(xSize/cube.geometry.parameters.width);
     while(scene.children.length > 0){
         scene.remove(scene.children[0]);
     }
-    axesHelper = new THREE.AxisHelper( 25 );
-    axesHelper.translateX(canvas.aa*0.8);
-    scene.add( axesHelper );
-    gridHelper = new THREE.GridHelper( 100, 10 );
-    //scene.add( gridHelper );
-   // gridHelper.translateY(-canvas.bb/2);
-    var cube1 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa,canvas.bb,canvas.dd),new THREE.MeshLambertMaterial({color: 0xFF0000}));
-    var cube1Csg	= THREE.CSG.toCSG(cube1);
-    var cube3 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa-canvas.t,canvas.bb-canvas.t,canvas.dd-canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
-    var cube3Csg	= THREE.CSG.toCSG(cube3);
-    var cube2 = new THREE.Mesh(new THREE.BoxGeometry(canvas.l,canvas.w,canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
-    cube2.translateX(-canvas.aa/2+canvas.xx);
-    cube2.translateY(-canvas.bb/2+canvas.yy);
-    cube2.translateZ(canvas.dd/2);
-    var cube2Csg	= THREE.CSG.toCSG(cube2);
-    var resultCsg	= (cube1Csg.subtract(cube3Csg)).subtract(cube2Csg);
-    var resultGeo	= THREE.CSG.fromCSG( resultCsg );
-    cube = new THREE.Mesh( resultGeo,  new THREE.MeshLambertMaterial({color: 0xFF0000}));
-    scene.add( cube );
-   // camera.lookAt(cube.position);
- /* var scaleFactorX = xSize / cube.geometry.parameters.width;
-  var scaleFactorY = ySize / cube.geometry.parameters.height;
-  var scaleFactorZ = zSize / cube.geometry.parameters.depth;
-  cube.scale.set( scaleFactorX, scaleFactorY, scaleFactorZ );
-  */
-    // Lights
-    //! [6]
-    scene.add(new THREE.AmbientLight(0x444444));
-    var directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
-    directionalLight.position.y = 130;
-    directionalLight.position.z = 700;
-    directionalLight.position.x = Math.tan(canvas.angleOffset) * directionalLight.position.z;
-    directionalLight.position.normalize();
-    scene.add(directionalLight);
-   // setBackgroundColor(cube.backgroundColor);
-    //! [6]
+    initializeGL(canvas);
 }
 //! [5]
 function paintGL(canvas) {

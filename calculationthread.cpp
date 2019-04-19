@@ -57,6 +57,10 @@ double CalculationThread::GetCalculation(int i, double tempFreq, double pp)
             return rob_calcs.Nie_2017(iterations, m_fMinVal, m_aVal, m_bVal, m_pVal, m_dVal, m_tVal, m_wVal, m_napVal, m_mapVal, m_mVal, m_nVal, m_dhVal, m_dvVal);
         case 19:
             return rob_calcs.Nie_2017(iterations, tempFreq, m_aVal, m_bVal, pp, m_dVal, m_tVal, m_wVal, m_napVal, m_mapVal, m_mVal, m_nVal, m_dhVal, m_dvVal);
+        case 22:
+            return rob_calcs.calcNIEetal(iterations, m_fMinVal, m_wVal, m_lVal, m_xVal, m_yVal, m_pVal, m_dVal, m_bVal, m_aVal, m_tVal);
+        case 23:
+            return rob_calcs.calcNIEetal(iterations, tempFreq, m_wVal, m_lVal, m_xVal, m_yVal, pp, m_dVal, m_bVal, m_aVal, m_tVal);
     }
     return 0;
 }
@@ -406,6 +410,13 @@ void CalculationThread::run()
             mItems.append({ tempFreq, tempValue, pp});
         }
         */
+        emit time(timer.elapsed());
+        qDebug() << "The calcsomeNie took " << timer.elapsed() << "milliseconds";
+        break;
+    case 11:
+        timer.start();
+        qDebug() << mod;
+        CalcThread(tempValue, mod + mod);
         emit time(timer.elapsed());
         qDebug() << "The calcsomeNie took " << timer.elapsed() << "milliseconds";
         break;

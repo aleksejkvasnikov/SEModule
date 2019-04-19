@@ -646,6 +646,7 @@ ApplicationWindow {
                     if (currentID==3)  qsTr("Задать параметры") + rootItem.emptyString;
                     else qsTr("Задать геометрию") + rootItem.emptyString;
                 }
+                focusPolicy: Qt.NoFocus
                 onClicked:
                 {
                     if (currentID == 3) {
