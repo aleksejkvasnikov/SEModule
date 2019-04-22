@@ -31,6 +31,7 @@ public:
        double calcMethod2(double a, double d, double b, double p, double fm, double mnoj, double S11);
        double CalcTemp(int* iter,bool RungeVal, double xmax, double xmin, double temp6, double m, double a, double L, double intval);
        double calcNIEetal(int* iter,double freq, double w, double l, double xbol, double ybol, double p, double d, double b, double a, double t);
+       double WAMGetal(int* iter, double freq, double R, double r, double t, double d, double p);
 };
 
 #endif // ROBCALCULATION_H

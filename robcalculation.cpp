@@ -13,6 +13,13 @@
 using namespace std;
 typedef complex<double> dcomp;
 //const double M_PI = 3.141592653589793238463;
+
+//  МОДЕЛЬ WAMG et al (cylindrical encl)
+//double robCalculation::WAMGetal(){
+
+//}
+
+
 double robCalculation::calcNIEetal(int* iter,double freq, double w, double l, double xbol, double ybol, double p, double d, double b, double a, double t){
   //  qDebug() << "TEST";
     auto mu0=4.0*3.14*pow(10,(-7));

@@ -140,7 +140,7 @@ ApplicationWindow {
 
         Text {
             id: text1
-            text: qsTr("О программе - SE box v1.2") + rootItem.emptyString
+            text: qsTr("О программе - SE box v1.9") + rootItem.emptyString
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: window.top
             anchors.topMargin: 0
@@ -163,7 +163,7 @@ ApplicationWindow {
 
         Text {
             id: text2
-            text: qsTr("\temail: aleksejkvasnikov@gmail.com\n Благодарности:\n Simon Raguin, Thomas Chevrie\n\n Исходный код:\n github.com/aleksejkvasnikov/SEModule")
+            text: qsTr("\temail: aleksejkvasnikov@gmail.com\n Благодарности:\n Антон Иванов\n\n Исходный код:\n github.com/aleksejkvasnikov/SEModule")
             anchors.top: parent.top
             anchors.topMargin: 80
             anchors.horizontalCenter: button.horizontalCenter
