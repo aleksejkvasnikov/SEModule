@@ -12,7 +12,7 @@ ApplicationWindow {
     visible: true
     width: 740
     height: 530
-    title: qsTr("3D SE box") + " v1.2" + rootItem.emptyString
+    title: qsTr("3D SE box") + " v1.9" + rootItem.emptyString
     /*Component.onCompleted: {
         if(firstrun)
         {

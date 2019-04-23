@@ -457,8 +457,8 @@ CSG.Plane.prototype = {
           var j = (i + 1) % polygon.vertices.length;
           var ti = types[i], tj = types[j];
           var vi = polygon.vertices[i], vj = polygon.vertices[j];
-          if (ti != BACK) f.push(vi);
-          if (ti != FRONT) b.push(ti != BACK ? vi.clone() : vi);
+          if (ti !== BACK) f.push(vi);
+          if (ti !== FRONT) b.push(ti !== BACK ? vi.clone() : vi);
           if ((ti | tj) == SPANNING) {
             var t = (this.w - this.normal.dot(vi.pos)) / this.normal.dot(vj.pos.minus(vi.pos));
             var v = vi.interpolate(vj, t);

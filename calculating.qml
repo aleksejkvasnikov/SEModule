@@ -245,7 +245,7 @@ Page {
             Layout.fillWidth: true
             id: comboBox
             model: [ "Robinson et al.", "Shi et al.", "Po'ad et al.", "Po'ad Plus", "Po'ad multiple", "AKC Standart",
-                "AKC Integral", "Ren et al.", "Dehkhoda et al.", "Nie et al.", "S method", "NIE et al (waveguide diagrams)"]
+                "AKC Integral", "Ren et al.", "Dehkhoda et al.", "Nie et al.", "S method", "NIE et al. (waveguide diagrams)", "WAMG et al."]
             height: parent.height
             currentIndex: modList.funcVal
             width: parent.width

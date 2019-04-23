@@ -21,7 +21,10 @@ CustomPlotItem::~CustomPlotItem()
     delete m_CustomPlot;
     m_CustomPlot = nullptr;
 }
-
+void CustomPlotItem::initPpoint(QString point)
+{
+    qDebug() << point;
+}
 void CustomPlotItem::initCustomPlot(QVector<double> x, QVector<double> y)
 {
     m_CustomPlot = new QCustomPlot();

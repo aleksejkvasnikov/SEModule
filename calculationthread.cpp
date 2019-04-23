@@ -61,6 +61,10 @@ double CalculationThread::GetCalculation(int i, double tempFreq, double pp)
             return rob_calcs.calcNIEetal(iterations, m_fMinVal, m_wVal, m_lVal, m_xVal, m_yVal, m_pVal, m_dVal, m_bVal, m_aVal, m_tVal);
         case 23:
             return rob_calcs.calcNIEetal(iterations, tempFreq, m_wVal, m_lVal, m_xVal, m_yVal, pp, m_dVal, m_bVal, m_aVal, m_tVal);
+        case 24:
+            return rob_calcs.WAMGetal(iterations, m_fMinVal, m_apVal, m_rVal, m_tVal, m_dVal, m_pVal);
+        case 25:
+            return rob_calcs.WAMGetal(iterations, tempFreq, m_apVal, m_rVal, m_tVal, m_dVal, pp);
     }
     return 0;
 }
@@ -415,10 +419,16 @@ void CalculationThread::run()
         break;
     case 11:
         timer.start();
-        qDebug() << mod;
+//        qDebug() << mod;
         CalcThread(tempValue, mod + mod);
         emit time(timer.elapsed());
-        qDebug() << "The calcsomeNie took " << timer.elapsed() << "milliseconds";
+      //  qDebug() << "The calcsomeNie took " << timer.elapsed() << "milliseconds";
+        break;
+    case 12:
+        timer.start();
+       // qDebug() << mod;
+        CalcThread(tempValue, mod + mod);
+        emit time(timer.elapsed());
         break;
     case 10:
         //timer.start();

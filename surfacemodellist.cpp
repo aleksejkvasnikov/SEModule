@@ -318,12 +318,25 @@ void surfaceModelList::callTest(CustomPlotItem *test)
             amount++;
         }
     }
+    QStringList list;
+    list = m_selfP.split(QRegExp("\\s+"));
+
+    QString resultP = list.at(4);
+    resultP.replace(",",".");
+    qDebug() << resultP;
+
     QVector<double> x(amount), y(amount);
-    for (int i=0; i<amount; i++)
+    int j=0;
+    for (int i=0; i<amount*m_pstepVal; i++)
     {
-        x[i]=mItems.at(i).x;
-        y[i]=mItems.at(i).y;
+        if(QString::number(mItems.at(i).z, 'f', 5)==resultP){
+            qDebug() << mItems.at(i).z;
+            x[j]=mItems.at(i).x;
+            y[j]=mItems.at(i).y;
+            j++;
+        }
     }
+    //test->initPpoint(m_selfP);
     test->initCustomPlot(x, y);
 
 }

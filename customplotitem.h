@@ -17,7 +17,7 @@ public:
    // Q_INVOKABLE void setData();
    // surfaceModelList *list() const;
    // void setList(surfaceModelList *list);
-
+    void initPpoint(QString point);
 protected:
     void routeMouseEvents( QMouseEvent* event );
     void routeWheelEvents(QWheelEvent* event);
@@ -30,6 +30,7 @@ protected:
 
 private:
     QCustomPlot*         m_CustomPlot;
+    double m_point=0.15;
   //  surfaceModelList *mList;
 private slots:
     void graphClicked( QCPAbstractPlottable* plottable );

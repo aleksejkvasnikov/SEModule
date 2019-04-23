@@ -4,8 +4,6 @@ import QtQuick.Layouts 1.3
 import QtCanvas3D 1.1
 import QtQuick 2.0
 import QtCanvas3D 1.1
-
-
 Page {
     property int val2dor3d: 1
     id: page
@@ -13,7 +11,6 @@ Page {
     height: window.height
     spacing: -6
     transformOrigin: Item.TopLeft
-
     title: qsTr("Моделирование") + rootItem.emptyString
     Rectangle {
         id: rectangle
@@ -21,11 +18,57 @@ Page {
         y: 14
         width: 250
         height: 80
-      //  width: window.width-30
-   //     height: (window.height > 600) ? window.height/3 : 200
         color: "#cfcfcf"
         radius: 0
         border.width: 1
+        RowLayout{
+            anchors.fill: parent
+            spacing: 0
+            Image {
+                id: image
+                Layout.leftMargin: 5
+                Layout.maximumWidth: rectangle.width/3
+                source: (val2dor3d!=1) ? "single_activated.png" : "single.png"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        if(val2dor3d!=1){
+                            val2dor3d = 1;
+                            imageCube.arrayMode(0);
+                        }
+                    }
+                }
+            }
+            Image {
+                id: image2
+                Layout.maximumWidth: rectangle.width/3
+                source: (val2dor3d!=2) ? "array_activated.png" : "array.png"
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        if(val2dor3d!=2){
+                            val2dor3d = 2;
+                            imageCube.arrayMode(1);
+                        }
+                    }
+                }
+            }
+            Image {
+                id: image3
+                Layout.maximumWidth: rectangle.width/3
+                Layout.rightMargin: 20
+                source: (val2dor3d!=3) ? "cylinder_activated.png" : "cylinder.png"
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        if(val2dor3d!=3){
+                            val2dor3d = 3;
+                            imageCube.arrayMode(2);
+                        }
+                    }
+                }
+            }
+        }
     }
     Rectangle {
         id: rectangle2
@@ -42,7 +85,9 @@ Page {
         x: 15
         y: 214
         width: 250
-        height: 190
+        height: if(val2dor3d===1) 110
+        else if(val2dor3d===2) 155
+        else if(val2dor3d===3) 65
         color: "#cfcfcf"
         radius: 0
         border.width: 1
@@ -157,6 +202,7 @@ Page {
 
         TextField {
             id: sigmaTf
+            visible: false
             implicitHeight: 25
             Layout.fillWidth: true
             width: parent.width /2
@@ -184,8 +230,6 @@ Page {
         id: text2
         x: 30
         y: 215
-       // anchors.right: parent.right
-       // anchors.rightMargin: 205
         text: qsTr("Апертура") + rootItem.emptyString
          font: window.font
     }
@@ -237,7 +281,7 @@ Page {
         id: text6
         x: 30
         y: 156
-        text: qsTr("t")
+        text: qsTr("Толщина")
          font: window.font
     }
 
@@ -246,6 +290,7 @@ Page {
         id: text7
         x: 184
         y: 156
+        visible: false
         text: qsTr("σ (С/м)")
          font: window.font
     }
@@ -253,6 +298,7 @@ Page {
         id: opacId
         x: 30
         y: 352
+        visible: false
         text: qsTr("Прозрачность")
         checked: false
         onCheckStateChanged:{
@@ -284,12 +330,10 @@ Page {
     RowLayout {
         id: rowLayout2
         x: 20
-        y: 235
+        y: 240
         width: 240
         height: 30
         visible : if (val2dor3d==3) false; else true;
-      //  anchors.right: parent.right
-      //  anchors.rightMargin: 50
         TextField {
             id: wTf
             implicitHeight: 25
@@ -323,12 +367,10 @@ Page {
     RowLayout {
         id: rowLayout5
         x: 20
-        y: 275
+        y: 290
         width: 240
         height: 30
         visible : if (val2dor3d==1) true; else false;
-      //  anchors.right: parent.right
-      //  anchors.rightMargin: 50
         TextField {
             id: xTf
             implicitHeight: 25
@@ -362,14 +404,12 @@ Page {
     RowLayout {
         id: rowLayout4
         x: 20
-        y: 316
+        y: 336
         width: 240
         height: 30
         visible:{
             if (val2dor3d==2) true; else false;
         }
-   //     anchors.right: parent.right
-  //      anchors.rightMargin: 50
         TextField {
             id: mapTf
             implicitHeight: 25
@@ -380,7 +420,7 @@ Page {
             onEditingFinished:
             {
                 imageCube.map=mapTf.text
-
+                imageCube.callme()
                 modList.mapVal = mapTf.text
             }
         }
@@ -394,6 +434,7 @@ Page {
             onEditingFinished:
             {
                 imageCube.nap=napTf.text
+                imageCube.callme()
                 modList.napVal = napTf.text
             }
         }
@@ -401,7 +442,7 @@ Page {
     RowLayout {
         id: rowLayout55
         x: 20
-        y: 274
+        y: 290
         width: 240
         visible:{
             if (val2dor3d==2) true; else false;
@@ -418,6 +459,7 @@ Page {
             onEditingFinished:
             {
                 imageCube.dh=dhTf.text*100*5
+                imageCube.callme()
                 modList.dhVal = dhTf.text
             }
         }
@@ -432,6 +474,7 @@ Page {
             onEditingFinished:
             {
                 imageCube.dv=dvTf.text*100*5
+                imageCube.callme()
                 modList.dvVal = dvTf.text
             }
         }
@@ -439,31 +482,57 @@ Page {
     Text {
         id: text8
         x: 30
-        y: 225
+        y: 230
         visible : if (val2dor3d==3) false; else true;
-      //  anchors.right: parent.right
-      //  anchors.rightMargin: 240
-        text: qsTr("w")
+        text: qsTr("Ширина")
         font: window.font
-        //font.pixelSize: 14
     }
 
     Text {
         id: text9
         x: 184
-        y: 225
+        y: 230
         visible : if (val2dor3d==3) false; else true;
-       // anchors.right: parent.right
-      //  anchors.rightMargin: 140
-        text: qsTr("l")
+        text: qsTr("Высота")
         font: window.font
     }
-
+    Text {
+        id: positionText
+        x: 30
+        y: 270
+        anchors.rightMargin: 240
+        text: qsTr("Расположение")
+        visible:{
+            if (val2dor3d==1) true; else false;
+        }
+         font: window.font
+    }
+    Text {
+        id: dhdvText
+        x: 30
+        y: 270
+        anchors.rightMargin: 240
+        text: qsTr("Расстояние между центрами апертур")
+        visible:{
+            if (val2dor3d==2) true; else false;
+        }
+         font: window.font
+    }
+    Text {
+        id: mapnapText
+        x: 30
+        y: 316
+        anchors.rightMargin: 240
+        text: qsTr("Количество апертур")
+        visible:{
+            if (val2dor3d==2) true; else false;
+        }
+         font: window.font
+    }
     Text {
         id: text10
         x: 30
-        y: 265
-        //anchors.right: parent.right
+        y: 280
         anchors.rightMargin: 240
         text: qsTr("X")
         visible:{
@@ -475,9 +544,7 @@ Page {
     Text {
         id: text11
         x: 184
-        y: 265
-       // anchors.right: parent.right
-       // anchors.rightMargin: 140
+        y: 280
         text: qsTr("Y")
         visible:{
             if (val2dor3d==1) true; else false;
@@ -487,13 +554,11 @@ Page {
     Text {
         id: text12
         x: 30
-        y: 303
+        y: 326
         visible:{
             if (val2dor3d==2) true; else false;
         }
-     //   anchors.right: parent.right
-      //  anchors.rightMargin: 230
-        text: qsTr("M ap")
+        text: qsTr("Гор.")
         font: window.font
     }
 
@@ -503,10 +568,8 @@ Page {
         visible:{
             if (val2dor3d==2) true; else false;
         }
-        y: 303
-     //   anchors.right: parent.right
-    //    anchors.rightMargin: 130
-        text: qsTr("N ap")
+        y: 326
+        text: qsTr("Верт.")
          font: window.font
     }
     Text {
@@ -515,8 +578,8 @@ Page {
         visible:{
             if (val2dor3d==2) true; else false;
         }
-        y: 264
-        text: qsTr("dh")
+        y: 280
+        text: qsTr("Гор.")
          font: window.font
     }
 
@@ -526,21 +589,15 @@ Page {
         visible:{
             if (val2dor3d==2) true; else false;
         }
-        y: 264
-        text: qsTr("dv")
+        y: 280
+        text: qsTr("Верт.")
         font: window.font
     }
-        //Row{
-            //anchors.horizontalCenter: parent.horizontalCenter
     ImageCube {
         id: imageCube
         width: parent.width-rectangle.width
         height: parent.height
-      //  anchors.top: window.top
-       anchors.left: rectangle.right
-        //anchors.bottom: parent.bottom
-      //  anchors.bottomMargin: 30
-      //  anchors.horizontalCenter: parent.horizontalCenter
+        anchors.left: rectangle.right
         aa: aTf.text*100*5
         bb: bTf.text*100*5
         dd: dTf.text*100*5
@@ -562,62 +619,5 @@ Page {
         state: "image1"
         image1: "qrc:/devices.png"
     }
-    Image {
-        id: image
-        //x: window.width/3
-        //y: 0
-//          anchors.top: opacId.anchors.bottom
-        x: 30
-        y: 25
-//           anchors.left: opacId.anchors.left
-//            anchors.leftMargin: 100
-        source: (val2dor3d!=1) ? "single_activated.png" : "single.png"
-        MouseArea{
-            anchors.fill: parent
-            onClicked: {
-                if(val2dor3d!=1){
-                    val2dor3d = 1;
-                    imageCube.arrayMode(0);
-                }
-            }
-        }
-    }
-        Image {
-            id: image2
-         //   x: window.width/3
-         //   y: window.height - window.height/2
-            x: 100
-            y: 25
-       //     anchors.rightMargin: 100
-            source: (val2dor3d!=2) ? "array_activated.png" : "array.png"
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    if(val2dor3d!=2){
-                        val2dor3d = 2;
-                        imageCube.arrayMode(1);
-                    }
-                }
-            }
-        }
-        Image {
-            id: image3
-         //   x: window.width/3
-         //   y: window.height - window.height/2
-            x: 160
-            y: 25
-       //     anchors.rightMargin: 100
-            source: (val2dor3d!=3) ? "cylinder_activated.png" : "cylinder.png"
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    if(val2dor3d!=3){
-                        val2dor3d = 3;
-                        imageCube.arrayMode(2);
-                    }
-                }
-            }
-        }
-        //}
 }
 

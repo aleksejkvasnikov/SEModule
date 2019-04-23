@@ -15,9 +15,51 @@ typedef complex<double> dcomp;
 //const double M_PI = 3.141592653589793238463;
 
 //  МОДЕЛЬ WAMG et al (cylindrical encl)
-//double robCalculation::WAMGetal(){
+double robCalculation::WAMGetal(int* iter, double freq, double R, double r, double t, double d, double p){
+    dcomp j(0.0,1.0);
+    auto z0=120.0*M_PI;
+    dcomp v0(1.0,0.0);
+    //эффективная ширина
+    auto sqpi=sqrt(M_PI);
+    auto we=r*sqpi-(5.0*t/(4.0*M_PI))*(1.0+log(4.0*M_PI*r*sqpi/t));
+    //характеристический импеданс
+    dcomp kc=pow((we/(2.0*R)),2);
+    dcomp z0stemp1=pow((dcomp(1.0,1.0)-kc),(0.25));
+    dcomp z0stemp2=log(2.0*(1.0+z0stemp1)/(1.0-z0stemp1));
+    auto z0s=120.0*M_PI*M_PI/z0stemp2;
+    //qDebug() << "TEST";
+    auto c = 299792458.0;
+    ++(*iter);
+    auto f=freq;
+    auto lambda=c/f;
+    auto k0=2.0*M_PI/lambda;
 
-//}
+    // Сопротивление стенки с апертурой
+    dcomp zap=j*z0s*(r*sqpi/(4*R))*tan(f*r*sqpi*3.14/c);
+
+    auto lamc=2.0*M_PI*R/1.841; // для основного типа волн
+
+    // Преобразование в точку A
+    dcomp v1=v0*zap/(z0+zap);
+    dcomp z1=z0*zap/(z0+zap);
+    dcomp temp = 1.0-pow((lambda/lamc),2);
+    // Характеристический импеданс и постоянная распространения в корпусе
+    auto zg=z0/sqrt(temp);
+    auto kg=k0*sqrt(temp);
+
+    // Преобразование в точку P
+    auto v2=v1/(cos(kg*p)+j*(z1/zg)*sin(kg*p));
+    auto z2=(z1+j*zg*tan(kg*p))/(1.0+j*(z1/zg)*tan(kg*p));
+
+    // Нагрузка
+    auto z3=j*zg*tan(kg*(d-p));
+
+    // Напряжение в точке P
+    auto vp=v2*z3/(z2+z3);
+
+    //SE
+    return -20.0*log10(abs(2.0*vp/v0));
+}
 
 
 double robCalculation::calcNIEetal(int* iter,double freq, double w, double l, double xbol, double ybol, double p, double d, double b, double a, double t){

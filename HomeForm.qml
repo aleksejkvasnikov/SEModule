@@ -61,7 +61,13 @@ Page {
                     rowRole: "z"
                     columnRole: "x"
                     yPosRole: "y"
+
                 }
+                onItemLabelChanged: {
+                    modList.selfP = surfaceSeries.itemLabel
+                   // console.log(surfaceSeries.itemLabel)
+                }
+
                 ColorGradient {
                     id: rtb
                     ColorGradientStop {
@@ -81,7 +87,7 @@ Page {
                 selectedLocale: rootItem.locale
             }
             locale: Qt.locale(rootItem.locale)
-            axisZ.labelFormat: "%.2f"
+            axisZ.labelFormat: "%.5f"
             axisY.labelFormat: "%d"
             axisY.title: qsTr("ЭЭ, дБ") + rootItem.emptyString
             axisX.title: qsTr("Частота, Гц") + rootItem.emptyString
@@ -92,6 +98,7 @@ Page {
             axisX.labelAutoRotation: 15
             axisY.labelAutoRotation: 90
             axisZ.labelAutoRotation: 15
+
 
         }
 
@@ -106,7 +113,6 @@ Page {
             anchors.left: parent.left
             //x: 200
             y: 14
-
             width: 325
             height: 68
             color: "#cfcfcf"
@@ -124,7 +130,6 @@ Page {
             anchors.right: parent.right
             //x: 200
             y: 14
-
             width: 325
             height: 68
             color: "#cfcfcf"
@@ -181,7 +186,6 @@ Page {
 
                                 } else {
                                     surfaceSeries.drawMode |= Surface3DSeries.DrawWireframe;
-
                                 }
                              // surface.addCustomItem(someitem)
                             }
