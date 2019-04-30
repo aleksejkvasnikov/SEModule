@@ -23,6 +23,8 @@ class surfaceModelList : public QObject
     Q_PROPERTY(QString selfP READ selfP WRITE setselfP)
 
 //    Q_PROPERTY(QString locale READ locale WRITE setlocale)
+    Q_PROPERTY(int selType READ selType WRITE setselType)
+
     Q_PROPERTY(double bVal READ bVal WRITE setbVal)
     Q_PROPERTY(double dVal READ dVal WRITE setdVal)
     Q_PROPERTY(double tVal READ tVal WRITE settVal)
@@ -60,6 +62,9 @@ public:
 
     void setfile(const QString &file) { if (file != m_file) { m_file = file;} }
     QString file() const { return m_file; }
+
+    void setselType(const int &selType) { if (selType != m_selType) { m_selType = selType;} }
+    int selType() const { return m_selType; }
 
     void setlocale(const QString &locale) { if (locale != m_locale) { m_locale = locale;} }
     QString locale() const { return m_locale; }
@@ -159,6 +164,7 @@ private:
     QVector<surfaceModelItem> save1; //stocker le graphic 1
     QVector<surfaceModelItem> save2; //stocket le graphic 2
     int checkpoint; //donne la taille du dernier graphic dans mItems
+    int m_selType = 1;
     double m_progress = 0;
     QString m_file = "", m_locale = "ru_RU", m_selfP = "0.15";
     double m_time = 0, m_iter = 0;

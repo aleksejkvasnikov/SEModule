@@ -64,7 +64,7 @@ function drawLetters(canvas){
     var source ='qrc:/Arial_Regular.json';
     var loader = new THREE.FontLoader();
     loader.load( source, function ( font ) {
-        if(mode == 2) var aText = "r"
+        if(canvas.sometype=== 2) var aText = "r"
         else aText = "a"
       var textGeometry = new THREE.TextGeometry( aText, {
         font: font,
@@ -98,8 +98,8 @@ function drawLetters(canvas){
         var letterB = new THREE.Mesh( textGeometry, textMaterial );
           letterB.translateX(-canvas.aa/2-(canvas.aa/2*0.1));
           letterB.translateZ(canvas.dd/2);
-        if(mode != 2) group.add(letterB);
-        if(mode == 2) var dText = "h"
+        if(canvas.sometype != 2) group.add(letterB);
+        if(canvas.sometype=== 2) var dText = "h"
         else dText = "d"
         textGeometry = new THREE.TextGeometry( dText, {
           font: font,
@@ -140,11 +140,11 @@ function initializeGL(canvas, eventSource) {
     axesHelper = new THREE.AxisHelper( 25 );
     axesHelper.translateX(-1*canvas.aa/2);
     axesHelper.translateY(-1*canvas.bb/2);
-    if(mode==2) axesHelper.translateZ(canvas.cylHeight*0.8);
+    if(canvas.sometype===2) axesHelper.translateZ(canvas.cylHeight*0.8);
     else axesHelper.translateZ(canvas.dd*0.8);
     axesHelper.rotation.y = Math.PI / 2;
    // scene.add( axesHelper );
-    if(mode==0){
+    if(canvas.sometype===0){
         cube1 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa+canvas.t,canvas.bb+canvas.t,canvas.dd+canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
         cube1Csg	= THREE.CSG.toCSG(cube1);
         cube3 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa,canvas.bb,canvas.dd),new THREE.MeshLambertMaterial({color: 0xFF0000}));
@@ -158,7 +158,7 @@ function initializeGL(canvas, eventSource) {
          resultCsg	= (cube1Csg.subtract(cube3Csg)).subtract(cube2Csg);
          resultGeo	= THREE.CSG.fromCSG( resultCsg );
     }
-    else if(mode==1){
+    else if(canvas.sometype===1){
          cube1 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa+canvas.t,canvas.bb+canvas.t,canvas.dd+canvas.t),new THREE.MeshLambertMaterial({color: 0xFF0000}));
          cube1Csg	= THREE.CSG.toCSG(cube1);
          cube3 = new THREE.Mesh(new THREE.BoxGeometry(canvas.aa,canvas.bb,canvas.dd),new THREE.MeshLambertMaterial({color: 0xFF0000}));
@@ -175,7 +175,7 @@ function initializeGL(canvas, eventSource) {
                 resultCsg = resultCsg.subtract(cube2Csg);
             }
          resultGeo	= THREE.CSG.fromCSG( resultCsg );
-    }else if(mode==2){
+    }else if(canvas.sometype===2){
         // цилиндр
         var cylinder1  = new THREE.Mesh(new THREE.CylinderGeometry(canvas.radius+canvas.t, canvas.radius+canvas.t, canvas.cylHeight+canvas.t, 36), new THREE.MeshLambertMaterial({color: 0xFF0000}));
         cylinder1.rotation.x = Math.PI / 2;

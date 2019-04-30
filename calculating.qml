@@ -240,17 +240,34 @@ Page {
         height: 30
         anchors.right: parent.right
         anchors.rightMargin: 50
-
+//[ "Robinson et al.", "Shi et al.", "Po'ad et al.", "Po'ad Plus", "Po'ad multiple", "AKC Standart",
+//        "AKC Integral", "Ren et al.", "Dehkhoda et al.", "Nie et al.", "S method", "NIE et al. (waveguide diagrams)", "WAMG et al."]
         ComboBox {
             Layout.fillWidth: true
             id: comboBox
-            model: [ "Robinson et al.", "Shi et al.", "Po'ad et al.", "Po'ad Plus", "Po'ad multiple", "AKC Standart",
-                "AKC Integral", "Ren et al.", "Dehkhoda et al.", "Nie et al.", "S method", "NIE et al. (waveguide diagrams)", "WAMG et al."]
+            model: if(modList.selType === 1){
+                       ["Robinson et al.", "Shi et al.", "Po'ad et al.", "Komnatnov M.E.", "Nie et al. (waveguide diagrams)"]
+                   }
+            else if(modList.selType === 2){
+                                   ["Ren et al.", "Dehkhoda et al.", "Nie et al."]
+                               }
+            else if(modList.selType === 3){
+                                   ["Wamg et al."]
+                               }
             height: parent.height
             currentIndex: modList.funcVal
             width: parent.width
             onCurrentIndexChanged: {
-                modList.funcVal = currentIndex;
+                if(modList.selType === 1){
+                                       modList.funcVal = currentIndex;
+                                   }
+                            else if(modList.selType === 2){
+                                                   modList.funcVal = currentIndex+5;
+                                               }
+                            else if(modList.selType === 3){
+                                                   modList.funcVal = currentIndex+8;
+                                               }
+
                 rootItem.updateStrings();
             }
         }

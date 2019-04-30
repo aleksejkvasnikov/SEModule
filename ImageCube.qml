@@ -34,6 +34,7 @@ Canvas3D {
     property real dv: 0
     property real map: 0
     property real nap: 0
+    property int sometype: 0
     onBackgroundColorChanged: { GLCode.setBackgroundColor(cube.backgroundColor); }
 
     //! [1]

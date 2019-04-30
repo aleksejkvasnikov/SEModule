@@ -4,8 +4,9 @@ import QtQuick.Layouts 1.3
 import QtCanvas3D 1.1
 import QtQuick 2.0
 import QtCanvas3D 1.1
+import QtQuick.Controls.Styles 1.4
 Page {
-    property int val2dor3d: 1
+    property int val2dor3d: modList.selType
     id: page
     width: window.width
     height: window.height
@@ -34,6 +35,8 @@ Page {
                     onClicked: {
                         if(val2dor3d!=1){
                             val2dor3d = 1;
+                            modList.selType = 1;
+                            imageCube.sometype = 0;
                             imageCube.arrayMode(0);
                         }
                     }
@@ -48,6 +51,8 @@ Page {
                     onClicked: {
                         if(val2dor3d!=2){
                             val2dor3d = 2;
+                            modList.selType = 2;
+                            imageCube.sometype = 1;
                             imageCube.arrayMode(1);
                         }
                     }
@@ -63,6 +68,8 @@ Page {
                     onClicked: {
                         if(val2dor3d!=3){
                             val2dor3d = 3;
+                            modList.selType = 3;
+                            imageCube.sometype = 2;
                             imageCube.arrayMode(2);
                         }
                     }
@@ -101,10 +108,6 @@ Page {
         visible : if (val2dor3d==3) true; else false;
         TextField {
             id: rTf
-            implicitHeight: 25
-            Layout.fillWidth: true
-            width: parent.width /2
-            height: parent.height
             text: modList.rVal
             onEditingFinished:
             {
@@ -112,19 +115,29 @@ Page {
                 imageCube.radius=rTf.text*100*5
                 imageCube.callme()
             }
+            background: Rectangle {
+                Layout.fillWidth: true
+                implicitHeight: 25
+                implicitWidth: rowLayout2.width / 2 - 5
+                color: rTf.enabled ? "transparent" : "#353637"
+                border.color: (rTf.text >0 && rTf.text > apTf.text) ? "#21be2b" : "red"
+            }
         }
         TextField {
             id: hTf
-            implicitHeight: 25
-            Layout.fillWidth: true
-            width: parent.width /2
-            height: parent.height
             text: modList.hVal
             onEditingFinished:
             {
                 modList.hVal = hTf.text
                 imageCube.cylHeight=hTf.text*100*5
                 imageCube.callme()
+            }
+            background: Rectangle {
+                Layout.fillWidth: true
+                implicitHeight: 25
+                implicitWidth: rowLayout2.width / 2 - 5
+                color: hTf.enabled ? "transparent" : "#353637"
+                border.color: (hTf.text >0) ? "#21be2b" : "red"
             }
         }
     }
@@ -136,10 +149,6 @@ Page {
         visible : if (val2dor3d==3) false; else true;
         TextField {
             id: aTf
-            implicitHeight: 25
-            Layout.fillWidth: true
-            width: parent.width /3
-            height: parent.height
             text: modList.aVal
             onEditingFinished:
             {
@@ -147,14 +156,17 @@ Page {
                 imageCube.aa=aTf.text*100*5
                 imageCube.callme()
             }
+            background: Rectangle {
+                Layout.fillWidth: true
+                implicitHeight: 25
+                implicitWidth: rowLayout5.width/3-5
+                color: aTf.enabled ? "transparent" : "#353637"
+                border.color: (aTf.text >0) ? "#21be2b" : "red"
+            }
         }
 
         TextField {
-            implicitHeight: 25
             id: bTf
-            Layout.fillWidth: true
-            width: parent.width /3
-            height: parent.height
             text: modList.bVal
             onEditingFinished:
             {
@@ -162,19 +174,29 @@ Page {
                 imageCube.bb=bTf.text*100*5
                 imageCube.callme()
             }
+            background: Rectangle {
+                Layout.fillWidth: true
+                implicitHeight: 25
+                implicitWidth: rowLayout5.width/3-5
+                color: bTf.enabled ? "transparent" : "#353637"
+                border.color: (bTf.text >0) ? "#21be2b" : "red"
+            }
         }
         TextField {
             id: dTf
-            implicitHeight: 25
-            Layout.fillWidth: true
-            width: parent.width /3
-            height: parent.height
             text: modList.dVal
             onEditingFinished:
             {
                 modList.dVal = dTf.text
                 imageCube.dd=dTf.text*100*5
                 imageCube.callme()
+            }
+            background: Rectangle {
+                Layout.fillWidth: true
+                implicitHeight: 25
+                implicitWidth: rowLayout5.width/3-5
+                color: dTf.enabled ? "transparent" : "#353637"
+                border.color: (dTf.text >0) ? "#21be2b" : "red"
             }
         }
     }
@@ -187,16 +209,19 @@ Page {
         height: 30
         TextField {
             id: tTf
-            Layout.fillWidth: true
-            implicitHeight: 25
-            width: parent.width /2
-            height: parent.height
             text: modList.tVal
             onEditingFinished:
             {
-                imageCube.t=tTf.text*100*5
-                imageCube.callme()
                 modList.tVal = tTf.text
+                imageCube.t=tTf.text*100*5
+                imageCube.callme()               
+            }
+            background: Rectangle {
+                Layout.fillWidth: true
+                implicitHeight: 25
+                implicitWidth: rowLayout5.width-5
+                color: tTf.enabled ? "transparent" : "#353637"
+                border.color: (tTf.text >0) ? "#21be2b" : "red"
             }
         }
 
@@ -294,6 +319,14 @@ Page {
         text: qsTr("σ (С/м)")
          font: window.font
     }
+    Text {
+        id: textAp
+        x: 30
+        y: 230
+        visible: if (val2dor3d==3) true; else false;
+        text: qsTr("Радиус")
+         font: window.font
+    }
     CheckBox {
         id: opacId
         x: 30
@@ -308,22 +341,25 @@ Page {
     RowLayout {
         id: rowLayout3
         x: 20
-        y: 235
+        y: 240
         width: 240
         height: 30
         visible : if (val2dor3d==3) true; else false;
         TextField {
             id: apTf
-            implicitHeight: 25
-            Layout.fillWidth: true
-            width: parent.width
-            height: parent.height
             text: modList.apVal
             onEditingFinished:
             {
-                imageCube.apRadius=apTf.text*100*5
-                imageCube.callme()
                 modList.apVal = apTf.text
+                imageCube.apRadius=apTf.text*100*5
+                imageCube.callme()               
+            }
+            background: Rectangle {
+                Layout.fillWidth: true
+                implicitHeight: 25
+                implicitWidth: rowLayout2.width - 5
+                color: apTf.enabled ? "transparent" : "#353637"
+                border.color: (apTf.text >0 && apTf.text < rTf.text) ? "#21be2b" : "red"
             }
         }
     }
@@ -336,31 +372,37 @@ Page {
         visible : if (val2dor3d==3) false; else true;
         TextField {
             id: wTf
-            implicitHeight: 25
-            Layout.fillWidth: true
-            width: parent.width /2
-            height: parent.height
             text: modList.wVal
             onEditingFinished:
             {
+                modList.wVal = wTf.text
                 imageCube.w=wTf.text*100*5
                 imageCube.callme()
-                modList.wVal = wTf.text
+            }
+            background: Rectangle {
+                Layout.fillWidth: true
+                implicitHeight: 25
+                implicitWidth: rowLayout2.width/2 - 5
+                color: wTf.enabled ? "transparent" : "#353637"
+                border.color: wTf.text > 0 && wTf.text < dvTf.text && ((napTf.text >1 && (napTf.text-1)*dvTf.text+wTf.text < bTf.text) || (napTf.text==="1" && wTf.text < bTf.text)) ? "#21be2b" : "red"
             }
         }
 
         TextField {
             id: lTf
-            implicitHeight: 25
-            Layout.fillWidth: true
-            width: parent.width /2
-            height: parent.height
             text: modList.lVal
             onEditingFinished:
             {
+                modList.lVal = lTf.text
                 imageCube.l=lTf.text*100*5
                 imageCube.callme()
-                modList.lVal = lTf.text
+            }
+            background: Rectangle {
+                Layout.fillWidth: true
+                implicitHeight: 25
+                implicitWidth: rowLayout2.width/2 - 5
+                color: lTf.enabled ? "transparent" : "#353637"
+                border.color: lTf.text > 0 && lTf.text < dhTf.text && ((mapTf.text >1 && (mapTf.text-1)*dhTf.text+lTf.text < aTf.text) || (mapTf.text==="1" && lTf.text < aTf.text)) ? "#21be2b" : "red"
             }
         }
     }
@@ -373,31 +415,37 @@ Page {
         visible : if (val2dor3d==1) true; else false;
         TextField {
             id: xTf
-            implicitHeight: 25
-            Layout.fillWidth: true
-            width: parent.width /2
-            height: parent.height
             text: modList.xVal
             onEditingFinished:
             {
+                modList.xVal = xTf.text
                 imageCube.xx=xTf.text*100*5
                 imageCube.callme()
-                modList.xVal = xTf.text
+            }
+            background: Rectangle {
+                Layout.fillWidth: true
+                implicitHeight: 25
+                implicitWidth: rowLayout5.width/2-5
+                color: xTf.enabled ? "transparent" : "#353637"
+                border.color: (xTf.text >0 && xTf.text < aTf.text) ? "#21be2b" : "red"
             }
         }
 
         TextField {
             id: yTf
-            implicitHeight: 25
-            Layout.fillWidth: true
-            width: parent.width /2
-            height: parent.height
             text: modList.yVal
             onEditingFinished:
             {
+                modList.yVal = yTf.text
                 imageCube.yy=yTf.text*100*5
                 imageCube.callme()
-                modList.yVal = yTf.text
+            }
+            background: Rectangle {
+                Layout.fillWidth: true
+                implicitHeight: 25
+                implicitWidth: rowLayout5.width/2 -5
+                color: yTf.enabled ? "transparent" : "#353637"
+                border.color: (yTf.text >0 && yTf.text < bTf.text) ? "#21be2b" : "red"
             }
         }
     }
@@ -412,30 +460,36 @@ Page {
         }
         TextField {
             id: mapTf
-            implicitHeight: 25
-            Layout.fillWidth: true
-            width: parent.width /2
-            height: parent.height
             text: modList.mapVal
             onEditingFinished:
             {
+                modList.mapVal = mapTf.text
                 imageCube.map=mapTf.text
                 imageCube.callme()
-                modList.mapVal = mapTf.text
+            }
+            background: Rectangle {
+                Layout.fillWidth: true
+                implicitHeight: 25
+                implicitWidth: rowLayout5.width/2 -5
+                color: mapTf.enabled ? "transparent" : "#353637"
+                border.color: ((mapTf.text >1 && (mapTf.text-1)*dhTf.text+lTf.text < aTf.text) || (mapTf.text==="1" && lTf.text < aTf.text)) ? "#21be2b" : "red"
             }
         }
         TextField {
             id: napTf
-            implicitHeight: 25
-            Layout.fillWidth: true
-            width: parent.width /2
-            height: parent.height
             text: modList.napVal
             onEditingFinished:
             {
+                modList.napVal = napTf.text
                 imageCube.nap=napTf.text
                 imageCube.callme()
-                modList.napVal = napTf.text
+            }
+            background: Rectangle {
+                Layout.fillWidth: true
+                implicitHeight: 25
+                implicitWidth: rowLayout5.width/2 -5
+                color: napTf.enabled ? "transparent" : "#353637"
+                border.color: ((napTf.text >1 && (napTf.text-1)*dvTf.text+wTf.text < bTf.text) || (napTf.text==="1" && wTf.text < bTf.text)) ? "#21be2b" : "red"
             }
         }
     }
@@ -451,31 +505,37 @@ Page {
         height: 30
         TextField {
             id: dhTf
-            implicitHeight: 25
-            Layout.fillWidth: true
-            width: parent.width /2
-            height: parent.height
             text: modList.dhVal
             onEditingFinished:
             {
+                modList.dhVal = dhTf.text
                 imageCube.dh=dhTf.text*100*5
                 imageCube.callme()
-                modList.dhVal = dhTf.text
+            }
+            background: Rectangle {
+                Layout.fillWidth: true
+                implicitHeight: 25
+                implicitWidth: rowLayout5.width/2 -5
+                color: mapTf.enabled ? "transparent" : "#353637"
+                border.color: lTf.text < dhTf.text && ((mapTf.text >1 && (mapTf.text-1)*dhTf.text+lTf.text < aTf.text) || (mapTf.text==="1")) ? "#21be2b" : "red"
             }
         }
 
         TextField {
             id: dvTf
-            implicitHeight: 25
-            Layout.fillWidth: true
-            width: parent.width /2
-            height: parent.height
             text: modList.dvVal
             onEditingFinished:
             {
+                modList.dvVal = dvTf.text
                 imageCube.dv=dvTf.text*100*5
                 imageCube.callme()
-                modList.dvVal = dvTf.text
+            }
+            background: Rectangle {
+                Layout.fillWidth: true
+                implicitHeight: 25
+                implicitWidth: rowLayout5.width/2 -5
+                color: dvTf.enabled ? "transparent" : "#353637"
+                border.color: wTf.text < dvTf.text && ((napTf.text >1 && (napTf.text-1)*dvTf.text+wTf.text < bTf.text)|| (napTf.text==="1"))  ? "#21be2b" : "red"
             }
         }
     }
@@ -484,7 +544,7 @@ Page {
         x: 30
         y: 230
         visible : if (val2dor3d==3) false; else true;
-        text: qsTr("Ширина")
+        text: qsTr("Высота")
         font: window.font
     }
 
@@ -493,7 +553,7 @@ Page {
         x: 184
         y: 230
         visible : if (val2dor3d==3) false; else true;
-        text: qsTr("Высота")
+        text: qsTr("Ширина")
         font: window.font
     }
     Text {
@@ -612,6 +672,7 @@ Page {
         dv: dvTf.text*100*5
         apRadius: apTf.text*100*5
         radius: rTf.text*100*5
+        sometype: val2dor3d-1
         cylHeight: hTf.text*100*5
         //! [0]
         angleOffset: -180 / 8.0
