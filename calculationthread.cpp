@@ -77,30 +77,30 @@ double CalculationThread::GetCalculation(int i, double tempFreq, double pp)
 
 void CalculationThread::CalcThread(double tempValue, int K)
 {
-    //int Y;
+   // int Y;
     double tempFreq = 0;
     double dfreq,ival=0;
     int a = 0;
     iterations = &a;
     double progres_val = 100 / (m_nPointsVal * (m_dVal-m_pVal)/perc_step);
     bool abort = false;
-    double Norm=0, tempNorm=0;
+   // double Norm=0, tempNorm=0;
     size = 0;
 
     tempValue = GetCalculation(K, 0, 0);
     dfreq=(m_fMaxVal-m_fMinVal)/m_nPointsVal;
 
-   // Y = omp_get_max_threads();
+  //  Y = omp_get_max_threads();
    // omp_set_dynamic(0);
-   // omp_set_num_threads(3);
+ //   omp_set_num_threads(Y);
 
 //#pragma omp parallel shared(K, tempValue, tempFreq, ival) private(Y)
     //{
         double pp = m_pVal;
-        //#pragma omp for schedule(dynamic, 200)
+       // #pragma omp for schedule(dynamic, 200)
         for(int Z = (int)(m_pVal * 1000); Z <= (int)(m_dVal * 1000); Z += 1)
         {
-            tempNorm=0;
+            //tempNorm=0;
             //qDebug() << "Grand tour de for";
             for(int i=0; i<m_nPointsVal; ++i)
             {
@@ -127,7 +127,7 @@ void CalculationThread::CalcThread(double tempValue, int K)
                     tempValue = GetCalculation(K + 1, tempFreq, pp);
                     if (isnan(tempValue))
                         tempValue=0;
-                    tempNorm+=abs(tempValue);
+//                    tempNorm+=abs(tempValue);
                     //#pragma omp critical
                     //{
                         mItems.append({ tempFreq, tempValue, pp});
@@ -136,7 +136,7 @@ void CalculationThread::CalcThread(double tempValue, int K)
                     //}
                 //}
            }
-             if(tempNorm>Norm) Norm=tempNorm;
+           //  if(tempNorm>Norm) Norm=tempNorm;
             if (abort)
             {
                 mItems.remove(mItems.size() - size, size);
@@ -147,7 +147,7 @@ void CalculationThread::CalcThread(double tempValue, int K)
             Z = (pp * 1000);
            // qDebug() <<Z << pp;
         }
-        qDebug() <<"Norma = " << Norm;
+       // qDebug() <<"Norma = " << Norm;
     //}//end of parallel
 
     emit iterCount(*iterations);
@@ -161,6 +161,7 @@ void CalculationThread::run()
     //double tempFreq = 0;
     //double dfreq,ival=0;
     int a = 0;
+    size=0;
     iterations = &a;
     QElapsedTimer timer;
     mItems.clear();
@@ -180,74 +181,7 @@ void CalculationThread::run()
         }
         toShow.clear();
     }
-    else
-    {
-    switch (mod) {
-    case 0:
-        timer.start();
-        CalcThread(tempValue, mod);
-        emit time(timer.elapsed());
-        qDebug() << "The calcSomeRob took" << timer.elapsed() << "milliseconds";
-        break;
-    case 1:
-        timer.start();
-        CalcThread(tempValue, mod + mod);
-        emit time(timer.elapsed());
-        qDebug() << "The calcsomeYongshi took " << timer.elapsed() << "milliseconds";
-        break;
-    case 2:
-        timer.start();
-        CalcThread(tempValue, mod + mod);
-        emit time(timer.elapsed());
-        qDebug() << "The calcsomePoad took " << timer.elapsed() << "milliseconds";
-        break;
-    case 3:
-        timer.start();
-        CalcThread(tempValue, mod + mod);
-        emit time(timer.elapsed());
-        qDebug() << "The calcsome KOMNATNOV took " << timer.elapsed() << "milliseconds";
-        break;
-    case 4:
-        timer.start();
-        CalcThread(tempValue, mod + mod);
-        emit time(timer.elapsed());
-        qDebug() << "The calcsomeNie took " << timer.elapsed() << "milliseconds";
-        break;
-    case 5:
-        timer.start();
-        CalcThread(tempValue, mod + mod);
-        emit time(timer.elapsed());
-        qDebug() << "The calcsomeRen took " << timer.elapsed() << "milliseconds";
-        break;
-    case 6:
-        timer.start();
-        CalcThread(tempValue, mod + mod);
-        emit time(timer.elapsed());
-        qDebug() << "The calcsomeDehkoda took " << timer.elapsed() << "milliseconds";
-        break;
-    case 7:
-        timer.start();
-        CalcThread(tempValue, mod + mod);
-        emit time(timer.elapsed());
-        break;
-    case 8:
-        timer.start();
-        CalcThread(tempValue, mod + mod);
-        emit time(timer.elapsed());
-        break;
-    case 10:
-        timer.start();
-        CalcThread(tempValue, mod + mod);
-        emit time(timer.elapsed());
-        qDebug() << "The calcsomePoadPlus took " << timer.elapsed() << "milliseconds";
-        break;
-    case 11:
-        timer.start();
-        CalcThread(tempValue, mod + mod);
-        emit time(timer.elapsed());
-        qDebug() << "The calcsomePoadMulti took " << timer.elapsed() << "milliseconds";
-        break;
-    case 9:
+    else if(m_fileBool==true){
         QFile file(m_file);
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
             return;
@@ -262,12 +196,80 @@ void CalculationThread::run()
                 QString line = in.readLine();
                 if(line.contains("#")) continue;
                 QStringList list1 = line.split('\t');
-                tempValue=rob_calcs.calcMethod2(m_aVal, m_dVal, m_bVal,pp, list1.at(0).toDouble(), multiVal, list1.at(1).toDouble());
+                tempValue=rob_calcs.calcMethod2(m_aVal, m_dVal, m_bVal,pp, list1.at(0).toDouble(), multiVal, list1.at(1).toDouble(), m_mVal, m_nVal);
                 mItems.append({ list1.at(0).toDouble()*multiVal, tempValue, pp});
+                size = size + 1;
              }
         }
-        break;
     }
+    else
+    {
+        switch (mod) {
+        case 0:
+            timer.start();
+            CalcThread(tempValue, mod);
+            emit time(timer.elapsed());
+            qDebug() << "The calcSomeRob took" << timer.elapsed() << "milliseconds";
+            break;
+        case 1:
+            timer.start();
+            CalcThread(tempValue, mod + mod);
+            emit time(timer.elapsed());
+            qDebug() << "The calcsomeYongshi took " << timer.elapsed() << "milliseconds";
+            break;
+        case 2:
+            timer.start();
+            CalcThread(tempValue, mod + mod);
+            emit time(timer.elapsed());
+            qDebug() << "The calcsomePoad took " << timer.elapsed() << "milliseconds";
+            break;
+        case 3:
+            timer.start();
+            CalcThread(tempValue, mod + mod);
+            emit time(timer.elapsed());
+            qDebug() << "The calcsome KOMNATNOV took " << timer.elapsed() << "milliseconds";
+            break;
+        case 4:
+            timer.start();
+            CalcThread(tempValue, mod + mod);
+            emit time(timer.elapsed());
+            qDebug() << "The calcsomeNie took " << timer.elapsed() << "milliseconds";
+            break;
+        case 5:
+            timer.start();
+            CalcThread(tempValue, mod + mod);
+            emit time(timer.elapsed());
+            qDebug() << "The calcsomeRen took " << timer.elapsed() << "milliseconds";
+            break;
+        case 6:
+            timer.start();
+            CalcThread(tempValue, mod + mod);
+            emit time(timer.elapsed());
+            qDebug() << "The calcsomeDehkoda took " << timer.elapsed() << "milliseconds";
+            break;
+        case 7:
+            timer.start();
+            CalcThread(tempValue, mod + mod);
+            emit time(timer.elapsed());
+            break;
+        case 8:
+            timer.start();
+            CalcThread(tempValue, mod + mod);
+            emit time(timer.elapsed());
+            break;
+        case 10:
+            timer.start();
+            CalcThread(tempValue, mod + mod);
+            emit time(timer.elapsed());
+            qDebug() << "The calcsomePoadPlus took " << timer.elapsed() << "milliseconds";
+            break;
+        case 11:
+            timer.start();
+            CalcThread(tempValue, mod + mod);
+            emit time(timer.elapsed());
+            qDebug() << "The calcsomePoadMulti took " << timer.elapsed() << "milliseconds";
+            break;
+        }
     }
     emit GUI(mItems);
     emit progress(0);

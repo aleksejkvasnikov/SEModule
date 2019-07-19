@@ -73,6 +73,7 @@ Page {
     }
 
     RowLayout {
+        visible: if(modList.selType === 3) false; else true
         id: justRow
         x: 30
         y: 139
@@ -102,7 +103,27 @@ Page {
             }
         }
     }
+    CheckBox{
+        id: fileCheck
+        x:235
+        text: qsTr("Загрузка из файла") + rootItem.emptyString
+        y:189
+        checked: modList.fileBool
+        onClicked:
+        {
+            modList.fileBool = fileCheck.checked
+            if(fileButton.visible==true) fileButton.visible=false;
+            else fileButton.visible=true;
+            if(comboBox.visible==true) comboBox.visible=false;
+            else comboBox.visible=true;
+            if(text10.visible==true) text10.visible=false;
+            else text10.visible=true;
+        }
+    }
+
     Button{
+         id: fileButton
+         visible:if(modList.fileBool===false) false; else true;
          x:30
          y:189
          text: qsTr("Выбрать файл") + rootItem.emptyString
@@ -183,6 +204,7 @@ Page {
     }
 
     Text {
+         visible: if(modList.selType === 3) false; else true
         id: text6
         x: 30
         y: 119
@@ -192,6 +214,7 @@ Page {
 
 
     Text {
+         visible: if(modList.selType === 3) false; else true
         id: text7
         x: 184
         y: 119
@@ -245,6 +268,7 @@ Page {
         ComboBox {
             Layout.fillWidth: true
             id: comboBox
+            visible: if(modList.fileBool===false) true; else false;
             model: if(modList.selType === 1){
                        ["Robinson et al.", "Shi et al.", "Po'ad et al.", "Komnatnov M.E.", "Nie et al. (waveguide diagrams)"]
                    }
@@ -252,7 +276,7 @@ Page {
                                    ["Ren et al.", "Dehkhoda et al.", "Nie et al."]
                                }
             else if(modList.selType === 3){
-                                   ["Wamg et al."]
+                                   ["Wang et al."]
                                }
             height: parent.height
             currentIndex: modList.funcVal
@@ -297,6 +321,7 @@ Page {
         id: text10
         x: 377
         y: 116
+        visible: if(modList.fileBool===false) true; else false;
         anchors.right: parent.right
         anchors.rightMargin: 205
         text: qsTr("Функция") + rootItem.emptyString

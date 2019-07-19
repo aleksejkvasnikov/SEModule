@@ -148,12 +148,18 @@ void CustomPlotItem::setupQuadraticDemo( QCustomPlot* customPlot,QVector<double>
     double maxx = *std::max_element(x.constBegin(), x.constEnd());
     double miny = *std::min_element(y.constBegin(), y.constEnd());
     double maxy = *std::max_element(y.constBegin(), y.constEnd());
-    QFont serifFont(QFont("Times New Roman", 9));
+    QFont serifFont(QFont("Times New Roman", 14));
     customPlot->yAxis->setLabelFont(serifFont);
     customPlot->xAxis->setLabelFont(serifFont);
     customPlot->xAxis->setLabel( tr("Частота, Гц") );
     customPlot->yAxis->setLabel( tr("ЭЭ, дБ") );
+    QFont pfont("Times New Roman",14);
+    pfont.setStyleHint(QFont::SansSerif);
+    pfont.setPointSize(14);
 
+
+    customPlot->xAxis->setTickLabelFont(pfont);
+    customPlot->yAxis->setTickLabelFont(pfont);
     // set axes ranges, so we see all data:
     customPlot->xAxis->setRange( minx, maxx);
     customPlot->yAxis->setRange( miny, maxy );

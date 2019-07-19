@@ -195,7 +195,7 @@ double robCalculation::doubleintegral(int *iter,double a, double b, double c, do
 
     time.start();
 
-    #pragma omp parallel for schedule(dynamic, 100)
+    //#pragma omp parallel for schedule(dynamic, 100)
         for(int i=0; i<(int)nx; i++)
         {
             for(int j=0; j<ny; j++){
@@ -574,7 +574,7 @@ double robCalculation::CalcTemp(int *iter, bool RungeVal, double xmax, double xm
             ++(*iter);
             integval=integval+2;
             temp6=integral(xmin,xmax,integval,m,a,L,2);
-        } while(abs(temp6-temp66)>0.001);
+        } while((abs(temp6-temp66))>0.001);
     }
     else{
         temp6=integral(xmin,xmax,intval,m,a,L,2);
@@ -864,8 +864,56 @@ double robCalculation::calcsomeAKC(int *iter,double freq,double t,double w,doubl
     return SE5;
 }
 //30.08.2018 Komnantov calculation method
-double robCalculation::calcMethod2(double a, double d, double b, double p, double fm, double mnoj, double S11){
+double robCalculation::calcMethod2(double a, double d, double b, double p, double fm, double mnoj, double S11, double m, double n){
+    // IVANOV 1
     double c0 = 299792458.0;
+    double f;
+    if (fm == 0.0) f=0.000001;
+    else f = fm * mnoj;
+    dcomp j(0.0,1.0);
+    double lambda = c0/f;
+    auto nu0 = (120.0 * M_PI);
+    //Волновое число
+    double k0 = 2.0*M_PI / lambda;
+    dcomp z0(50.0,0.0);
+    dcomp v0(1.0,0.0);
+    // Сопротивление стенки с апертурой
+    dcomp z=dcomp(2.0,0.0)*z0*dcomp(S11/(1.0-S11),0.0);
+    dcomp zgg=nu0/sqrt(dcomp(1.0,0.0)-pow((lambda/(dcomp(2.0,0.0)*a)),2));
+    dcomp kgg=k0*sqrt(dcomp(1.0,0.0)-pow((lambda/(dcomp(2.0,0.0)*a)),2));
+
+    std::cout << z.real() << z.imag() << std::endl << zgg.real() << zgg.imag() << std::endl << kgg.real() << kgg.imag() << std::endl;
+    dcomp vpp(0.0,0.0); // суммарное напряжение в точке наблюдения
+    // Эти циклы для учета высших мод TEmn (mm,nn за номер моды):
+    for (int mm=1; mm<=m; mm++){
+        for(int nn=0; nn<=n; nn++){
+            // Характеристический импеданс и постоянная распространения в корпусе
+            dcomp zg=nu0/sqrt(dcomp(1.0,0.0)-pow((lambda*mm/(2.0*a)),2)-pow((lambda*nn/(2.0*b)),2));
+            dcomp kg=k0*sqrt(dcomp(1.0,0.0)-pow((lambda*mm/(2.0*a)),2)-pow((lambda*nn/(2.0*b)),2));
+            dcomp zsc=j*zg*tan(kg*d);
+            dcomp zap=z*zsc/(zsc-z);
+
+            // Преобразование в точку A
+            dcomp v1=v0*zap/(nu0+zap);
+            dcomp z1=nu0*zap/(nu0+zap);
+            // Преобразование в точку P
+            dcomp v2=v1/(cos(kg*p)+j*(z1/zg)*sin(kg*p));
+            dcomp z2=(z1+j*zg*tan(kg*p))/(dcomp(1.0,0.0)+j*(z1/zg)*tan(kg*p));
+
+            // Нагрузка
+            dcomp z3=j*zg*tan(kg*(d-p));
+
+            // Напряжение в точке P
+            dcomp vp=v2*z3/(z2+z3);
+            vpp=vp+vpp;
+        }
+    }
+    //qDebug () << -20.0*log10(abs(dcomp(2.0,0.0)*vpp/v0));
+    return -20.0*log10(abs(dcomp(2.0,0.0)*vpp/v0));
+
+
+    // KOMNATNOV OLD
+    /*double c0 = 299792458.0;
     double f;
     if (fm == 0.0) f=0.000001;
     else f = fm * mnoj;
@@ -884,7 +932,8 @@ double robCalculation::calcMethod2(double a, double d, double b, double p, doubl
     dcomp chis = dcomp(-1.0,0.0) * tmp1*tmp2*tmp3 * j;
     dcomp znam = dcomp(4.0,0.0)*S11*Z0*Zsc*(Zg*Zsc*nu0+dcomp(2.0,0.0)*S11*Z0*Zg*Zsc-dcomp(2.0,0.0)*S11*Z0*Zg*nu0-S11*Zg*Zsc*nu0)*(Zg*Zsc*nu0+dcomp(2.0,0.0)*S11*Z0*Zg*Zsc-dcomp(2.0,0.0)*S11*Z0*Zg*nu0-S11*Zg*Zsc*nu0+dcomp(0.0,2.0)*S11*pow(Z0,2.0)*Zsc*tan(kg*p));
    // qDebug () << 20*log10(abs(chis/znam));
-    return 20.0*log10(abs(chis/znam));
+    return 20.0*log10(abs(chis/znam)); */
+
 }
 //30.08.2018 Komnantov calculation method
 double robCalculation::calcMethod(double a, double d, double b, double p, double fm, double mnoj, double S11){

@@ -384,7 +384,7 @@ Page {
                 implicitHeight: 25
                 implicitWidth: rowLayout2.width/2 - 5
                 color: wTf.enabled ? "transparent" : "#353637"
-                border.color: wTf.text > 0 && wTf.text < dvTf.text && ((napTf.text >1 && (napTf.text-1)*dvTf.text+wTf.text < bTf.text) || (napTf.text==="1" && wTf.text < bTf.text)) ? "#21be2b" : "red"
+                border.color: ((modList.selType === 1 && wTf.text < bTf.text) || (wTf.text > 0 && wTf.text < dvTf.text && ((napTf.text >1 && (napTf.text-1)*dvTf.text+wTf.text < bTf.text) || (napTf.text==="1" && wTf.text < bTf.text)))) ? "#21be2b" : "red"
             }
         }
 
@@ -402,7 +402,7 @@ Page {
                 implicitHeight: 25
                 implicitWidth: rowLayout2.width/2 - 5
                 color: lTf.enabled ? "transparent" : "#353637"
-                border.color: lTf.text > 0 && lTf.text < dhTf.text && ((mapTf.text >1 && (mapTf.text-1)*dhTf.text+lTf.text < aTf.text) || (mapTf.text==="1" && lTf.text < aTf.text)) ? "#21be2b" : "red"
+                border.color: ((modList.selType === 1 && lTf.text < aTf.text) || (lTf.text > 0 && lTf.text < dhTf.text && ((mapTf.text >1 && (mapTf.text-1)*dhTf.text+lTf.text < aTf.text) || (mapTf.text==="1" && lTf.text < aTf.text)))) ? "#21be2b" : "red"
             }
         }
     }

@@ -142,6 +142,7 @@ void surfaceModelList::recalculate()
     calcThread->m_apVal = m_apVal;
     calcThread->m_hVal = m_hVal;
     calcThread->m_rVal = m_rVal;
+    calcThread->m_fileBool = m_fileBool;
     calcThread->start();
 
 }
@@ -307,7 +308,7 @@ void surfaceModelList::callTest(CustomPlotItem *test)
 {
    // qDebug() << mItems.at(0).x <<"im here";
     int amount=m_nPointsVal;
-    if (m_funcVal==10){
+    if (m_fileBool==true){
         amount=0;
         QFile file(m_file);
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text))

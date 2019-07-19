@@ -31,7 +31,7 @@ public:
     QString m_file;
     double m_fMinVal, m_fMaxVal, m_tVal, m_wVal, m_bVal, m_rVal, m_hVal, m_apVal,
     m_lVal, m_aVal, m_dVal, m_pVal,m_nPointsVal, perc_step,
-    m_xVal, m_yVal, m_napVal, m_mapVal, m_nVal, m_mVal, m_dvVal, m_dhVal, m_sigmaVal, m_integralVal; bool m_RungeVal;
+    m_xVal, m_yVal, m_napVal, m_mapVal, m_nVal, m_mVal, m_dvVal, m_dhVal, m_sigmaVal, m_integralVal; bool m_RungeVal, m_fileBool;
 };
 
 #endif // CALCULATIONTHREAD_H

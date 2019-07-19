@@ -301,6 +301,7 @@ ApplicationWindow {
             text: "2D"
             font.pixelSize: Qt.application.font.pixelSize * 1.6
             onClicked: {
+               if(modList.selfP != "0.15")
                 if (currentID == 3) {
                     stackView.pop()
                     stackView.push("results.qml")
