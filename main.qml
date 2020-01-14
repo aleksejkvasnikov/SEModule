@@ -714,7 +714,7 @@ ApplicationWindow {
             }
         }
         Text {
-            text:  qsTr("Объем памяти (МБ): ") + Math.round(((((100/modList.pstepVal) * modList.nPointsVal)*3*8)/1024)/1024 + (((100/modList.pstepVal) * modList.nPointsVal)*3)/1024 + 50) + rootItem.emptyString
+            text:  qsTr("Объем памяти (Мб): ") + Math.round(((((100/modList.pstepVal) * modList.nPointsVal)*3*8)/1024)/1024 + (((100/modList.pstepVal) * modList.nPointsVal)*3)/1024 + 50) + rootItem.emptyString
         }
         Row{
         Text {
