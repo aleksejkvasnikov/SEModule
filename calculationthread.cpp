@@ -125,7 +125,7 @@ void CalculationThread::CalcThread(double tempValue, int K)
                     tempFreq=m_fMinVal+dfreq*i;
                     //qDebug() << "juste avant le GetCalculation";
                     tempValue = GetCalculation(K + 1, tempFreq, pp);
-                    if (isnan(tempValue))
+                    if (std::isnan(tempValue))
                         tempValue=0;
 //                    tempNorm+=abs(tempValue);
                     //#pragma omp critical
