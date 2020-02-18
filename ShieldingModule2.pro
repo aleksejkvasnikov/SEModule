@@ -1,6 +1,6 @@
 QT += quick
 QT += 3dcore 3drender 3dinput 3dlogic 3dextras qml quick 3dquick 3danimation 3dquickextras printsupport
-QMAKE_CXXFLAGS+= -openmp
+
 QMAKE_LFLAGS += -openmp
 
 target.path = $$[QT_INSTALL_EXAMPLES]/canvas3d/threejs/$$TARGET
